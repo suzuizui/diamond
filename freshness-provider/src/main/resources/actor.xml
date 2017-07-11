@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-autowire="byName"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xszd
+       http://www.wormpex.com/schema/inf/actor
+       http://www.wormpex.com/schema/inf/actor/actor.xsd"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:actor="http://www.wormpex.com/schema/inf/actor">
+
+    <actor:engine appName="cvs.order.core.provider"
+                  loader="actorDataLoader"
+                  enableLog="true"
+                  listenSubject="wormpex.order.store.update_10"
+                  connectionFactory="shareFactory"
+                  txManager="transactionManager"
+                  dataSource="dataSource"
+                  messageProducer="producer"
+    />
+
+    <bean name="actorDataLoader" class="com.opc.demo.actor.OrderDataLoader"/>
+
+</beans>
