@@ -3,11 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.opc.demo</groupId>
+  
+    <groupId>com.opc</groupId>
     <artifactId>freshness</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
+    
     <modules>
         <module>freshness-api</module>
         <module>freshness-common</module>
@@ -18,13 +19,9 @@
     <properties>
         <org.springframework.version>4.3.7.RELEASE</org.springframework.version>
         <wmq.version>1.1.1</wmq.version>
+        <java.version>1.8</java.version>
     </properties>
 
-    <parent>
-        <groupId>com.wormpex.cvs</groupId>
-        <artifactId>cvs-root</artifactId>
-        <version>1.0.6</version>
-    </parent>
 
     <dependencies>
         <dependency>
@@ -227,7 +224,7 @@
                     <exclude>application-betamagic.properties</exclude>
                     <exclude>application-prod.properties</exclude>
                 </excludes>
-                <includes>
+                <includes> 
                     <include>**/*</include>
                 </includes>
                 <filtering>true</filtering>

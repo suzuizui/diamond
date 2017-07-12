@@ -3,32 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>com.opc.demo</artifactId>
-        <groupId>freshness</groupId>
+        <groupId>com.opc</groupId>
+        <artifactId>freshness</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
     <artifactId>freshness-provider</artifactId>
 
+		<build>
+		<!-- .provider结尾是为了配合QA发布规则 -->
+		<finalName>inspection.provider</finalName>
+	</build>
+
     <dependencies>
         <dependency>
-            <groupId>com.opc.demo</groupId>
+            <groupId>com.opc</groupId>
             <artifactId>freshness-service</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

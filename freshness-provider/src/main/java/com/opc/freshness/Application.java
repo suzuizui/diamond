@@ -1,4 +1,4 @@
-package com.opc.demo;
+package com.opc.freshness;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
