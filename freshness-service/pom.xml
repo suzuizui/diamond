@@ -10,7 +10,20 @@
 	
 	<artifactId>freshness-service</artifactId>
 	<packaging>jar</packaging>
-	
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+		<!--引用第三方服务-->
+		<!--cvs-product-api门店服务 -->
+		<dependency>
+			<groupId>com.wormpex.cvs</groupId>
+			<artifactId>cvs-product-api</artifactId>
+		</dependency>
+		<!--cvs-product-api门店服务 END-->
+		<!--引用第三方服务 END-->
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -20,6 +33,31 @@
 				<configuration>
 					<skip>true</skip>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+					<verbose>true</verbose>
+					<overwrite>true</overwrite>
+				</configuration>
+				<executions>
+					<execution>
+						<id>Generate MyBatis Artifacts</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.mybatis.generator</groupId>
+						<artifactId>mybatis-generator-core</artifactId>
+						<version>1.3.2</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

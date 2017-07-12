@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.opc.freshness.service.dao.SkuKindsMapper" >
+  <resultMap id="BaseResultMap" type="com.opc.freshness.domain.po.SkuKindsPo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="expired" property="expired" jdbcType="REAL" />
+    <result column="delay" property="delay" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, expired, delay
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from freshness_sku_kinds
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from freshness_sku_kinds
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.opc.freshness.domain.po.SkuKindsPo" >
+    insert into freshness_sku_kinds (id, name, expired, 
+      delay)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{expired,jdbcType=REAL}, 
+      #{delay,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.SkuKindsPo" >
+    insert into freshness_sku_kinds
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="expired != null" >
+        expired,
+      </if>
+      <if test="delay != null" >
+        delay,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expired != null" >
+        #{expired,jdbcType=REAL},
+      </if>
+      <if test="delay != null" >
+        #{delay,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.SkuKindsPo" >
+    update freshness_sku_kinds
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expired != null" >
+        expired = #{expired,jdbcType=REAL},
+      </if>
+      <if test="delay != null" >
+        delay = #{delay,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.opc.freshness.domain.po.SkuKindsPo" >
+    update freshness_sku_kinds
+    set name = #{name,jdbcType=VARCHAR},
+      expired = #{expired,jdbcType=REAL},
+      delay = #{delay,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

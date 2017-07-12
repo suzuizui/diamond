@@ -3,12 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-  
+
     <groupId>com.opc</groupId>
     <artifactId>freshness</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    
+
     <modules>
         <module>freshness-api</module>
         <module>freshness-common</module>
@@ -20,6 +20,7 @@
         <org.springframework.version>4.3.7.RELEASE</org.springframework.version>
         <wmq.version>1.1.1</wmq.version>
         <java.version>1.8</java.version>
+        <cvs.product.api.version>1.0.39-SNAPSHOT</cvs.product.api.version>
     </properties>
 
 
@@ -91,16 +92,8 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.21</version>
-        </dependency>
+
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
@@ -138,7 +131,7 @@
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bcprov-jdk16</artifactId>
                 </exclusion>
-                 <exclusion>
+                <exclusion>
                     <groupId>org.mybatis</groupId>
                     <artifactId>mybatis</artifactId>
                 </exclusion>
@@ -175,12 +168,22 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.21</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -195,6 +198,20 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.8</version>
+            </dependency>
+            <!--引用第三方服务-->
+            <!--cvs-product-api门店服务 -->
+            <dependency>
+                <groupId>com.wormpex.cvs</groupId>
+                <artifactId>cvs-product-api</artifactId>
+                <version>${cvs.product.api.version}</version>
+            </dependency>
+            <!--cvs-product-api门店服务 END-->
+            <!--引用第三方服务 END-->
         </dependencies>
     </dependencyManagement>
 

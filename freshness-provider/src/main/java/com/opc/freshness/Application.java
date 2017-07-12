@@ -1,6 +1,7 @@
 package com.opc.freshness;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -13,12 +14,13 @@ import org.springframework.context.annotation.ImportResource;
  * Created by perry on 6/26/17.
  */
 @EnableFeignClients
-@ServletComponentScan
+@ServletComponentScan(value = "com.opc.freshness.*")
 @EnableDiscoveryClient
 @SpringBootApplication
 @ImportResource({"classpath:dubbo.xml",
         "classpath:wmq-consumer.xml",
         "classpath:wmq-producer.xml"})
+
 public class Application extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
