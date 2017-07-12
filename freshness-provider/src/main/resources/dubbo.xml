@@ -5,10 +5,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <!--<bean id="pointService" class="com.opc.poi.biz.PointBizImpl" />-->
+    <dubbo:application name="${spring.application.name}"/>
+    <dubbo:registry id="cvs-product.registry" protocol="zookeeper" address="${product.zookeeper.address}"
+                    register="false" check="false" group="${cvs-product.group}"/>
 
-    <!--<dubbo:application name="point-service"/>-->
-    <!--<dubbo:registry id="zookeeper" protocol="zookeeper" address="${dubbo.registry.address}" group="${dubbo.registry.group}"/>-->
-    <!--<dubbo:protocol name="dubbo" port="${dubbo.protocol.port}" dispather="all" threadpool="cached" threads="5000"/>-->
-    <!--<dubbo:service interface="com.opc.poi.biz.PointBiz" ref="pointService" version="1.0.0" registry="zookeeper"/>-->
+    <dubbo:reference id="ShopRemote" interface="com.wormpex.cvs.product.api.remote.ShopRemote"
+                     version="1.0" registry="cvs-product.registry" check="false" />
+    <dubbo:reference id="ProductRemote" interface="com.wormpex.cvs.product.api.remote.ProductRemote"
+                     version="1.0" registry="cvs-product.registry" check="false" />
 </beans>
