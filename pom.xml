@@ -138,6 +138,10 @@
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bcprov-jdk16</artifactId>
                 </exclusion>
+                 <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -215,41 +219,4 @@
         </profile>
     </profiles>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>application-devmagic.properties</exclude>
-                    <exclude>application-betamagic.properties</exclude>
-                    <exclude>application-prod.properties</exclude>
-                </excludes>
-                <includes> 
-                    <include>**/*</include>
-                </includes>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>application-${profile.active}.properties</include>
-                    <include>logback.xml</include>
-                </includes>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <delimiters>
-                        <!-- Provide a delimiter that doesn't clash with Spring ${} placeholders -->
-                        <delimiter>@</delimiter>
-                    </delimiters>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

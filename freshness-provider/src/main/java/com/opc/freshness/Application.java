@@ -17,7 +17,6 @@ import org.springframework.context.annotation.ImportResource;
 @EnableDiscoveryClient
 @SpringBootApplication
 @ImportResource({"classpath:dubbo.xml",
-        "classpath:actor.xml",
         "classpath:wmq-consumer.xml",
         "classpath:wmq-producer.xml"})
 public class Application extends SpringBootServletInitializer {

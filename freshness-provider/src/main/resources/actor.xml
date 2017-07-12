@@ -9,7 +9,7 @@
        http://www.wormpex.com/schema/inf/actor/actor.xsd"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:actor="http://www.wormpex.com/schema/inf/actor">
-
+<!-- 
     <actor:engine appName="cvs.order.core.provider"
                   loader="actorDataLoader"
                   enableLog="true"
@@ -18,8 +18,7 @@
                   txManager="transactionManager"
                   dataSource="dataSource"
                   messageProducer="producer"
-    />
+    /> -->
 
-    <bean name="actorDataLoader" class="com.opc.demo.actor.OrderDataLoader"/>
 
 </beans>

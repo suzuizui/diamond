@@ -8,16 +8,16 @@
        http://www.wormpex.com/schema/wmq
        http://www.wormpex.com/schema/wmq.xsd">
 
-    <wmq:consumer connection-factory="shareFactory">
+  <!--   <wmq:consumer connection-factory="shareFactory">
         <wmq:listener topic="${subject.wormpex.cvs.order.core.create}"
                       group="${group.wormpex.cvs.order.core}"
                       ref="orderCreatedListener"/>
         <wmq:listener topic="${subject.wormpex.cvs.order.core.pay.success}"
                       group="${group.wormpex.cvs.order.core}"
                       ref="paySuccessListener"/>
-        <!--<wmq:listener topic="${subject.wormpex.cvs.order.core.sorted}"-->
-                      <!--group="${group.wormpex.cvs.order.core}"-->
-                      <!--ref="sortedListener"/>-->
+        <wmq:listener topic="${subject.wormpex.cvs.order.core.sorted}"
+                      group="${group.wormpex.cvs.order.core}"
+                      ref="sortedListener"/>
         <wmq:listener topic="${subject.wormpex.cvs.order.core.checking}"
                       group="${group.wormpex.cvs.order.core}"
                       ref="checkingListener"/>
@@ -27,5 +27,5 @@
         <wmq:listener topic="${subject.wormpex.cvs.order.core.takeaway.delivering}"
                       group="${group.wormpex.cvs.order.core}"
                       ref="takeawayDeliveringListener"/>
-    </wmq:consumer>
+    </wmq:consumer> -->
 </beans>
