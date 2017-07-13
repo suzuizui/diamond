@@ -1,7 +1,6 @@
 package com.opc.freshness;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "classpath:wmq-consumer.xml",
         "classpath:wmq-producer.xml",
         "classpath:spring-*.xml"})
-
 public class Application extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
