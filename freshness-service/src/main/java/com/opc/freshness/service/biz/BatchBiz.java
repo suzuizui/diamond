@@ -1,6 +1,6 @@
 package com.opc.freshness.service.biz;
 
-import com.opc.freshness.domain.dto.AddSkuDto;
+import com.opc.freshness.domain.dto.BatchDto;
 import com.opc.freshness.domain.po.BatchStatePo;
 
 /**
@@ -10,19 +10,9 @@ public interface BatchBiz {
     /**
      * 添加一个批次
      *
-     * @param skuDto
+     * @param batchDto
      * @return
      */
-    public boolean addBatch(AddSkuDto skuDto);
-
-    /**
-     * 添加一条批次流水记录
-     *
-     * @param batchState
-     * @return
-     */
-    public int addBatchLog(BatchStatePo batchState);
-
-
+    public boolean addBatch(BatchDto batchDto);
 
 }

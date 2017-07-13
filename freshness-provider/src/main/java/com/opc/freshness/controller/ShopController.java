@@ -1,10 +1,12 @@
 package com.opc.freshness.controller;
 
+import com.opc.freshness.common.Error;
 import com.opc.freshness.common.Result;
 import com.opc.freshness.common.Success;
-import com.opc.freshness.domain.dto.AddSkuDto;
+import com.opc.freshness.domain.dto.BatchDto;
 import com.opc.freshness.domain.vo.ShopVo;
 import com.opc.freshness.service.biz.BatchBiz;
+import com.wormpex.biz.lang.Biz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ public class ShopController extends BaseController {
     private final static Logger logger = LoggerFactory.getLogger(ShopController.class);
     @Autowired
     private BatchBiz batchBiz;
+
     /**
      * 设备与门店定位
      *
@@ -54,49 +57,20 @@ public class ShopController extends BaseController {
     /**
      * 批次制作
      *
-     * @param skuDto
+     * @param batchDto
      * @return
      */
-    @RequestMapping(value = "/api/batch/sku/create/v1", method = {RequestMethod.POST})
-    public Result addSku(@RequestBody AddSkuDto skuDto) {
-        return new Success(batchBiz.addBatch(skuDto));
-    }
-
-    /**
-     * 批次报损
-     *
-     * @param shopId   店铺Id
-     * @param skuId    SkuId
-     * @param quantity 数量
-     * @param operator 操作人
-     * @param batch    批次
-     * @return
-     */
-    @RequestMapping(value = "/api/batch/sku/break/v1", method = {RequestMethod.POST})
-    public Result breakSku(@RequestParam String shopId,
-                           @RequestParam String skuId,
-                           @RequestParam String quantity,
-                           @RequestParam String operator,
-                           @RequestParam String batch) {
-        return new Success("成功");
-    }
-
-    /**
-     * 批次废弃
-     *
-     * @param shopId   店铺Id
-     * @param skuId    SkuId
-     * @param quantity 数量
-     * @param operator 操作人
-     * @param batch    批次
-     * @return
-     */
-    @RequestMapping(value = "/api/batch/sku/discard/v1", method = {RequestMethod.POST})
-    public Result discardSku(@RequestParam String shopId,
-                             @RequestParam String skuId,
-                             @RequestParam String quantity,
-                             @RequestParam String operator,
-                             @RequestParam String batch) {
-        return new Success("成功");
+    @RequestMapping(value = "/api/batch/sku/option/v1", method = {RequestMethod.POST})
+    public Result addSku(@RequestBody BatchDto batchDto) {
+        switch (batchDto.getOption()) {
+            case 1: //制作
+                return new Success(batchBiz.addBatch(batchDto));
+            case 2: //报损
+                return new Success("报损");
+            case 3: //废弃
+                return new Success("废弃");
+            default:
+                return new Error("不支持的操作");
+        }
     }
 }

@@ -1,16 +1,12 @@
 package com.opc.freshness.service.biz.impl;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.DateUtils;
-import com.opc.freshness.domain.dto.AddSkuDto;
-import com.opc.freshness.domain.dto.SkuDto;
+import com.opc.freshness.domain.dto.BatchDto;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.po.SkuKindsPo;
 import com.opc.freshness.service.biz.BatchBiz;
-import com.opc.freshness.service.biz.SkuKindBiz;
 import com.opc.freshness.service.dao.BatchMapper;
 import com.opc.freshness.service.dao.BatchStateMapper;
 import com.opc.freshness.service.dao.SkuKindsMapper;
@@ -19,6 +15,7 @@ import com.opc.freshness.service.integration.ShopService;
 import com.wormpex.cvs.product.api.bean.BeeProduct;
 import com.wormpex.cvs.product.api.bean.BeeShop;
 import com.wormpex.cvs.product.api.bean.BeeShopProduct;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +29,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class BatchBizImpl implements BatchBiz {
-    private final static org.slf4j.Logger logger = LoggerFactory.getLogger(BatchBizImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(BatchBizImpl.class);
     @Resource
     private ShopService shopService;
     @Resource
@@ -45,17 +42,17 @@ public class BatchBizImpl implements BatchBiz {
     private SkuKindsMapper skuKindsMapper;
 
     @Transactional
-    public boolean addBatch(AddSkuDto addSkuDto) {
-        logger.info("addBatch dto:{}", addSkuDto.toString());
+    public boolean addBatch(BatchDto batchDto) {
+        logger.info("addBatch dto:{}", batchDto.toString());
         //查询大类
-        SkuKindsPo kind = skuKindsMapper.selectByCode(addSkuDto.getKindCode());
+        SkuKindsPo kind = skuKindsMapper.selectByCode(batchDto.getKindCode());
         //查询门店
-        BeeShop shop = shopService.queryById(addSkuDto.getShopId());
+        BeeShop shop = shopService.queryById(batchDto.getShopId());
         //封装批次
-        BatchPo batch = BeanCopyUtils.convertClass(addSkuDto, BatchPo.class);
+        BatchPo batch = BeanCopyUtils.convertClass(batchDto, BatchPo.class);
         batch.setShopName(shop.getPropInfo().getDisplayName());
         //制作时间精确到分钟
-        batch.setCreateTime(DateUtils.formatToMin(addSkuDto.getCreateTime()));
+        batch.setCreateTime(DateUtils.formatToMin(batchDto.getCreateTime()));
 //        预计过期时间 = 制作时间+延迟时间+过期时间
         batch.setExpiredTime(
                 new Date(
@@ -77,12 +74,12 @@ public class BatchBizImpl implements BatchBiz {
         batchMapper.insertSelective(batch);
 
         //插入流水
-        List<BatchStatePo> logs = new ArrayList<>(addSkuDto.getSkuList().size());
-        Set<Integer> skuSet = addSkuDto.getSkuList().stream().map(skuDto -> skuDto.getSkuId()).collect(Collectors.toSet());
+        List<BatchStatePo> logs = new ArrayList<>(batchDto.getSkuList().size());
+        Set<Integer> skuSet = batchDto.getSkuList().stream().map(skuDto -> skuDto.getSkuId()).collect(Collectors.toSet());
         Map<Integer, BeeProduct> skuMap = productService.queryProductMap(shop.getShopId(), skuSet);
         Map<Integer, BeeShopProduct> shopSkuMap = productService.queryShopProductMap(shop.getShopId(), skuSet);
 
-        addSkuDto.getSkuList().forEach(skuDto -> {
+        batchDto.getSkuList().forEach(skuDto -> {
             BatchStatePo state = new BatchStatePo();
             state.setBatchId(batch.getId());
             state.setStatus(batch.getStatus());
@@ -96,10 +93,10 @@ public class BatchBizImpl implements BatchBiz {
             state.setSkuName(sku.getPropInfo().getDisplayName());
             state.setImgUrl(sku.getImages().stream().findFirst().get().getImageUrl());
 
-            state.setDegree(addSkuDto.getDegree());
-            state.setTag(addSkuDto.getTag());
-            state.setUnit(addSkuDto.getUnit());
-            state.setOperator(addSkuDto.getOperator());
+            state.setDegree(batchDto.getDegree());
+            state.setTag(batchDto.getTag());
+            state.setUnit(batchDto.getUnit());
+            state.setOperator(batchDto.getOperator());
 
             state.setQuantity(skuDto.getQuantity());
             logs.add(state);
@@ -107,9 +104,5 @@ public class BatchBizImpl implements BatchBiz {
         batchStateMapper.batchInsert(logs);
         return true;
 
-    }
-
-    public int addBatchLog(BatchStatePo batchState) {
-        return batchStateMapper.insertSelective(batchState);
     }
 }

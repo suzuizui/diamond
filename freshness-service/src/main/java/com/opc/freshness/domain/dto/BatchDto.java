@@ -12,7 +12,7 @@ import java.util.List;
  * 品类制作 数据传输对象
  */
 @Data
-public class AddSkuDto {
+public class BatchDto {
     /**
      * 店铺Id
      */
@@ -38,6 +38,11 @@ public class AddSkuDto {
      */
     @NotNull(message = "制作时间不能为空")
     private Date createTime;
+    /**
+     * 操作类型 1:制作 2：报损 3：废弃
+     */
+    @NotNull(message = "操作类型不能为空")
+    private Integer option;
     /**
      * 单位
      */
