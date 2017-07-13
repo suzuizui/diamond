@@ -23,7 +23,11 @@
         <cvs.product.api.version>1.0.39-SNAPSHOT</cvs.product.api.version>
     </properties>
 
-
+	<parent>
+        <groupId>com.wormpex.cvs</groupId>
+        <artifactId>cvs-root</artifactId>
+        <version>1.0.6</version>
+    </parent>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -90,9 +94,6 @@
             <artifactId>logback-core</artifactId>
             <version>1.1.8</version>
         </dependency>
-
-
-
 
         <dependency>
             <groupId>com.alibaba</groupId>
