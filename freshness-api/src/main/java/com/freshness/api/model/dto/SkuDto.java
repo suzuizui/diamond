@@ -1,13 +1,7 @@
 package com.freshness.api.model.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by qishang on 2017/7/13. sku 数据传输对象
