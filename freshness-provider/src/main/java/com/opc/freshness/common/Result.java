@@ -1,33 +1,30 @@
 package com.opc.freshness.common;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by perry on 5/9/17.
  */
-@Data
-public class Result<T> implements Serializable {
+@Getter
+@Setter
+@ApiModel
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Result<T> {
 	private boolean ret;
 	private T data;
-	private int code = -1;
 	private String msg;
 
 	public Result(T data) {
 		this.ret = true;
-		this.code = 0;
 		this.data = data;
 	}
 
 	public Result(String msg) {
 		this.ret = false;
-		this.msg = msg;
-	}
-
-	public Result(int code, String msg) {
-		this.ret = false;
-		this.code = code;
 		this.msg = msg;
 	}
 }
