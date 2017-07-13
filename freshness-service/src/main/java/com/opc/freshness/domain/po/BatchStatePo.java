@@ -26,4 +26,13 @@ public class BatchStatePo {
     private Date createTime;
 
     private String tag;
+    /**
+     * 单位
+     */
+    private String unit;
+    /**
+     * 温度
+     */
+    private Integer degree;
+
 }

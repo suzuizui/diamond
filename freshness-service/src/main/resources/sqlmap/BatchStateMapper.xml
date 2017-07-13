@@ -13,9 +13,11 @@
     <result column="operator" property="operator" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="degree" property="degree" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, batch_id, status, sku_id, sku_name, sku_stock, img_url, quantity, operator, create_time, 
+    id, batch_id, status, sku_id, sku_name, sku_stock, img_url, quantity, operator, create_time,unit,degree
     tag
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -28,16 +30,6 @@
     delete from freshness_batch_state
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.opc.freshness.domain.po.BatchStatePo" >
-    insert into freshness_batch_state (id, batch_id, status, 
-      sku_id, sku_name, sku_stock, 
-      img_url, quantity, operator, 
-      create_time, tag)
-    values (#{id,jdbcType=INTEGER}, #{batchId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{skuId,jdbcType=INTEGER}, #{skuName,jdbcType=VARCHAR}, #{skuStock,jdbcType=INTEGER}, 
-      #{imgUrl,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{operator,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{tag,jdbcType=VARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.BatchStatePo" >
     insert into freshness_batch_state
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -74,6 +66,12 @@
       <if test="tag != null" >
         tag,
       </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="degree != null" >
+        degree,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -108,6 +106,12 @@
       </if>
       <if test="tag != null" >
         #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        #{degree,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -145,20 +149,6 @@
         tag = #{tag,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.opc.freshness.domain.po.BatchStatePo" >
-    update freshness_batch_state
-    set batch_id = #{batchId,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      sku_id = #{skuId,jdbcType=INTEGER},
-      sku_name = #{skuName,jdbcType=VARCHAR},
-      sku_stock = #{skuStock,jdbcType=INTEGER},
-      img_url = #{imgUrl,jdbcType=VARCHAR},
-      quantity = #{quantity,jdbcType=INTEGER},
-      operator = #{operator,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      tag = #{tag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

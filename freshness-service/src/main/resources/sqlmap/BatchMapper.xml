@@ -10,9 +10,12 @@
         <result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime"/>
         <result column="expired_real_time" jdbcType="TIMESTAMP" property="expiredRealTime"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="total_count" jdbcType="INTEGER" property="totalCount"/>
+        <result column="expired_count" jdbcType="INTEGER" property="expiredCount"/>
+        <result column="break_count" jdbcType="INTEGER" property="breakCount"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time
+        id, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, total_count, expired_count, break_count
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -81,6 +84,15 @@
             <if test="createTime != null">
                 create_time,
             </if>
+            <if test="totalCount != null">
+                total_count,
+            </if>
+            <if test="expiredCount != null">
+                expired_count,
+            </if>
+            <if test="breakCount != null">
+                break_count,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -107,6 +119,15 @@
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="totalCount != null">
+                #{totalCount,jdbcType=INTEGER},
+            </if>
+            <if test="expiredCount != null">
+                #{expiredCount,jdbcType=INTEGER},
+            </if>
+            <if test="breakCount != null">
+                #{breakCount,jdbcType=INTEGER},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.BatchPo">
@@ -132,6 +153,15 @@
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="totalCount != null">
+                total_count = #{totalCount,jdbcType=INTEGER},
+            </if>
+            <if test="expiredCount != null">
+                expired_count = #{expiredCount,jdbcType=INTEGER},
+            </if>
+            <if test="breakCount != null">
+                break_count = #{breakCount,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
