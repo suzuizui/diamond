@@ -1,4 +1,4 @@
-package com.opc.freshness.common;
+package com.opc.freshness.common.util;
 
 import java.io.Serializable;
 
@@ -29,7 +29,7 @@ public class PageRequest {
 
     @JsonIgnore
     public int getOffset() {
-        if(page == null){
+        if (page == null) {
             return 0;
         }
         int tmp = (page.pageNo - 1) * page.pageSize;
@@ -38,7 +38,7 @@ public class PageRequest {
 
     @JsonIgnore
     public int getLimit() {
-        if(page == null){
+        if (page == null) {
             return 0;
         }
         return page.pageSize;

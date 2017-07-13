@@ -1,13 +1,12 @@
-package com.opc.freshness.common;
+package com.opc.freshness.common.util;
 
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
 /**
  * 规范logger debug、info
- * 
- * @author guangbing.dong
  *
+ * @author guangbing.dong
  */
 public final class LoggerUtils {
     private LoggerUtils() {

@@ -1,4 +1,4 @@
-package com.opc.freshness.common;
+package com.opc.freshness.common.util;
 
 
 import java.io.Serializable;
@@ -14,13 +14,18 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class Pager<T> {
 
-    /** 分页数据 */
+    /**
+     * 分页数据
+     */
     private PageData page;
 
-    /** list of data */
+    /**
+     * list of data
+     */
     private List<T> data;
 
-    public Pager() {}
+    public Pager() {
+    }
 
     public Pager(PageData page, List<T> data) {
         this.page = page;
@@ -50,7 +55,8 @@ public class Pager<T> {
 
         private int totalSize = 0;
 
-        private Builder() { }
+        private Builder() {
+        }
 
         public Builder<T> current(PageRequest.Page page) {
             this.curPage = page.getPageNo();
@@ -82,7 +88,9 @@ public class Pager<T> {
         private int pageSize;
 
         private int totalSize;
-        /**总页数*/
+        /**
+         * 总页数
+         */
         private int totalPage;
 
         public PageData() {

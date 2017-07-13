@@ -21,7 +21,7 @@ public class ShopController extends BaseController {
      * @param deviceId 设备ID
      * @return
      */
-    @RequestMapping(value = "/api/shop/position", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/shop/position/v1", method = RequestMethod.GET)
     public Result postitionByDeviceId(@RequestParam String deviceId) {
         return new Success(new ShopVo());
     }
@@ -43,7 +43,7 @@ public class ShopController extends BaseController {
      * @param barCode 条形码
      * @return
      */
-    @RequestMapping(value = "/api/shop/sku/{barCode}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/shop/sku/{barCode}/v1", method = RequestMethod.GET)
     public Result skuByBarCode(@PathVariable String barCode) {
         return new Success(new ShopVo());
     }
@@ -54,9 +54,8 @@ public class ShopController extends BaseController {
      * @param skuDto
      * @return
      */
-    @RequestMapping(value = "/api/batch/addSku", method = {RequestMethod.POST})
+    @RequestMapping(value = "/api/batch/sku/create/v1", method = {RequestMethod.POST})
     public Result addSku(@RequestBody AddSkuDto skuDto) {
-
         return new Success("成功");
     }
 
@@ -70,7 +69,7 @@ public class ShopController extends BaseController {
      * @param batch    批次
      * @return
      */
-    @RequestMapping(value = "/api/batch/addSku", method = {RequestMethod.POST})
+    @RequestMapping(value = "/api/batch/sku/break/v1", method = {RequestMethod.POST})
     public Result breakSku(@RequestParam String shopId,
                            @RequestParam String skuId,
                            @RequestParam String quantity,
@@ -79,4 +78,22 @@ public class ShopController extends BaseController {
         return new Success("成功");
     }
 
+    /**
+     * 批次废弃
+     *
+     * @param shopId   店铺Id
+     * @param skuId    SkuId
+     * @param quantity 数量
+     * @param operator 操作人
+     * @param batch    批次
+     * @return
+     */
+    @RequestMapping(value = "/api/batch/sku/discard/v1", method = {RequestMethod.POST})
+    public Result discardSku(@RequestParam String shopId,
+                             @RequestParam String skuId,
+                             @RequestParam String quantity,
+                             @RequestParam String operator,
+                             @RequestParam String batch) {
+        return new Success("成功");
+    }
 }

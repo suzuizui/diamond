@@ -1,4 +1,4 @@
-package com.opc.freshness.common;
+package com.opc.freshness.common.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 /**
  * * 日期工具类 线程安全的时间格式化工具类
- * 
+ *
  * @author ming.wei
  * @date 2017年5月29日
  */
@@ -32,8 +32,8 @@ public final class DateUtils {
 
     /**
      * 时间格式化， 传入DATE
-     * 
-     * @param time Date型
+     *
+     * @param time   Date型
      * @param format 时间格式 如：yyyy-MM-dd HH:mm:ss
      * @return
      */
@@ -44,8 +44,8 @@ public final class DateUtils {
 
     /**
      * 时间格式化， 传入字符串
-     * 
-     * @param time String型
+     *
+     * @param time   String型
      * @param format 时间格式 如：yyyy-MM-dd HH:mm:ss
      * @return
      */
@@ -62,8 +62,8 @@ public final class DateUtils {
 
     /**
      * 时间格式化， 传入毫秒
-     * 
-     * @param time long型
+     *
+     * @param time   long型
      * @param format 时间格式 如：yyyy-MM-dd HH:mm:ss
      * @return
      */
@@ -74,7 +74,7 @@ public final class DateUtils {
 
     /**
      * 格式化为 yyyy-MM-dd 格式
-     * 
+     *
      * @param date
      * @return
      */
@@ -87,14 +87,14 @@ public final class DateUtils {
         }
         return null;
     }
-    
+
     /**
      * 格式化为 format 格式
-     * 
+     *
      * @param date
      * @return
      */
-    public static Date parse(String date,String format) {
+    public static Date parse(String date, String format) {
         sdf.get().applyPattern(format);
         try {
             return sdf.get().parse(date);
@@ -106,7 +106,7 @@ public final class DateUtils {
 
     /**
      * 获取date之后day天的日期
-     * 
+     *
      * @param date
      * @param day
      * @return
@@ -121,7 +121,7 @@ public final class DateUtils {
 
     /**
      * 传入日期，和本周周一日期做比较
-     * 
+     *
      * @param date
      * @return
      */
@@ -136,9 +136,8 @@ public final class DateUtils {
     }
 
     /**
-     * 
      * 对date进行天数n增加
-     * 
+     *
      * @param date
      * @param n
      * @return

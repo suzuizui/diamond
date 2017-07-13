@@ -30,6 +30,7 @@ public class AddSkuDto {
     /**
      * 单位
      */
+    @NotNull(message = "单位不能为空")
     private String unit;
     /**
      * 温度
