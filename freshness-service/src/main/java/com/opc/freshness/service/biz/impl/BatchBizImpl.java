@@ -18,6 +18,7 @@ import com.opc.freshness.service.integration.ProductService;
 import com.opc.freshness.service.integration.ShopService;
 import com.wormpex.cvs.product.api.bean.BeeProduct;
 import com.wormpex.cvs.product.api.bean.BeeShop;
+import com.wormpex.cvs.product.api.bean.BeeShopProduct;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,10 +75,12 @@ public class BatchBizImpl implements BatchBiz {
         }
         //插入批次
         batchMapper.insertSelective(batch);
-        //
+
+        //插入流水
         List<BatchStatePo> logs = new ArrayList<>(addSkuDto.getSkuList().size());
         Set<Integer> skuSet = addSkuDto.getSkuList().stream().map(skuDto -> skuDto.getSkuId()).collect(Collectors.toSet());
         Map<Integer, BeeProduct> skuMap = productService.queryProductMap(shop.getShopId(), skuSet);
+        Map<Integer, BeeShopProduct> shopSkuMap = productService.queryShopProductMap(shop.getShopId(), skuSet);
 
         addSkuDto.getSkuList().forEach(skuDto -> {
             BatchStatePo state = new BatchStatePo();
@@ -85,18 +88,23 @@ public class BatchBizImpl implements BatchBiz {
             state.setStatus(batch.getStatus());
             state.setCreateTime(batch.getCreateTime());
 
-            BeeProduct product = skuMap.get(skuDto.getSkuId());
-            state.setSkuId(product.getId());
-//            state.setSkuStock(product.get);
-//            state.setSkuName();
-//            state.setImgUrl();
+            BeeProduct sku = skuMap.get(skuDto.getSkuId());
+            BeeShopProduct shopSku = shopSkuMap.get(skuDto.getSkuId());
+
+            state.setSkuId(sku.getId());
+            state.setSkuStock(shopSku.getSaleCount());
+            state.setSkuName(sku.getPropInfo().getDisplayName());
+            state.setImgUrl(sku.getImages().stream().findFirst().get().getImageUrl());
 
             state.setDegree(addSkuDto.getDegree());
             state.setTag(addSkuDto.getTag());
             state.setUnit(addSkuDto.getUnit());
+            state.setOperator(addSkuDto.getOperator());
+
+            state.setQuantity(skuDto.getQuantity());
             logs.add(state);
         });
-
+        batchStateMapper.batchInsert(logs);
         return true;
 
     }
