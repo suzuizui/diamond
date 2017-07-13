@@ -11,7 +11,7 @@ public class SkuVo {
     /**
      * 商品SkuId
      */
-    private int skuId;
+    private Integer skuId;
     /**
      * 商品Sku名称
      */

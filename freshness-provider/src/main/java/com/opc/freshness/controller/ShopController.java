@@ -33,7 +33,7 @@ public class ShopController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/api/shop/expire/list", method = {RequestMethod.GET})
-    public Result getAbortList(@RequestParam String shopId) {
+    public Result getAbortList(@RequestParam Integer shopId) {
         return new Success("成功");
     }
 

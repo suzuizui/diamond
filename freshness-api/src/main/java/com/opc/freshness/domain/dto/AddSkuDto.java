@@ -15,17 +15,17 @@ public class AddSkuDto {
     /**
      * 店铺Id
      */
-    @NotNull
+    @NotNull(message = "店铺Id不能为空")
     private String shopId;
     /**
      * sku列表
      */
-    @NotEmpty
+    @NotEmpty(message = "sku列表不能为空")
     private List<SkuDto> skuList;
     /**
      * 操作人
      */
-    @NotNull
+    @NotNull(message = "操作人不能为空")
     private String operator;
     /**
      * 单位
