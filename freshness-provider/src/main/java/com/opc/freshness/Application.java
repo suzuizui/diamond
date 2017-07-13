@@ -9,6 +9,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Created by perry on 6/26/17.
@@ -16,10 +17,12 @@ import org.springframework.context.annotation.ImportResource;
 @EnableFeignClients
 @ServletComponentScan(value = "com.opc.freshness.*")
 @EnableDiscoveryClient
+@EnableTransactionManagement
 @SpringBootApplication
 @ImportResource({"classpath:dubbo.xml",
         "classpath:wmq-consumer.xml",
-        "classpath:wmq-producer.xml"})
+        "classpath:wmq-producer.xml",
+        "classpath:spring-*.xml"})
 
 public class Application extends SpringBootServletInitializer {
     @Override

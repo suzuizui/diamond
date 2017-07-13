@@ -1,6 +1,7 @@
 package com.opc.freshness.service.integration.impl;
 
 import com.opc.freshness.service.integration.ShopService;
+import com.wormpex.cvs.product.api.bean.BeeShop;
 import com.wormpex.cvs.product.api.remote.ShopRemote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,4 +17,8 @@ public class ShopServiceImpl implements ShopService {
     private final static Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
     @Resource
     private ShopRemote shopRemote;
+
+    public BeeShop queryById(int id) {
+        return shopRemote.queryById(id);
+    }
 }

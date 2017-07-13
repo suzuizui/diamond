@@ -11,6 +11,7 @@ public interface SkuKindsMapper {
 
     SkuKindsPo selectByPrimaryKey(Integer id);
 
+    SkuKindsPo selectByCode(String code);
     int updateByPrimaryKeySelective(SkuKindsPo record);
 
 }

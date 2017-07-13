@@ -149,4 +149,31 @@ public final class DateUtils {
         return cal.getTimeInMillis();
     }
 
+    /**
+     * 对date进行分钟数n增加
+     *
+     * @param date
+     * @param n
+     * @return
+     */
+    public static long addMin(Date date, int n) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MINUTE, n);
+        return cal.getTimeInMillis();
+    }
+
+    /**
+     * date截取至分钟
+     *
+     * @param date
+     * @return
+     */
+    public static Date formatToMin(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return new Date(cal.getTimeInMillis());
+    }
 }

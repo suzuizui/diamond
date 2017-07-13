@@ -24,6 +24,8 @@ public class BatchPo {
     private String shopName;
     /**
      * 状态
+     *
+     * @see status
      */
     private Integer status;
     /**
@@ -50,5 +52,28 @@ public class BatchPo {
      * 报损数量
      */
     private Integer breakCount;
+
+    public static class status {
+        /**
+         * 准备中/回水中
+         */
+        public static final int ZBZ = 1;
+        /**
+         * 售卖中
+         */
+        public static final int SMZ = 2;
+        /**
+         * 待废弃
+         */
+        public static final int DFQ = 3;
+        /**
+         * 已售空
+         */
+        public static final int YSK = 4;
+        /**
+         * 已废弃
+         */
+        public static final int YFQ = 5;
+    }
 
 }

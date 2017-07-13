@@ -29,35 +29,35 @@
         from freshness_batch
         where 1=1
         <if test="id != null">
-            AND id = #{id,jdbcType=INTEGER},
+            AND id = #{id,jdbcType=INTEGER}
         </if>
         <if test="kindsId != null">
-            AND kinds_id = #{kindsId,jdbcType=INTEGER},
+            AND kinds_id = #{kindsId,jdbcType=INTEGER}
         </if>
         <if test="shopId != null">
-            AND shop_id = #{shopId,jdbcType=INTEGER},
+            AND shop_id = #{shopId,jdbcType=INTEGER}
         </if>
         <if test="shopName != null ">
-            AND shop_name = #{shopName,jdbcType=VARCHAR},
+            AND shop_name = #{shopName,jdbcType=VARCHAR}
         </if>
         <if test="status != null">
-            AND status = #{status,jdbcType=INTEGER},
+            AND status = #{status,jdbcType=INTEGER}
         </if>
         <if test="expiredTime != null">
-            AND expired_time = #{expiredTime,jdbcType=TIMESTAMP},
+            AND expired_time = #{expiredTime,jdbcType=TIMESTAMP}
         </if>
         <if test="expiredRealTime != null">
-            AND expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
+            AND expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP}
         </if>
         <if test="createTime != null">
-            AND create_time = #{createTime,jdbcType=TIMESTAMP},
+            AND date(create_time) = date(#{createTime,jdbcType=TIMESTAMP})
         </if>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM freshness_batch
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.BatchPo">
+    <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.BatchPo" useGeneratedKeys="true" keyProperty="id">
         insert into freshness_batch
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

@@ -1,6 +1,8 @@
 package com.opc.freshness.domain.po;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class SkuKindsPo {
@@ -11,4 +13,8 @@ public class SkuKindsPo {
     private Float expired;
 
     private Integer delay;
+
+    private String code;
+
+    private Integer sort;
 }
