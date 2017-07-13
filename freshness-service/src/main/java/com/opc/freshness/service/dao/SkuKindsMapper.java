@@ -1,6 +1,6 @@
 package com.opc.freshness.service.dao;
 
-import com.opc.freshness.domain.po.SkuKindsPo;
+import com.opc.freshness.po.SkuKindsPo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

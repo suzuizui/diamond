@@ -2,10 +2,12 @@ package com.opc.freshness.controller;
 
 import com.opc.freshness.common.Result;
 import com.opc.freshness.common.Success;
-import com.opc.freshness.domain.dto.AddSkuDto;
-import com.opc.freshness.domain.vo.ShopVo;
+import com.opc.freshness.dto.AddSkuDto;
+import com.opc.freshness.vo.ShopVo;
+import com.opc.freshness.service.biz.BatchBiz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ShopController extends BaseController {
     private final static Logger logger = LoggerFactory.getLogger(ShopController.class);
-
+    @Autowired
+    private BatchBiz batchBiz;
     /**
      * 设备与门店定位
      *
@@ -56,7 +59,7 @@ public class ShopController extends BaseController {
      */
     @RequestMapping(value = "/api/batch/sku/create/v1", method = {RequestMethod.POST})
     public Result addSku(@RequestBody AddSkuDto skuDto) {
-        return new Success("成功");
+        return new Success(batchBiz.addBatch(skuDto));
     }
 
     /**

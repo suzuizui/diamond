@@ -1,6 +1,6 @@
 package com.opc.freshness.service.dao;
 
-import com.opc.freshness.domain.po.BatchPo;
+import com.opc.freshness.po.BatchPo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
