@@ -1,4 +1,4 @@
-package com.opc.freshness.vo;
+package com.opc.freshness.domain.vo;
 
 import lombok.Data;
 

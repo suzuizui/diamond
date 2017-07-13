@@ -1,6 +1,6 @@
 package com.opc.freshness.service.dao;
 
-import com.opc.freshness.po.BatchStatePo;
+import com.opc.freshness.domain.po.BatchStatePo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

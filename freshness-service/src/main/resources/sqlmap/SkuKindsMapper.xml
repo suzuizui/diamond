@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.opc.freshness.service.dao.SkuKindsMapper" >
-  <resultMap id="BaseResultMap" type="com.opc.freshness.po.SkuKindsPo" >
+  <resultMap id="BaseResultMap" type="com.opc.freshness.domain.po.SkuKindsPo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="expired" property="expired" jdbcType="REAL" />
@@ -20,13 +20,13 @@
     delete from freshness_sku_kinds
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.opc.freshness.po.SkuKindsPo" >
+  <insert id="insert" parameterType="com.opc.freshness.domain.po.SkuKindsPo" >
     insert into freshness_sku_kinds (id, name, expired, 
       delay)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{expired,jdbcType=REAL}, 
       #{delay,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.opc.freshness.po.SkuKindsPo" >
+  <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.SkuKindsPo" >
     insert into freshness_sku_kinds
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.po.SkuKindsPo" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.SkuKindsPo" >
     update freshness_sku_kinds
     <set >
       <if test="name != null" >
@@ -72,7 +72,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.opc.freshness.po.SkuKindsPo" >
+  <update id="updateByPrimaryKey" parameterType="com.opc.freshness.domain.po.SkuKindsPo" >
     update freshness_sku_kinds
     set name = #{name,jdbcType=VARCHAR},
       expired = #{expired,jdbcType=REAL},

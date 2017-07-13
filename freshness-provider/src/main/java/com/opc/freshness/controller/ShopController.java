@@ -2,8 +2,8 @@ package com.opc.freshness.controller;
 
 import com.opc.freshness.common.Result;
 import com.opc.freshness.common.Success;
-import com.opc.freshness.dto.AddSkuDto;
-import com.opc.freshness.vo.ShopVo;
+import com.opc.freshness.domain.dto.AddSkuDto;
+import com.opc.freshness.domain.vo.ShopVo;
 import com.opc.freshness.service.biz.BatchBiz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

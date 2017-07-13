@@ -1,8 +1,7 @@
 package com.opc.freshness.service.biz;
 
-import com.opc.freshness.dto.AddSkuDto;
-import com.opc.freshness.po.BatchPo;
-import com.opc.freshness.po.BatchStatePo;
+import com.opc.freshness.domain.dto.AddSkuDto;
+import com.opc.freshness.domain.po.BatchStatePo;
 
 /**
  * Created by qishang on 2017/7/12.

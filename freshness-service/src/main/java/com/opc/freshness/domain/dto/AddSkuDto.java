@@ -1,4 +1,4 @@
-package com.opc.freshness.dto;
+package com.opc.freshness.domain.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
