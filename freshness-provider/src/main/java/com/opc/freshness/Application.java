@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @SpringBootApplication
 @ImportResource({"classpath:dubbo.xml",
-        "classpath:wmq-consumer.xml",
-        "classpath:wmq-producer.xml",
         "classpath:spring-*.xml"})
 public class Application extends SpringBootServletInitializer {
     @Override
