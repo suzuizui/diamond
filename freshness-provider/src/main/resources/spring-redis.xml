@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd 
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="jedisClient" class="com.wormpex.wcommon.redis.JedisClient">
+        <constructor-arg index="0" ref="jedisPool"/>
+        <constructor-arg index="1" ref="backupJedisPool"/>
+    </bean>
+    <bean id="jedisConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- 最大Idle-->
+        <property name="maxIdle" value="5"/>
+        <!-- 最小Idle -->
+        <property name="minIdle" value="1"/>
+        <!-- 获得一个jedis实例的时候是否检查连接可用性（ping()） -->
+        <property name="testOnBorrow" value="true"/>
+        <!-- return 一个jedis实例给pool时，是否检查连接可用性（ping()） -->
+        <property name="testOnReturn" value="true"/>
+        <!-- idle状态监测用异步线程evict进行检查， -->
+        <property name="testWhileIdle" value="true"/>
+        <!-- 一次最多evict的pool里的jedis实例个数 -->
+        <property name="numTestsPerEvictionRun" value="10"/>
+        <!-- test idle 线程的时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+    </bean>
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisConfig"/>
+        <constructor-arg index="1" value="${redis.server}"/>
+        <constructor-arg index="2" value="${redis.port}"/>
+        <constructor-arg index="3" value="${redis.timeout}"/>
+        <constructor-arg index="4" value="${redis.passwd}"/>
+    </bean>
+
+    <bean id="backupJedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisConfig"/>
+        <constructor-arg index="1" value="${redis.server.backup}"/>
+        <constructor-arg index="2" value="${redis.port.backup}"/>
+        <constructor-arg index="3" value="${redis.timeout.backup}"/>
+        <constructor-arg index="4" value="${redis.passwd.backup}"/>
+    </bean>
+</beans>

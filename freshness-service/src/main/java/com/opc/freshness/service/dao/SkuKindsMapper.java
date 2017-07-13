@@ -7,13 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SkuKindsMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SkuKindsPo record);
-
     int insertSelective(SkuKindsPo record);
 
     SkuKindsPo selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(SkuKindsPo record);
 
-    int updateByPrimaryKey(SkuKindsPo record);
 }

@@ -24,10 +24,10 @@ public class BatchBizImpl implements BatchBiz {
     private BatchStateMapper batchStateMapper;
 
     public int addBatch(BatchPo batch) {
-        return batchMapper.insert(batch);
+        return batchMapper.insertSelective(batch);
     }
 
     public int addBatchLog(BatchStatePo batchState) {
-        return batchStateMapper.insert(batchState);
+        return batchStateMapper.insertSelective(batchState);
     }
 }

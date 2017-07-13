@@ -22,4 +22,7 @@ public interface BatchBiz {
      * @return
      */
     public int addBatchLog(BatchStatePo batchState);
+
+
+
 }

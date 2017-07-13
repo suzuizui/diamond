@@ -1,128 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.opc.freshness.service.dao.BatchMapper">
-  <resultMap id="BaseResultMap" type="com.opc.freshness.domain.po.BatchPo">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="kinds_id" jdbcType="INTEGER" property="kindsId" />
-    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
-    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime" />
-    <result column="expired_real_time" jdbcType="TIMESTAMP" property="expiredRealTime" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from freshness_batch
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from freshness_batch
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.opc.freshness.domain.po.BatchPo">
-    insert into freshness_batch (id, kinds_id, shop_id, 
-      shop_name, status, expired_time, 
-      expired_real_time, create_time)
-    values (#{id,jdbcType=INTEGER}, #{kindsId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, 
-      #{shopName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{expiredTime,jdbcType=TIMESTAMP}, 
-      #{expiredRealTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.BatchPo">
-    insert into freshness_batch
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="kindsId != null">
-        kinds_id,
-      </if>
-      <if test="shopId != null">
-        shop_id,
-      </if>
-      <if test="shopName != null">
-        shop_name,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="expiredTime != null">
-        expired_time,
-      </if>
-      <if test="expiredRealTime != null">
-        expired_real_time,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="kindsId != null">
-        #{kindsId,jdbcType=INTEGER},
-      </if>
-      <if test="shopId != null">
-        #{shopId,jdbcType=INTEGER},
-      </if>
-      <if test="shopName != null">
-        #{shopName,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="expiredTime != null">
-        #{expiredTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="expiredRealTime != null">
-        #{expiredRealTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.BatchPo">
-    update freshness_batch
-    <set>
-      <if test="kindsId != null">
-        kinds_id = #{kindsId,jdbcType=INTEGER},
-      </if>
-      <if test="shopId != null">
-        shop_id = #{shopId,jdbcType=INTEGER},
-      </if>
-      <if test="shopName != null">
-        shop_name = #{shopName,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="expiredTime != null">
-        expired_time = #{expiredTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="expiredRealTime != null">
-        expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.opc.freshness.domain.po.BatchPo">
-    update freshness_batch
-    set kinds_id = #{kindsId,jdbcType=INTEGER},
-      shop_id = #{shopId,jdbcType=INTEGER},
-      shop_name = #{shopName,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      expired_time = #{expiredTime,jdbcType=TIMESTAMP},
-      expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <resultMap id="BaseResultMap" type="com.opc.freshness.domain.po.BatchPo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="kinds_id" jdbcType="INTEGER" property="kindsId"/>
+        <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime"/>
+        <result column="expired_real_time" jdbcType="TIMESTAMP" property="expiredRealTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from freshness_batch
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByRecord" parameterType="com.opc.freshness.domain.po.BatchPo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from freshness_batch
+        where 1=1
+        <if test="id != null">
+            AND id = #{id,jdbcType=INTEGER},
+        </if>
+        <if test="kindsId != null">
+            AND kinds_id = #{kindsId,jdbcType=INTEGER},
+        </if>
+        <if test="shopId != null">
+            AND shop_id = #{shopId,jdbcType=INTEGER},
+        </if>
+        <if test="shopName != null ">
+            AND shop_name = #{shopName,jdbcType=VARCHAR},
+        </if>
+        <if test="status != null">
+            AND status = #{status,jdbcType=INTEGER},
+        </if>
+        <if test="expiredTime != null">
+            AND expired_time = #{expiredTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="expiredRealTime != null">
+            AND expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="createTime != null">
+            AND create_time = #{createTime,jdbcType=TIMESTAMP},
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM freshness_batch
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.BatchPo">
+        insert into freshness_batch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="kindsId != null">
+                kinds_id,
+            </if>
+            <if test="shopId != null">
+                shop_id,
+            </if>
+            <if test="shopName != null">
+                shop_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="expiredTime != null">
+                expired_time,
+            </if>
+            <if test="expiredRealTime != null">
+                expired_real_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="kindsId != null">
+                #{kindsId,jdbcType=INTEGER},
+            </if>
+            <if test="shopId != null">
+                #{shopId,jdbcType=INTEGER},
+            </if>
+            <if test="shopName != null">
+                #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="expiredTime != null">
+                #{expiredTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expiredRealTime != null">
+                #{expiredRealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.BatchPo">
+        update freshness_batch
+        <set>
+            <if test="kindsId != null">
+                kinds_id = #{kindsId,jdbcType=INTEGER},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId,jdbcType=INTEGER},
+            </if>
+            <if test="shopName != null">
+                shop_name = #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="expiredTime != null">
+                expired_time = #{expiredTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expiredRealTime != null">
+                expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

@@ -11,4 +11,11 @@
 
 	<artifactId>freshness-api</artifactId>
 	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
 </project>
