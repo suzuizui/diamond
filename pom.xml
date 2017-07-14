@@ -23,7 +23,11 @@
         <cvs.product.api.version>1.0.39-SNAPSHOT</cvs.product.api.version>
     </properties>
 
-
+	<parent>
+        <groupId>com.wormpex.cvs</groupId>
+        <artifactId>cvs-root</artifactId>
+        <version>1.0.6</version>
+    </parent> 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -71,13 +75,11 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.7</version>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
         </dependency>
 
         <dependency>
@@ -90,9 +92,6 @@
             <artifactId>logback-core</artifactId>
             <version>1.1.8</version>
         </dependency>
-
-
-
 
         <dependency>
             <groupId>com.alibaba</groupId>
