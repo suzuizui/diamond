@@ -15,4 +15,13 @@ public interface BatchBiz {
      */
     public boolean addBatch(BatchDto batchDto);
 
+    /**
+     * 批次报损
+     *
+     * @param batchDto
+     * @return
+     */
+    public boolean batchLoss(BatchDto batchDto);
+
+    public boolean batchAbort(BatchDto batchDto);
 }

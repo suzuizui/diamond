@@ -10,12 +10,13 @@
         <result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime"/>
         <result column="expired_real_time" jdbcType="TIMESTAMP" property="expiredRealTime"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime"/>
         <result column="total_count" jdbcType="INTEGER" property="totalCount"/>
         <result column="expired_count" jdbcType="INTEGER" property="expiredCount"/>
         <result column="break_count" jdbcType="INTEGER" property="breakCount"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, total_count, expired_count, break_count
+        id, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -57,7 +58,8 @@
         DELETE FROM freshness_batch
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.BatchPo" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.BatchPo" useGeneratedKeys="true"
+            keyProperty="id">
         insert into freshness_batch
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -83,6 +85,9 @@
             </if>
             <if test="createTime != null">
                 create_time,
+            </if>
+            <if test="lastModifyTime != null">
+                last_modify_time,
             </if>
             <if test="totalCount != null">
                 total_count,
@@ -118,6 +123,9 @@
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifyTime != null">
+                #{lastModifyTime,jdbcType=TIMESTAMP},
             </if>
             <if test="totalCount != null">
                 #{totalCount,jdbcType=INTEGER},
@@ -165,5 +173,8 @@
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
+        <if test="lastModifyTime != null">
+            AND last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+        </if>
     </update>
 </mapper>

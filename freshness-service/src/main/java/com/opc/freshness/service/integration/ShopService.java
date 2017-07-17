@@ -14,4 +14,12 @@ public interface ShopService {
      * @return
      */
     BeeShop queryById(int shopId);
+
+    /**
+     * 根据设备id查询门店信息
+     *
+     * @param deviceId
+     * @return
+     */
+    BeeShop queryByDevice(String deviceId);
 }

@@ -7,8 +7,10 @@
 
     <task:scheduler id="scheduler" pool-size="8"/>
     <task:scheduled-tasks>
-        <!--每分钟一次-->
+        <!--废弃批次任务 每分钟一次-->
         <task:scheduled ref="abortBatchJob" method="abortBatch" cron="0 0/1 * * * ? "/>
+        <task:scheduled ref="abortBatchJob" method="batchToSaling" cron="0 0/1 * * * ? "/>
+
     </task:scheduled-tasks>
     <task:annotation-driven scheduler="scheduler"/>
 </beans>

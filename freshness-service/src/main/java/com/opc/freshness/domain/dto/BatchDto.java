@@ -1,5 +1,6 @@
 package com.opc.freshness.domain.dto;
 
+import com.wormpex.inf.wmq.utils.JsonUtils;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,33 +17,32 @@ public class BatchDto {
     /**
      * 店铺Id
      */
-    @NotNull(message = "店铺Id不能为空")
     private Integer shopId;
+    /**
+     * 批次Id
+     */
+    private Integer batchId;
+    /**
+     * 操作类型 1:制作 2：报损 3：废弃
+     */
+    private Integer option;
     /**
      * 品类Id
      */
-    @NotNull(message = "品类code不能为空")
     private String kindCode;
     /**
      * sku列表
      */
-    @NotEmpty(message = "sku列表不能为空")
     private List<SkuDto> skuList;
     /**
      * 操作人
      */
-    @NotNull(message = "操作人不能为空")
     private String operator;
     /**
      * 创建时间
      */
-    @NotNull(message = "制作时间不能为空")
     private Date createTime;
-    /**
-     * 操作类型 1:制作 2：报损 3：废弃
-     */
-    @NotNull(message = "操作类型不能为空")
-    private Integer option;
+
     /**
      * 单位
      */
@@ -55,4 +55,10 @@ public class BatchDto {
      * 颜色
      */
     private String tag;
+
+    public static void main(String[] args) {
+        BatchDto batchDto = new BatchDto();
+        batchDto.setShopId(1);
+
+    }
 }

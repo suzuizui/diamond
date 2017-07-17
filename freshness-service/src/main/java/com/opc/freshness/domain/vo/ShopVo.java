@@ -1,5 +1,6 @@
 package com.opc.freshness.domain.vo;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -7,11 +8,12 @@ import lombok.Data;
  * 店铺
  */
 @Data
+@Builder
 public class ShopVo {
     /**
      * 店铺Id
      */
-    private String shopId;
+    private Integer shopId;
     /**
      * 店铺名称
      */

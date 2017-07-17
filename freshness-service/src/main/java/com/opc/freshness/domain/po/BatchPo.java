@@ -41,6 +41,10 @@ public class BatchPo {
      */
     private Date createTime;
     /**
+     * 最后修改时间
+     */
+    private Date lastModifyTime;
+    /**
      * 批次总数量
      */
     private Integer totalCount;
@@ -57,23 +61,29 @@ public class BatchPo {
         /**
          * 准备中/回水中
          */
-        public static final int ZBZ = 1;
+        public static final int PREING = 1;
         /**
          * 售卖中
          */
-        public static final int SMZ = 2;
+        public static final int SALING = 2;
         /**
          * 待废弃
          */
-        public static final int DFQ = 3;
+        public static final int TO_ABORT = 3;
         /**
-         * 已售空
-         */
-        public static final int YSK = 4;
+         * 已售完
+        */
+        public static final int SALE_OUT = 4;
         /**
          * 已废弃
          */
-        public static final int YFQ = 5;
+        public static final int ABORTED = 5;
+        /**
+         * 报损
+         */
+        public static final int LOSS = 6;
+
+
     }
 
 }

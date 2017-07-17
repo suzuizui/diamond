@@ -15,7 +15,8 @@ import javax.annotation.Resource;
 @Component
 public class AbortBatchJob {
     private static final Logger logger = LoggerFactory.getLogger(AbortBatchJob.class);
-    private static final String JOBLOCK = "freshness_AbortBatchJob_lock";
+    private static final String ABORT_LOCK = "freshness_abortBatch_lock";
+    private static final String TOSALING_LOCK = "freshness_toSaling_lock";
 
     @Resource
     private BatchBiz batchBiz;
@@ -24,19 +25,38 @@ public class AbortBatchJob {
 
     public void abortBatch() {
         try {
-            logger.info("AbortBatchJob 任务开始——————");
+            logger.info("AbortBatchJob abortBatch任务开始——————");
 
-            if (jedisClient.setnx(JOBLOCK, "1") == 0) {
-                logger.warn("AbortBatchJob锁获取失败，已有实例开始同步任务，本实例不执行");
+            if (jedisClient.setnx(ABORT_LOCK, "1") == 0) {
+                logger.warn("AbortBatchJob-abortBatch 任务锁获取失败，已有实例开始同步任务，本实例不执行");
                 return;
             }
-            jedisClient.expire(JOBLOCK, 120);
+            jedisClient.expire(ABORT_LOCK, 120);
 
-            jedisClient.del(JOBLOCK);
-            logger.info("AbortBatchJob 任务结束——————");
+            jedisClient.del(ABORT_LOCK);
+            logger.info("AbortBatchJob abortBatch任务结束——————");
+        } catch (Exception e) {
+            logger.error("AbortBatchJob abortBatch失败", e);
+        }
+    }
+
+    /**
+     * 批次 准备中/回水中/制作中 -->售卖中
+     */
+    public void batchToSaling() {
+        try {
+            logger.info("batchToSaling 任务开始——————");
+
+            if (jedisClient.setnx(TOSALING_LOCK, "1") == 0) {
+                logger.warn("batchToSaling锁获取失败，已有实例开始同步任务，本实例不执行");
+                return;
+            }
+            jedisClient.expire(TOSALING_LOCK, 120);
+
+            jedisClient.del(TOSALING_LOCK);
+            logger.info("batchToSaling 任务结束——————");
         } catch (Exception e) {
             logger.error("批次废弃任务失败", e);
         }
     }
-
 }
