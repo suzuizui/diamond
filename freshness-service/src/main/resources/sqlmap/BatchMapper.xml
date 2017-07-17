@@ -3,6 +3,7 @@
 <mapper namespace="com.opc.freshness.service.dao.BatchMapper">
     <resultMap id="BaseResultMap" type="com.opc.freshness.domain.po.BatchPo">
         <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="kinds_id" jdbcType="INTEGER" property="kindsId"/>
         <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
         <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
@@ -14,9 +15,10 @@
         <result column="total_count" jdbcType="INTEGER" property="totalCount"/>
         <result column="expired_count" jdbcType="INTEGER" property="expiredCount"/>
         <result column="break_count" jdbcType="INTEGER" property="breakCount"/>
+        <result column="extras" jdbcType="VARCHAR" property="extras"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count
+        id, name, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count, extras
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -65,6 +67,9 @@
             <if test="id != null">
                 id,
             </if>
+            <if test="name != null">
+                name,
+            </if>
             <if test="kindsId != null">
                 kinds_id,
             </if>
@@ -98,10 +103,16 @@
             <if test="breakCount != null">
                 break_count,
             </if>
+            <if test="extras != null">
+                extras,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
             </if>
             <if test="kindsId != null">
                 #{kindsId,jdbcType=INTEGER},
@@ -136,11 +147,17 @@
             <if test="breakCount != null">
                 #{breakCount,jdbcType=INTEGER},
             </if>
+            <if test="extras != null">
+                #{extras,jdbcType=VARCHAR},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.BatchPo">
         update freshness_batch
         <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
             <if test="kindsId != null">
                 kinds_id = #{kindsId,jdbcType=INTEGER},
             </if>
@@ -170,6 +187,9 @@
             </if>
             <if test="breakCount != null">
                 break_count = #{breakCount,jdbcType=INTEGER},
+            </if>
+            <if test="extras != null">
+                extras = #{extras,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

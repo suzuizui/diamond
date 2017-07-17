@@ -1,6 +1,7 @@
 package com.opc.freshness.service.integration;
 
 import com.wormpex.cvs.product.api.bean.BeeProduct;
+import com.wormpex.cvs.product.api.bean.BeeProductDetail;
 import com.wormpex.cvs.product.api.bean.BeeShopProduct;
 
 import java.util.Map;
@@ -27,4 +28,11 @@ public interface ProductService {
      * @return
      */
     Map<Integer, BeeShopProduct> queryShopProductMap(Integer shopId, Set<Integer> skuIds);
+    /**
+     * 根据条形码获取商品信息
+     *
+     * @param barcode 条码信息
+     * @return
+     */
+    BeeProductDetail queryProductDetailByBarcode(String barcode);
 }

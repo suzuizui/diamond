@@ -1,5 +1,6 @@
 package com.opc.freshness.common.util;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -160,6 +161,14 @@ public final class DateUtils {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.MINUTE, n);
+        return cal.getTimeInMillis();
+    }
+
+    public static long addMin(Date date, float n) {
+        Calendar cal = Calendar.getInstance();
+        int seconds = new BigDecimal(60).multiply(new BigDecimal(n)).intValue();
+        cal.setTime(date);
+        cal.add(Calendar.SECOND, seconds);
         return cal.getTimeInMillis();
     }
 

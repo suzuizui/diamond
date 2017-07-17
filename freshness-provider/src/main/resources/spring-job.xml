@@ -7,8 +7,9 @@
 
     <task:scheduler id="scheduler" pool-size="8"/>
     <task:scheduled-tasks>
-        <!--废弃批次任务 每分钟一次-->
+        <!--废弃任务 售卖中 TO 待废弃 每分钟一次-->
         <task:scheduled ref="abortBatchJob" method="abortBatch" cron="0 0/1 * * * ? "/>
+        <!--准备中/回水中/制作中 TO 售卖中 每分钟一次-->
         <task:scheduled ref="abortBatchJob" method="batchToSaling" cron="0 0/1 * * * ? "/>
 
     </task:scheduled-tasks>

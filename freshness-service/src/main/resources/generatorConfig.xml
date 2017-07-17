@@ -20,14 +20,14 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- targetProject:生成model类的位置，重要！！ -->
-        <javaModelGenerator targetPackage="com.opc.freshness.domain" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.opc.freshness.domain.po" targetProject="src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
             <!-- 从数据库返回的值被清理前后的空格 -->
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- targetProject:mapper映射xml文件生成的位置，重要！！ -->
-        <sqlMapGenerator targetPackage=""
+        <sqlMapGenerator targetPackage=" "
                          targetProject="src/main/resources/sqlmap">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
@@ -38,29 +38,22 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 指定数据库表 设置参数不生产条件查询语句-->
-        <table schema="" tableName="freshness_batch"
-               domainObjectName="BatchPo" enableCountByExample="false"
+        <table schema="" tableName="freshness_device_kind"
+               domainObjectName="DeviceKindPo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
             <!--使用数据库字段作为属性名称-->
             <!--<property name="useActualColumnNames" value="true" />-->
         </table>
-        <table schema="" tableName="freshness_batch"
-               domainObjectName="BatchPo" enableCountByExample="false"
+        <table schema="" tableName="freshness_employee"
+               domainObjectName="EmployeePo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
             <!--使用数据库字段作为属性名称-->
             <!--<property name="useActualColumnNames" value="true" />-->
         </table>
-        <table schema="" tableName="freshness_batch_state"
-               domainObjectName="BatchState" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false">
-            <!--使用数据库字段作为属性名称-->
-            <!--<property name="useActualColumnNames" value="true" />-->
-        </table>
-        <table schema="" tableName="freshness_sku_kinds"
-               domainObjectName="SkuKinds" enableCountByExample="false"
+        <table schema="" tableName="freshness_sku_kind"
+               domainObjectName="SkuKindPo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
             <!--使用数据库字段作为属性名称-->

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opc.freshness.service.dao.SkuKindMapper">
+    <resultMap id="BaseResultMap" type="com.opc.freshness.domain.po.SkuKindPo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sku_id" jdbcType="INTEGER" property="skuId"/>
+        <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
+        <result column="kind_id" jdbcType="INTEGER" property="kindId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_mofify_time" jdbcType="TIMESTAMP" property="lastMofifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, sku_id, shop_id, kind_id, create_time, last_mofify_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from freshness_sku_kind
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectKind" parameterType="java.lang.Integer" resultType="com.opc.freshness.domain.vo.KindVo">
+        SELECT
+            b.id,
+            b.name,
+            b.config
+        FROM freshness_sku_kind a LEFT JOIN freshness_kind b ON a.kind_id = b.id
+        WHERE sku_id = #{skuId,jdbcType=INTEGER}
+              AND shop_id = #{shop_id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM freshness_sku_kind
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO freshness_sku_kind
+        (id, sku_id, shop_id, kind_id)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=INTEGER},#{item.skuId,jdbcType=INTEGER},
+            #{item.shopId,jdbcType=INTEGER},#{item.kindId,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.SkuKindPo">
+        insert into freshness_sku_kind
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="skuId != null">
+                sku_id,
+            </if>
+            <if test="shopId != null">
+                shop_id,
+            </if>
+            <if test="kindId != null">
+                kind_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="lastMofifyTime != null">
+                last_mofify_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="skuId != null">
+                #{skuId,jdbcType=INTEGER},
+            </if>
+            <if test="shopId != null">
+                #{shopId,jdbcType=INTEGER},
+            </if>
+            <if test="kindId != null">
+                #{kindId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastMofifyTime != null">
+                #{lastMofifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.SkuKindPo">
+        update freshness_sku_kind
+        <set>
+            <if test="skuId != null">
+                sku_id = #{skuId,jdbcType=INTEGER},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId,jdbcType=INTEGER},
+            </if>
+            <if test="kindId != null">
+                kind_id = #{kindId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastMofifyTime != null">
+                last_mofify_time = #{lastMofifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

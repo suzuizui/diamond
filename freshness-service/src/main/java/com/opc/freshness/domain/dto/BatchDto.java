@@ -29,7 +29,7 @@ public class BatchDto {
     /**
      * 品类Id
      */
-    private String kindCode;
+    private String categoryId;
     /**
      * sku列表
      */

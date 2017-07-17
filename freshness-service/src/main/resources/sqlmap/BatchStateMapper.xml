@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.opc.freshness.domain.po.BatchStatePo">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="batch_id" property="batchId" jdbcType="INTEGER"/>
+        <result column="shop_id" property="shopId" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="sku_id" property="skuId" jdbcType="INTEGER"/>
         <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
@@ -12,19 +13,59 @@
         <result column="quantity" property="quantity" jdbcType="INTEGER"/>
         <result column="operator" property="operator" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="tag" property="tag" jdbcType="VARCHAR"/>
-        <result column="unit" property="unit" jdbcType="VARCHAR"/>
-        <result column="degree" property="degree" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="VoResultMap" type="com.opc.freshness.domain.vo.BatchLogVo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="batch_id" property="batchId" jdbcType="INTEGER"/>
+        <result column="sku_id" property="skuId" jdbcType="INTEGER"/>
+        <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
+        <result column="operate_type" property="operateType" jdbcType="INTEGER"/>
+        <result column="quantity" property="count" jdbcType="INTEGER"/>
+        <result column="operator" property="operatorName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="operateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, batch_id, status, sku_id, sku_name, sku_stock, img_url, quantity, operator, create_time, tag, unit, degree
+        id, batch_id, shop_id, status, sku_id, sku_name, sku_stock, img_url, quantity, operator, create_time
     </sql>
+    <sql id="Vo_Column_List">
+        <include refid="Base_Column_List"/>
+        ,
+        case status
+            when 1 then 1
+            when 6 then 2
+            when 5 then 3
+        end as operate_type
+    </sql>
+    <sql id="selectVoWhere">
+        shop_id = #{shopId,jdbcType=INTEGER}
+        AND status IN
+        <foreach collection="statusList" index="index" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </sql>
+    <select id="selectVoCount" resultType="int">
+        select
+        count(1)
+        from freshness_batch_state
+        WHERE
+        <include refid="selectVoWhere"/>
+    </select>
+    <select id="selectVoList" resultMap="VoResultMap">
+        select
+        <include refid="Vo_Column_List"/>
+        from freshness_batch_state
+        WHERE
+        <include refid="selectVoWhere"/>
+        ORDER BY create_time DESC
+        LIMIT #{page.limit,jdbcType=INTEGER} ,#{page.offset,jdbcType=INTEGER}
+    </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from freshness_batch_state
         where id = #{id,jdbcType=INTEGER}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM freshness_batch_state
         WHERE id = #{id,jdbcType=INTEGER}
@@ -37,6 +78,9 @@
             </if>
             <if test="batchId != null">
                 batch_id,
+            </if>
+            <if test="shopId != null">
+                shop_id,
             </if>
             <if test="status != null">
                 status,
@@ -62,15 +106,6 @@
             <if test="createTime != null">
                 create_time,
             </if>
-            <if test="tag != null">
-                tag,
-            </if>
-            <if test="unit != null">
-                unit,
-            </if>
-            <if test="degree != null">
-                degree,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -78,6 +113,9 @@
             </if>
             <if test="batchId != null">
                 #{batchId,jdbcType=INTEGER},
+            </if>
+            <if test="shopId != null">
+                #{shopId,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 #{status,jdbcType=INTEGER},
@@ -103,32 +141,21 @@
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="tag != null">
-                #{tag,jdbcType=VARCHAR},
-            </if>
-            <if test="unit != null">
-                #{unit,jdbcType=VARCHAR},
-            </if>
-            <if test="degree != null">
-                #{degree,jdbcType=INTEGER},
-            </if>
         </trim>
     </insert>
     <insert id="batchInsert" parameterType="java.util.List">
-        INSERT INTO freshness_batch_state (id, batch_id, status,
+        INSERT INTO freshness_batch_state (id, batch_id,shop_id, status,
         sku_id, sku_name, sku_stock,
         img_url, quantity, operator,
-        create_time, tag, unit, degree)
+        create_time)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.id,jdbcType=INTEGER}, #{item.batchId,jdbcType=INTEGER}, #{item.status,jdbcType=INTEGER},
+            (#{item.id,jdbcType=INTEGER}, #{item.batchId,jdbcType=INTEGER},
+            #{item.shopId,jdbcType=INTEGER},#{item.status,jdbcType=INTEGER},
             #{item.skuId,jdbcType=INTEGER}, #{item.skuName,jdbcType=VARCHAR},
-            #{item.skuStock,jdbcType=INTEGER},
-            #{item.imgUrl,jdbcType=VARCHAR}, #{item.quantity,jdbcType=INTEGER},
-            #{item.operator,jdbcType=VARCHAR},
-            #{item.createTime,jdbcType=TIMESTAMP},
-            #{item.tag,jdbcType=VARCHAR},
-            #{item.unit,jdbcType=VARCHAR}, #{item.degree,jdbcType=INTEGER})
+            #{item.skuStock,jdbcType=INTEGER},#{item.imgUrl,jdbcType=VARCHAR},
+            #{item.quantity,jdbcType=INTEGER},#{item.operator,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP})
         </foreach>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.BatchStatePo">
@@ -136,6 +163,9 @@
         <set>
             <if test="batchId != null">
                 batch_id = #{batchId,jdbcType=INTEGER},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
@@ -160,15 +190,6 @@
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="tag != null">
-                tag = #{tag,jdbcType=VARCHAR},
-            </if>
-            <if test="unit != null">
-                unit = #{unit,jdbcType=VARCHAR},
-            </if>
-            <if test="degree != null">
-                degree = #{degree,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

@@ -1,21 +1,29 @@
 package com.opc.freshness.domain.vo;
 
+import lombok.Builder;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * Created by qishang on 2017/7/13.
  * 待废弃批次Vo
  */
 @Data
+@Builder
 public class ToAbortBatchVo {
     /**
      * 批次Id
      */
-    private String batchId;
+    private Integer batchId;
     /**
-     * skuName
+     * 品类Id
      */
-    private String skuName;
+    private Integer categoryId;
+    /**
+     * 批次名称
+     */
+    private String batchName;
     /**
      * 数量
      */
@@ -26,7 +34,7 @@ public class ToAbortBatchVo {
     private String tag;
 
     /**
-     * 过期时间
+     * 预计废弃时间
      */
-    private int delayed;
+    private Date expiredTime;
 }

@@ -3,6 +3,8 @@ package com.opc.freshness.controller;
 import com.ctc.wstx.util.StringUtil;
 import com.opc.freshness.common.Error;
 import com.opc.freshness.common.Result;
+import com.wormpex.biz.BizException;
+import com.wormpex.biz.lang.Biz;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,9 @@ public class BaseController {
     @ExceptionHandler
     public Result exp(HttpServletRequest request, Exception e) {
         logger.error("", e);
-        return new Error(StringUtils.isEmpty(e.getMessage())?"系统异常":e.getMessage());
+        if (e instanceof BizException) {
+            return new Error(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
+        }
+        return new Error("系统异常");
     }
 }

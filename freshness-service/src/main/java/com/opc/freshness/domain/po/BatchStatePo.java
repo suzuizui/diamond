@@ -1,20 +1,20 @@
 package com.opc.freshness.domain.po;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class BatchStatePo {
     private Integer id;
     /**
      * 批次Id
      */
     private Integer batchId;
+    /**
+     * 门店Id
+     */
+    private Integer shopId;
     /**
      * 状态
      *
@@ -49,17 +49,5 @@ public class BatchStatePo {
      * 操作时间
      */
     private Date createTime;
-    /**
-     * 颜色
-     */
-    private String tag;
-    /**
-     * 单位
-     */
-    private String unit;
-    /**
-     * 温度
-     */
-    private Integer degree;
 
 }

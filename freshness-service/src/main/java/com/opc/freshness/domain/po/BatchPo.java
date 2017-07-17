@@ -11,6 +11,10 @@ public class BatchPo {
      */
     private Integer id;
     /**
+     * 批次名称
+     */
+    private String name;
+    /**
      * 种类Id
      */
     private Integer kindsId;
@@ -56,6 +60,13 @@ public class BatchPo {
      * 报损数量
      */
     private Integer breakCount;
+    /**
+     * 拓展字段
+     *
+     * @see BatchPoExtras
+     */
+    private String extras;
+
 
     public static class status {
         /**
@@ -72,7 +83,7 @@ public class BatchPo {
         public static final int TO_ABORT = 3;
         /**
          * 已售完
-        */
+         */
         public static final int SALE_OUT = 4;
         /**
          * 已废弃
@@ -82,7 +93,6 @@ public class BatchPo {
          * 报损
          */
         public static final int LOSS = 6;
-
 
     }
 
