@@ -51,10 +51,10 @@ public class ShopController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/api/shop/position/v1", method = RequestMethod.GET)
-    public Success postitionByDeviceId(@RequestParam String deviceId) {
+    public Result<DeviceVo> postitionByDeviceId(@RequestParam String deviceId) {
         BeeShop shop = shopService.queryByDevice(deviceId);
         List<KindPo> kinds = kindBiz.selectListByDeviceId(deviceId);
-        return new Success(
+        return new Success<DeviceVo>(
                 DeviceVo.builder()
                         .shopInfo(
                                 ShopVo.builder()
@@ -73,7 +73,7 @@ public class ShopController extends BaseController {
      */
     @RequestMapping(value = "/api/shop/staff/{cardCode}/v1", method = RequestMethod.GET)
     public Result<StaffVo> getStaff(@PathVariable String cardCode) {
-        return new Success(staffBiz.selectByStaffCode(cardCode));
+        return new Success<StaffVo>(staffBiz.selectByStaffCode(cardCode));
     }
 
     /**
@@ -84,7 +84,7 @@ public class ShopController extends BaseController {
      */
     @RequestMapping(value = "/api/shop/expire/list/v1", method = {RequestMethod.GET})
     public Result<List<ToAbortBatchVo>> getAbortList(@RequestParam Integer shopId) {
-        return new Success(
+        return new Success<List<ToAbortBatchVo>>(
                 batchBiz.selectAbortList(shopId).stream()
                         .map(batchPo ->
                                 ToAbortBatchVo
@@ -108,7 +108,7 @@ public class ShopController extends BaseController {
     @RequestMapping(value = "/api/shop/sku/{barCode}/v1", method = RequestMethod.GET)
     public Result<SkuVo> skuByBarCode(@PathVariable String barCode,
                                       @RequestParam Integer shopId) {
-        return new Success<>(kindBiz.selectSkuByBarCode(barCode, shopId));
+        return new Success<SkuVo>(kindBiz.selectSkuByBarCode(barCode, shopId));
     }
 
     /**
@@ -118,14 +118,14 @@ public class ShopController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/api/shop/sku/setkinds/v1", method = RequestMethod.POST)
-    public Result setkind(@RequestBody SkuKindDto skuKindDto) {
+    public Result<Boolean> setkind(@RequestBody SkuKindDto skuKindDto) {
         Asserts.notNull(skuKindDto.getSkuId(), "skuId");
         Asserts.notNull(skuKindDto.getShopId(), "门店Id");
         Asserts.notNull(skuKindDto.getCategoryIds(), "skuId");
         for (Integer categoryId : skuKindDto.getCategoryIds()) {
             Asserts.notNull(categoryId, "品类Id");
         }
-        return new Success(kindBiz.setkind(skuKindDto));
+        return new Success<Boolean>(kindBiz.setkind(skuKindDto));
     }
 
     /**
@@ -149,15 +149,15 @@ public class ShopController extends BaseController {
         switch (OperateType.getByValue(batchDto.getOption())) {
             case MAKE: //制作
                 Asserts.notEmpty(batchDto.getCategoryId(), "分类Id");
-                return new Success<>(batchBiz.addBatch(batchDto));
+                return new Success<Boolean>(batchBiz.addBatch(batchDto));
             case LOSS: //报损
                 Asserts.notNull(batchDto.getBatchId(), "批次号");
-                return new Success<>(batchBiz.batchLoss(batchDto));
+                return new Success<Boolean>(batchBiz.batchLoss(batchDto));
             case ABORT: //废弃
                 Asserts.notNull(batchDto.getBatchId(), "批次号");
-                return new Success<>(batchBiz.batchAbort(batchDto));
+                return new Success<Boolean>(batchBiz.batchAbort(batchDto));
             default:
-                return new Error<>("不支持的操作");
+                return new Error<Boolean>("不支持的操作");
         }
     }
 
@@ -176,7 +176,7 @@ public class ShopController extends BaseController {
                                                    @RequestParam Integer pageNo,
                                                    @RequestParam Integer pageSize) {
 
-        return new Success(batchBiz.selectLogByPage(shopId, OperateType.getByValue(type).getStatusList(), pageNo, pageSize))
+        return new Success<Pager<BatchLogVo>>(batchBiz.selectLogByPage(shopId, OperateType.getByValue(type).getStatusList(), pageNo, pageSize))
                 ;
     }
 
