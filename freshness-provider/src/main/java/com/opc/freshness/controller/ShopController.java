@@ -43,8 +43,6 @@ public class ShopController extends BaseController {
     private StaffBiz staffBiz;
     @Autowired
     private ShopService shopService;
-    @Autowired
-    private ProductService productService;
 
     /**
      * 设备与门店定位
