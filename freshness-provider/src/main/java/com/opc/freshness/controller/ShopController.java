@@ -1,43 +1,46 @@
 package com.opc.freshness.controller;
 
 import com.google.common.collect.Lists;
+import com.opc.freshness.api.model.dto.BatchDto;
+import com.opc.freshness.api.model.dto.SkuKindDto;
 import com.opc.freshness.common.Error;
 import com.opc.freshness.common.Result;
 import com.opc.freshness.common.Success;
 import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
 import com.opc.freshness.common.util.Pager;
-import com.opc.freshness.domain.dto.BatchDto;
-import com.opc.freshness.domain.dto.SkuKindDto;
+import com.opc.freshness.config.ControllerExceptionHandler;
+import com.opc.freshness.domain.bo.BatchBo;
+import com.opc.freshness.domain.bo.SkuKindBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.vo.*;
-import com.opc.freshness.service.biz.BatchBiz;
-import com.opc.freshness.service.biz.KindBiz;
-import com.opc.freshness.service.biz.StaffBiz;
+import com.opc.freshness.service.BatchService;
+import com.opc.freshness.service.KindService;
+import com.opc.freshness.service.StaffService;
 import com.opc.freshness.service.integration.ShopService;
 import com.wormpex.cvs.product.api.bean.BeeShop;
 import org.apache.http.util.Asserts;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.opc.freshness.controller.ShopController.OperateType.getByValue;
+
 /**
- * Created by qishang on 2017/7/12.
+ * AUTHOR: qishang
+ * DATE: 2017/7/12.
  */
 @RestController
-public class ShopController extends BaseController {
-    private final static Logger logger = LoggerFactory.getLogger(ShopController.class);
+public class ShopController extends ControllerExceptionHandler {
     @Autowired
-    private BatchBiz batchBiz;
+    private BatchService batchService;
     @Autowired
-    private KindBiz kindBiz;
+    private KindService kindService;
     @Autowired
-    private StaffBiz staffBiz;
+    private StaffService staffService;
     @Autowired
     private ShopService shopService;
 
@@ -50,7 +53,7 @@ public class ShopController extends BaseController {
     @RequestMapping(value = "/api/shop/position/v1", method = RequestMethod.GET)
     public Result<DeviceVo> postitionByDeviceId(@RequestParam String deviceId) {
         BeeShop shop = shopService.queryByDevice(deviceId);
-        List<KindPo> kinds = kindBiz.selectListByDeviceId(deviceId);
+        List<KindPo> kinds = kindService.selectListByDeviceId(deviceId);
         return new Success<DeviceVo>(
                 DeviceVo.builder()
                         .shopInfo(
@@ -70,7 +73,7 @@ public class ShopController extends BaseController {
      */
     @RequestMapping(value = "/api/shop/staff/{cardCode}/v1", method = RequestMethod.GET)
     public Result<StaffVo> getStaff(@PathVariable String cardCode) {
-        return new Success<StaffVo>(staffBiz.selectByStaffCode(cardCode));
+        return new Success<StaffVo>(staffService.selectByCardCode(cardCode));
     }
 
     /**
@@ -82,7 +85,7 @@ public class ShopController extends BaseController {
     @RequestMapping(value = "/api/shop/expire/list/v1", method = {RequestMethod.GET})
     public Result<List<ToAbortBatchVo>> getAbortList(@RequestParam Integer shopId) {
         return new Success<List<ToAbortBatchVo>>(
-                batchBiz.selectAbortList(shopId).stream()
+                batchService.selectAbortList(shopId).stream()
                         .map(batchPo ->
                                 ToAbortBatchVo
                                         .builder()
@@ -105,7 +108,7 @@ public class ShopController extends BaseController {
     @RequestMapping(value = "/api/shop/sku/{barCode}/v1", method = RequestMethod.GET)
     public Result<SkuVo> skuByBarCode(@PathVariable String barCode,
                                       @RequestParam Integer shopId) {
-        return new Success<SkuVo>(kindBiz.selectSkuByBarCode(barCode, shopId));
+        return new Success<SkuVo>(kindService.selectSkuByBarCode(barCode, shopId));
     }
 
     /**
@@ -122,7 +125,7 @@ public class ShopController extends BaseController {
         for (Integer categoryId : skuKindDto.getCategoryIds()) {
             Asserts.notNull(categoryId, "品类Id");
         }
-        return new Success<Boolean>(kindBiz.setkind(skuKindDto));
+        return new Success<Boolean>(kindService.setkind(BeanCopyUtils.convertClass(skuKindDto, SkuKindBo.class)));
     }
 
     /**
@@ -143,16 +146,16 @@ public class ShopController extends BaseController {
             Asserts.notNull(skuDto.getSkuId(), "skuId");
             Asserts.notNull(skuDto.getQuantity(), "sku数量");
         });
-        switch (OperateType.getByValue(batchDto.getOption())) {
+        switch (getByValue(batchDto.getOption())) {
             case MAKE: //制作
-                Asserts.notEmpty(batchDto.getCategoryId(), "分类Id");
-                return new Success<Boolean>(batchBiz.addBatch(batchDto));
+                Asserts.notNull(batchDto.getCategoryId(), "分类Id");
+                return new Success<Boolean>(batchService.addBatch(BeanCopyUtils.convertClass(batchDto, BatchBo.class)));
             case LOSS: //报损
                 Asserts.notNull(batchDto.getBatchId(), "批次号");
-                return new Success<Boolean>(batchBiz.batchLoss(batchDto));
+                return new Success<Boolean>(batchService.batchLoss(BeanCopyUtils.convertClass(batchDto, BatchBo.class)));
             case ABORT: //废弃
                 Asserts.notNull(batchDto.getBatchId(), "批次号");
-                return new Success<Boolean>(batchBiz.batchAbort(batchDto));
+                return new Success<Boolean>(batchService.batchAbort(BeanCopyUtils.convertClass(batchDto, BatchBo.class)));
             default:
                 return new Error<Boolean>("不支持的操作");
         }
@@ -173,8 +176,7 @@ public class ShopController extends BaseController {
                                                    @RequestParam Integer pageNo,
                                                    @RequestParam Integer pageSize) {
 
-        return new Success<Pager<BatchLogVo>>(batchBiz.selectLogByPage(shopId, OperateType.getByValue(type).getStatusList(), pageNo, pageSize))
-                ;
+        return new Success<Pager<BatchLogVo>>(batchService.selectLogByPage(shopId, getByValue(type).getStatusList(), pageNo, pageSize));
     }
 
     /**
@@ -208,7 +210,7 @@ public class ShopController extends BaseController {
         }
 
         public static OperateType getByValue(int value) {
-            for (OperateType type : OperateType.values()) {
+            for (OperateType type : values()) {
                 if (type.value == value) {
                     return type;
                 }

@@ -1,4 +1,4 @@
-package com.opc.freshness.domain.dto;
+package com.opc.freshness.api.model.dto;
 
 import lombok.Data;
 

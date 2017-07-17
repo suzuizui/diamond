@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * Created by qishang on 2017/7/12.
+ * AUTHOR: qishang
+ * DATE: 2017/7/12.
  */
 @Service
 public class ShopServiceImpl implements ShopService {

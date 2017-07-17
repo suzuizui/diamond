@@ -1,8 +1,8 @@
 package com.opc.freshness.service.biz;
 
-import com.opc.freshness.domain.dto.SkuKindDto;
 import com.opc.freshness.domain.po.KindPo;
-import com.opc.freshness.domain.vo.SkuVo;
+import com.opc.freshness.domain.po.SkuKindPo;
+import com.opc.freshness.domain.vo.KindVo;
 
 import java.util.List;
 
@@ -27,16 +27,26 @@ public interface KindBiz {
     List<KindPo> selectListByDeviceId(String deviceId);
 
     /**
-     * 通过条形码查询Sku信息
-     * @param barCode
+     * 通过skuId和shopId查询种类
+     *
+     * @param skuId
+     * @param shopId
      * @return
      */
-    SkuVo selectSkuByBarCode(String barCode,Integer shopId);
+    List<KindVo> selectKindBySkuIdAndShopId(int skuId, Integer shopId);
 
     /**
-     * 设置sku品类关联
-     * @param skuKindDto
+     * 查询所有品类
+     *
      * @return
      */
-    Boolean setkind(SkuKindDto skuKindDto);
+    List<KindPo> selectAll();
+
+    /**
+     * 批量插入sku kind关联
+     *
+     * @param skuKindList
+     * @return
+     */
+    int batchInsertSkuKinds(List<SkuKindPo> skuKindList);
 }

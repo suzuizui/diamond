@@ -5,6 +5,7 @@ import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.biz.KindBiz;
+import com.opc.freshness.utils.RedisKeyUtils;
 import com.wormpex.biz.BizException;
 import com.wormpex.wcommon.redis.JedisClient;
 import org.slf4j.Logger;
@@ -21,8 +22,8 @@ import java.util.List;
 @Component
 public class AbortBatchJob {
     private static final Logger logger = LoggerFactory.getLogger(AbortBatchJob.class);
-    private static final String ABORT_LOCK = "freshness_abortBatch_lock";
-    private static final String TOSALING_LOCK = "freshness_toSaling_lock";
+    private static final String ABORT = "abortBatch";
+    private static final String TOSALING = "toSaling";
 
     @Resource
     private KindBiz kindBiz;
@@ -38,16 +39,16 @@ public class AbortBatchJob {
         try {
             logger.info("AbortBatchJob abortBatch任务开始——————");
 
-            if (jedisClient.setnx(ABORT_LOCK, "1") == 0) {
+            if (jedisClient.setnx(RedisKeyUtils.getLockKey(ABORT), "1") == 0) {
                 logger.warn("AbortBatchJob-abortBatch 任务锁获取失败，已有实例开始同步任务，本实例不执行");
                 return;
             }
-            jedisClient.expire(ABORT_LOCK, 120);
+            jedisClient.expire(RedisKeyUtils.getLockKey(ABORT), 120);
 
             //逻辑处理
-            process("abortBatch", BatchPo.status.PREING, BatchPo.status.SALING);
+            process(ABORT, BatchPo.status.PREING, BatchPo.status.SALING);
 
-            jedisClient.del(ABORT_LOCK);
+            jedisClient.del(RedisKeyUtils.getLockKey(ABORT));
         } catch (Exception e) {
             logger.error("AbortBatchJob abortBatch失败", e);
         }
@@ -62,16 +63,16 @@ public class AbortBatchJob {
         try {
             logger.info("batchToSaling 任务开始——————");
 
-            if (jedisClient.setnx(TOSALING_LOCK, "1") == 0) {
+            if (jedisClient.setnx(RedisKeyUtils.getLockKey(TOSALING), "1") == 0) {
                 logger.warn("batchToSaling锁获取失败，已有实例开始同步任务，本实例不执行");
                 return;
             }
-            jedisClient.expire(TOSALING_LOCK, 120);
+            jedisClient.expire(RedisKeyUtils.getLockKey(TOSALING), 120);
 
             //逻辑处理
-            process("batchToSaling", BatchPo.status.SALING, BatchPo.status.TO_ABORT);
+            process(TOSALING, BatchPo.status.SALING, BatchPo.status.TO_ABORT);
 
-            jedisClient.del(TOSALING_LOCK);
+            jedisClient.del(RedisKeyUtils.getLockKey(TOSALING));
         } catch (Exception e) {
             logger.error("批次废弃任务失败", e);
         }
@@ -85,7 +86,6 @@ public class AbortBatchJob {
         List<BatchPo> batchPoList = batchBiz.selectByRecord(po);
 
         batchPoList
-                .stream()
                 .forEach(batchPo -> {
                     try {
                         logger.info(processName + " 处理批次 batchId:{}", batchPo.getId());

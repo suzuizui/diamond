@@ -1,13 +1,12 @@
-package com.opc.freshness.controller;
+package com.opc.freshness.config;
 
-import com.ctc.wstx.util.StringUtil;
 import com.opc.freshness.common.Error;
 import com.opc.freshness.common.Result;
 import com.wormpex.biz.BizException;
-import com.wormpex.biz.lang.Biz;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by qishang on 2017/7/12.
  */
-public class BaseController {
-    private final static Logger logger = LoggerFactory.getLogger(BaseController.class);
+@Component
+public  class ControllerExceptionHandler {
+    private final static Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
     /**
      * 基于@ExceptionHandler异常处理

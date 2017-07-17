@@ -1,10 +1,7 @@
-package com.opc.freshness.domain.dto;
+package com.opc.freshness.domain.bo;
 
-import com.wormpex.inf.wmq.utils.JsonUtils;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +10,7 @@ import java.util.List;
  * 品类制作 数据传输对象
  */
 @Data
-public class BatchDto {
+public class BatchBo {
     /**
      * 店铺Id
      */
@@ -29,11 +26,11 @@ public class BatchDto {
     /**
      * 品类Id
      */
-    private String categoryId;
+    private Integer categoryId;
     /**
      * sku列表
      */
-    private List<SkuDto> skuList;
+    private List<SkuBo> skuList;
     /**
      * 操作人
      */
@@ -55,10 +52,4 @@ public class BatchDto {
      * 颜色
      */
     private String tag;
-
-    public static void main(String[] args) {
-        BatchDto batchDto = new BatchDto();
-        batchDto.setShopId(1);
-
-    }
 }

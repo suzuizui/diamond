@@ -1,7 +1,6 @@
 package com.opc.freshness.service.biz;
 
 import com.opc.freshness.common.util.Pager;
-import com.opc.freshness.domain.dto.BatchDto;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.vo.BatchLogVo;
@@ -13,28 +12,28 @@ import java.util.List;
  */
 public interface BatchBiz {
     /**
-     * 添加一个批次
+     * 插入一条批次记录
      *
-     * @param batchDto
+     * @param batch
      * @return
      */
-    public boolean addBatch(BatchDto batchDto);
+    int insertSelective(BatchPo batch);
 
     /**
-     * 批次报损
+     * 批量插入批次流水
      *
-     * @param batchDto
+     * @param logs
      * @return
      */
-    public boolean batchLoss(BatchDto batchDto);
+    int batchInsertLog(List<BatchStatePo> logs);
 
     /**
-     * 批次废弃
+     * 查询一条批次记录
      *
-     * @param batchDto
+     * @param batchId
      * @return
      */
-    public boolean batchAbort(BatchDto batchDto);
+    BatchPo selectByPrimaryKey(Integer batchId);
 
     /**
      * 待废弃列表
@@ -66,5 +65,6 @@ public interface BatchBiz {
      * @param pageSize   页面大小
      * @return
      */
-    Pager<BatchLogVo> selectLogByPage(Integer shopId, List statusList, Integer pageNo, Integer pageSize);
+    Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo, Integer pageSize);
+
 }

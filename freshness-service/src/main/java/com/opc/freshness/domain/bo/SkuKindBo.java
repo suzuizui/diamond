@@ -1,7 +1,5 @@
-package com.opc.freshness.domain.dto;
+package com.opc.freshness.domain.bo;
 
-import com.google.common.collect.Lists;
-import com.wormpex.api.json.JsonUtil;
 import lombok.Data;
 
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.List;
  * Created by qishang on 2017/7/17.
  */
 @Data
-public class SkuKindDto {
+public class SkuKindBo {
     /**
      * 门店Id
      */
