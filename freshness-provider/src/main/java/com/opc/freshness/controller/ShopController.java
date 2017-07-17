@@ -15,16 +15,13 @@ import com.opc.freshness.domain.vo.*;
 import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.biz.KindBiz;
 import com.opc.freshness.service.biz.StaffBiz;
-import com.opc.freshness.service.integration.ProductService;
 import com.opc.freshness.service.integration.ShopService;
-import com.wormpex.cvs.product.api.bean.BeeProductDetail;
 import com.wormpex.cvs.product.api.bean.BeeShop;
 import org.apache.http.util.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.jvm.hotspot.utilities.Assert;
 
 import java.util.List;
 import java.util.stream.Collectors;
