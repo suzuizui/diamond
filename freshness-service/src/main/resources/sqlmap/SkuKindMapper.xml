@@ -72,6 +72,7 @@
             #{item.skuName,jdbcType=INTEGER},#{item.imgUrl,jdbcType=INTEGER},
             #{item.shopId,jdbcType=INTEGER},#{item.kindId,jdbcType=INTEGER})
         </foreach>
+        ON DUPLICATE KEY UPDATE
     </insert>
     <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.SkuKindPo">
         insert into freshness_sku_kind
@@ -127,6 +128,7 @@
                 #{lastMofifyTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
+        ON DUPLICATE KEY UPDATE
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.SkuKindPo">
         update freshness_sku_kind

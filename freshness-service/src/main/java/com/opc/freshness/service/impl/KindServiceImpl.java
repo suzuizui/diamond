@@ -1,20 +1,27 @@
 package com.opc.freshness.service.impl;
 
+import com.google.common.collect.Maps;
 import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
+import com.opc.freshness.domain.bo.SkuCountBo;
 import com.opc.freshness.domain.bo.SkuKindBo;
+import com.opc.freshness.domain.bo.SkuMakeBo;
+import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.po.SkuKindPo;
 import com.opc.freshness.domain.vo.KindVo;
 import com.opc.freshness.domain.vo.SkuVo;
 import com.opc.freshness.service.KindService;
+import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.biz.KindBiz;
 import com.opc.freshness.service.integration.ProductService;
 import com.wormpex.cvs.product.api.bean.BeeProductDetail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -23,8 +30,12 @@ import java.util.stream.Collectors;
  */
 @Service
 public class KindServiceImpl implements KindService {
+    private final static Logger logger = LoggerFactory.getLogger(KindServiceImpl.class);
+
     @Resource
     private KindBiz kindBiz;
+    @Resource
+    private BatchBiz batchBiz;
     @Resource
     private ProductService productService;
 
@@ -83,6 +94,44 @@ public class KindServiceImpl implements KindService {
                                 .skuName(skuKindPo.getSkuName())
                                 .imgUrl(skuKindPo.getImgUrl())
                                 .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SkuMakeBo> skuMakeInfoList(Integer shopId, Integer categoryId, Date date) {
+        logger.info("skuMakeInfoList shopId:{} categoryId:{} date:{}", shopId, categoryId, date);
+        List<SkuCountBo> makeList = batchBiz.selectSkuCountByStatus(shopId, categoryId, date, BatchPo.status.MAKING);
+        List<SkuCountBo> lossList = batchBiz.selectSkuCountByStatus(shopId, categoryId, date, BatchPo.status.LOSS);
+        List<SkuCountBo> abortList = batchBiz.selectSkuCountByStatus(shopId, categoryId, date, BatchPo.status.ABORTED);
+
+        HashMap<Integer, SkuMakeBo> boMap = Maps.newHashMapWithExpectedSize(makeList.size());
+        //制作列表
+        makeList
+                .forEach(makeBo ->
+                        boMap.put(makeBo.getSkuId(), new SkuMakeBo(makeBo.getId(), makeBo.getSkuId(), makeBo.getSkuName(), makeBo.getCount()))
+                );
+        //报损列表
+        lossList
+                .forEach(lossBo -> {
+                    SkuMakeBo makeBo = boMap.get(lossBo.getSkuId());
+                    if (makeBo != null) {
+                        makeBo.setLossCount(lossBo.getCount());
+                    }
+                });
+        //废弃列表
+        abortList.forEach(
+                abortBo -> {
+                    SkuMakeBo makeBo = boMap.get(abortBo.getSkuId());
+                    if (makeBo != null) {
+                        makeBo.setAbortCount(abortBo.getCount());
+                    }
+                });
+        //根据SkuId排序
+        return boMap
+                .entrySet()
+                .stream()
+                .sorted(Comparator.comparing(Map.Entry::getKey))
+                .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
     }
 }

@@ -73,9 +73,9 @@ public class BatchPo {
 
     public static class status {
         /**
-         * 准备中/回水中
+         * 制作中/回水中
          */
-        public static final int PREING = 1;
+        public static final int MAKING = 1;
         /**
          * 售卖中
          */

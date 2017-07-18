@@ -2,6 +2,7 @@ package com.opc.freshness.service.biz.impl;
 
 import com.opc.freshness.common.util.PageRequest;
 import com.opc.freshness.common.util.Pager;
+import com.opc.freshness.domain.bo.SkuCountBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.vo.BatchLogVo;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,6 +79,11 @@ public class BatchBizImpl implements BatchBiz {
         pageRequest.setPage(new PageRequest.Page(pageNo, pageSize));
         Pager.PageData pageData = new Pager.PageData(pageNo, pageSize, batchStateMapper.selectVoCount(shopId, statusList));
         return new Pager<BatchLogVo>(pageData, batchStateMapper.selectVoList(shopId, statusList, pageRequest));
+    }
+
+    @Override
+    public List<SkuCountBo> selectSkuCountByStatus(Integer shopId, Integer kindId, Date date, int staus) {
+        return batchStateMapper.selectSkuCountByStatus(shopId,kindId,date,staus);
     }
 
     /**

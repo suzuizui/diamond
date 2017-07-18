@@ -1,9 +1,11 @@
 package com.opc.freshness.service;
 
 import com.opc.freshness.domain.bo.SkuKindBo;
+import com.opc.freshness.domain.bo.SkuMakeBo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.vo.SkuVo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,4 +53,14 @@ public interface KindService {
      * @return
      */
     List<SkuVo> selectSkuList(Integer shopId, Integer categoryId);
+
+    /**
+     * 获得sku制作统计信息
+     *
+     * @param shopId
+     * @param categoryId
+     * @param date
+     * @return
+     */
+    List<SkuMakeBo> skuMakeInfoList(Integer shopId, Integer categoryId, Date date);
 }

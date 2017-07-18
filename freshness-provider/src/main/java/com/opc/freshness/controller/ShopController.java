@@ -215,8 +215,8 @@ public class ShopController {
      * 操作类型
      */
     public enum OperateType {
-        ALL(0, "全部", Lists.newArrayList(BatchPo.status.PREING, BatchPo.status.SALING, BatchPo.status.LOSS, BatchPo.status.ABORTED)),
-        MAKE(1, "制作", Lists.newArrayList(BatchPo.status.PREING, BatchPo.status.SALING)),
+        ALL(0, "全部", Lists.newArrayList(BatchPo.status.MAKING, BatchPo.status.LOSS, BatchPo.status.ABORTED)),
+        MAKE(1, "制作", Lists.newArrayList(BatchPo.status.MAKING)),
         LOSS(2, "报损", Lists.newArrayList(BatchPo.status.LOSS)),
         ABORT(3, "废弃", Lists.newArrayList(BatchPo.status.ABORTED));
         private int value;

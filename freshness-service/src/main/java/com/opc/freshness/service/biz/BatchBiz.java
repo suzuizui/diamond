@@ -1,14 +1,17 @@
 package com.opc.freshness.service.biz;
 
 import com.opc.freshness.common.util.Pager;
+import com.opc.freshness.domain.bo.SkuCountBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.vo.BatchLogVo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
- * Created by qishang on 2017/7/12.
+ * AUTHOR: qishang
+ * DATE: 2017/7/12
  */
 public interface BatchBiz {
     /**
@@ -41,7 +44,7 @@ public interface BatchBiz {
      * @param shopId
      * @return
      */
-    public List<BatchPo> selectAbortList(Integer shopId);
+    List<BatchPo> selectAbortList(Integer shopId);
 
     /**
      * 查询列表
@@ -49,7 +52,7 @@ public interface BatchBiz {
      * @param batchPo
      * @return
      */
-    public List<BatchPo> selectByRecord(BatchPo batchPo);
+    List<BatchPo> selectByRecord(BatchPo batchPo);
 
     /**
      * batch 具有乐观锁的更新
@@ -67,4 +70,14 @@ public interface BatchBiz {
      */
     Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo, Integer pageSize);
 
+    /**
+     * 查询sku数量
+     *
+     * @param shopId
+     * @param kindId
+     * @param date
+     * @param staus
+     * @return
+     */
+    List<SkuCountBo> selectSkuCountByStatus(Integer shopId, Integer kindId, Date date, int staus);
 }

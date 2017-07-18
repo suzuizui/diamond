@@ -76,13 +76,7 @@ public class BatchServiceImpl implements BatchService {
         batch.setExpiredTime(
                 new Date(DateUtils.addMin(batch.getCreateTime(), kind.getDelay() + kind.getExpired().intValue())));
         // 设置状态
-        if (kind.getDelay() <= 0) {
-            // 如果大类有延迟时间，则进入准备中
-            batch.setStatus(BatchPo.status.PREING);
-        } else {
-            // 如果没有延迟时间，直接进入售卖中
-            batch.setStatus(BatchPo.status.SALING);
-        }
+        batch.setStatus(BatchPo.status.MAKING);
         // 设置总个数，并插入流水表
         batch.setTotalCount(addBatchStateLog(batch, batchBo, batch.getStatus()));
         // 设置拓展字段
@@ -160,7 +154,7 @@ public class BatchServiceImpl implements BatchService {
             state.setQuantity(skuBo.getQuantity());
             logs.add(state);
             totalQuantity += skuBo.getQuantity();
-            if (stauts == BatchPo.status.PREING || stauts == BatchPo.status.SALING) {
+            if (stauts == BatchPo.status.MAKING) {
                 if (StringUtils.isBlank(batch.getName())) {
                     batch.setName(state.getSkuName());
                 } else {

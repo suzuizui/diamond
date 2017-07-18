@@ -24,6 +24,12 @@
         <result column="operator" property="operatorName" jdbcType="VARCHAR"/>
         <result column="create_time" property="operateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <resultMap id="SkuCountResultMap" type="com.opc.freshness.domain.bo.SkuCountBo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sku_id" property="skuId" jdbcType="INTEGER"/>
+        <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+    </resultMap>
     <sql id="Base_Column_List">
         id, batch_id, shop_id, status, sku_id, sku_name, sku_stock, img_url, quantity, operator, create_time
     </sql>
@@ -31,9 +37,9 @@
         <include refid="Base_Column_List"/>
         ,
         case status
-            when 1 then 1
-            when 6 then 2
-            when 5 then 3
+        when 1 then 1
+        when 6 then 2
+        when 5 then 3
         end as operate_type
     </sql>
     <sql id="selectVoWhere">
@@ -194,4 +200,19 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="selectSkuCountByStatus" resultMap="SkuCountResultMap">
+        SELECT
+            a.id            AS id,
+            a.sku_id        AS sku_id,
+            c.sku_name      AS sku_name,
+            sum(a.quantity) AS count
+        FROM freshness_batch_state a
+            LEFT JOIN freshness_batch b ON a.batch_id = b.id
+            LEFT JOIN freshness_sku_kind c ON a.sku_id = c.sku_id AND a.shop_id = c.shop_id
+        WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
+              AND a.status = #{status,jdbcType=INTEGER}
+              AND b.kinds_id = #{kindId,jdbcType=INTEGER}
+              AND date(b.create_time) = date(#{date,jdbcType=TIMESTAMP})
+        GROUP BY sku_id;
+    </select>
 </mapper>

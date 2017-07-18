@@ -46,7 +46,7 @@ public class AbortBatchJob {
             jedisClient.expire(RedisKeyUtils.getLockKey(ABORT), 120);
 
             //逻辑处理
-            process(ABORT, BatchPo.status.PREING, BatchPo.status.SALING);
+            process(ABORT, BatchPo.status.MAKING, BatchPo.status.SALING);
 
             jedisClient.del(RedisKeyUtils.getLockKey(ABORT));
         } catch (Exception e) {
