@@ -1,12 +1,13 @@
 package com.opc.freshness.service.dao;
 
-import com.opc.freshness.common.util.PageRequest;
-import com.opc.freshness.domain.po.BatchStatePo;
-import com.opc.freshness.domain.vo.BatchLogVo;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.opc.freshness.common.util.PageRequest;
+import com.opc.freshness.domain.po.BatchStatePo;
+import com.opc.freshness.domain.vo.BatchLogVo;
 
 @Mapper
 public interface BatchStateMapper {

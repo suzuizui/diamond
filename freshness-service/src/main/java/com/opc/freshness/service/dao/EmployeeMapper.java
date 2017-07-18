@@ -1,7 +1,8 @@
 package com.opc.freshness.service.dao;
 
-import com.opc.freshness.domain.po.EmployeePo;
 import org.apache.ibatis.annotations.Mapper;
+
+import com.opc.freshness.domain.po.EmployeePo;
 
 @Mapper
 public interface EmployeeMapper {

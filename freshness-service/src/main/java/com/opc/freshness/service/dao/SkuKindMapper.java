@@ -1,11 +1,12 @@
 package com.opc.freshness.service.dao;
 
-import com.opc.freshness.domain.po.SkuKindPo;
-import com.opc.freshness.domain.vo.KindVo;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.opc.freshness.domain.po.SkuKindPo;
+import com.opc.freshness.domain.vo.KindVo;
 
 @Mapper
 public interface SkuKindMapper {

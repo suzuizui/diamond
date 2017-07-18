@@ -1,11 +1,11 @@
 package com.opc.freshness.service.dao;
 
-import com.opc.freshness.domain.po.DeviceKindPo;
-import com.opc.freshness.domain.po.KindPo;
-import com.opc.freshness.domain.vo.KindVo;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
+import com.opc.freshness.domain.po.DeviceKindPo;
+import com.opc.freshness.domain.po.KindPo;
 
 @Mapper
 public interface DeviceKindMapper {
