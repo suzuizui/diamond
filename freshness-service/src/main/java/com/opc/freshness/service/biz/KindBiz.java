@@ -7,7 +7,8 @@ import com.opc.freshness.domain.vo.KindVo;
 import java.util.List;
 
 /**
- * Created by qishang on 2017/7/12.
+ * AUTHOR: qishang
+ * DATE: 2017/7/12
  */
 public interface KindBiz {
     /**
@@ -49,4 +50,13 @@ public interface KindBiz {
      * @return
      */
     int batchInsertSkuKinds(List<SkuKindPo> skuKindList);
+
+    /**
+     * 获得某个门店下某个大类下的sku列表
+     *
+     * @param shopId
+     * @param kindId
+     * @return
+     */
+    List<SkuKindPo> selectSkuList(Integer shopId, Integer kindId);
 }

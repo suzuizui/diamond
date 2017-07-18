@@ -5,7 +5,8 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * Created by qishang on 2017/7/17.
+ * AUTHOR: qishang
+ * DATE: 2017/7/17.
  */
 @Data
 public class SkuKindDto {

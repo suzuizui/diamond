@@ -20,6 +20,8 @@ import com.opc.freshness.service.StaffService;
 import com.opc.freshness.service.integration.ShopService;
 import com.wormpex.cvs.product.api.bean.BeeShop;
 import org.apache.http.util.Asserts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +35,9 @@ import static com.opc.freshness.controller.ShopController.OperateType.getByValue
  * DATE: 2017/7/12.
  */
 @RestController
-public class ShopController  {
+public class ShopController {
+    private final static Logger logger = LoggerFactory.getLogger(ShopController.class);
+
     @Autowired
     private BatchService batchService;
     @Autowired
@@ -50,7 +54,9 @@ public class ShopController  {
      * @return
      */
     @RequestMapping(value = "/api/shop/position/v1", method = RequestMethod.GET)
-    public Result<DeviceVo> postitionByDeviceId(@RequestParam String deviceId) {
+    public @ResponseBody
+    Result<DeviceVo> postitionByDeviceId(@RequestParam String deviceId) {
+        logger.info("postitionByDeviceId deviceId:{}", deviceId);
         BeeShop shop = shopService.queryByDevice(deviceId);
         List<KindPo> kinds = kindService.selectListByDeviceId(deviceId);
         return new Success<DeviceVo>(
@@ -76,6 +82,32 @@ public class ShopController  {
     }
 
     /**
+     * 获取大类下sku列表
+     *
+     * @param shopId     门店编号
+     * @param categoryId 品类编号
+     * @return
+     */
+    @RequestMapping(value = "/api/shop/sku/list/v1", method = RequestMethod.GET)
+    public Result<List<SkuVo>> getSkuList(@RequestParam Integer shopId,
+                                          @RequestParam Integer categoryId) {
+        return new Success<List<SkuVo>>(kindService.selectSkuList(shopId, categoryId));
+    }
+
+    /**
+     * 根据条形码获取SKU
+     *
+     * @param barCode 条形码
+     * @param shopId  门店Id
+     * @return
+     */
+    @RequestMapping(value = "/api/shop/sku/{barCode}/v1", method = RequestMethod.GET)
+    public Result<SkuVo> skuByBarCode(@PathVariable String barCode,
+                                      @RequestParam Integer shopId) {
+        return new Success<SkuVo>(kindService.selectSkuByBarCode(barCode, shopId));
+    }
+
+    /**
      * 门店待废弃列表
      *
      * @param shopId
@@ -97,18 +129,6 @@ public class ShopController  {
                         .collect(Collectors.toList()));
     }
 
-    /**
-     * 根据条形码获取SKU
-     *
-     * @param barCode 条形码
-     * @param shopId  门店Id
-     * @return
-     */
-    @RequestMapping(value = "/api/shop/sku/{barCode}/v1", method = RequestMethod.GET)
-    public Result<SkuVo> skuByBarCode(@PathVariable String barCode,
-                                      @RequestParam Integer shopId) {
-        return new Success<SkuVo>(kindService.selectSkuByBarCode(barCode, shopId));
-    }
 
     /**
      * 设置sku关联品类
@@ -163,10 +183,10 @@ public class ShopController  {
     /**
      * 获取店铺流水表
      *
-     * @param shopId
-     * @param type
-     * @param pageNo
-     * @param pageSize
+     * @param shopId   门店Id
+     * @param type     @see OperateType
+     * @param pageNo   页码
+     * @param pageSize 分页大小
      * @return
      */
     @RequestMapping(value = "/api/shop/log/list/v1", method = {RequestMethod.GET})

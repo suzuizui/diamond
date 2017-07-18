@@ -6,27 +6,28 @@ import com.wormpex.biz.BizException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by qishang on 2017/7/12.
+ * AUTHOR: qishang
+ * DATE: 2017/7/12
  */
 @ControllerAdvice
-public  class ControllerExceptionHandler {
+public  final class ControllerExceptionHandler {
     private final static Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
-
     /**
      * 基于@ExceptionHandler异常处理
      */
-    @ExceptionHandler
-    @ResponseBody
-    public Result exp(HttpServletRequest request, Exception e) {
-        logger.error("", e);
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody Result exp(HttpServletRequest request, Exception e) {
+        logger.error("系统异常", e);
         if (e instanceof BizException) {
             return new Error(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
         }

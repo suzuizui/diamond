@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by perry on 6/26/17.
  */
 @EnableFeignClients
-@ServletComponentScan(value = "com.opc.freshness.*")
+@ServletComponentScan
 @EnableDiscoveryClient
 @EnableTransactionManagement
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.opc.freshness")
 @ImportResource({"classpath:dubbo.xml",
         "classpath:spring-*.xml"})
 public class Application extends SpringBootServletInitializer {

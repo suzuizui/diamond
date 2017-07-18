@@ -4,10 +4,10 @@ import lombok.Data;
 
 import java.util.Date;
 
-@Data
 /**
  * sku和品类 关联
  */
+@Data
 public class SkuKindPo {
     /**
      * id
@@ -17,6 +17,14 @@ public class SkuKindPo {
      * skuId
      */
     private Integer skuId;
+    /**
+     * sku 名称
+     */
+    private String skuName;
+    /**
+     * 图片地址
+     */
+    private String imgUrl;
     /**
      * 门店Id
      */

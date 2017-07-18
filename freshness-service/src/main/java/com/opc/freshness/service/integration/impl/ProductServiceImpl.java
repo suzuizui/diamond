@@ -31,6 +31,12 @@ public class ProductServiceImpl implements ProductService {
         List<BeeProduct> list = productRemote.queryProductList(shopId, skuIds);
         return list.stream().collect(Collectors.toMap(BeeProduct::getId, beeProduct -> beeProduct, (key1, key2) -> key1, HashMap::new));
     }
+
+    @Override
+    public BeeProductDetail queryProductDetail(int productId) {
+        return productRemote.queryProductDetail(productId);
+    }
+
     @Override
     public Map<Integer, BeeShopProduct> queryShopProductMap(Integer shopId, Set<Integer> skuIds) {
         List<BeeShopProduct> list = productRemote.queryShopProductList(shopId, skuIds);

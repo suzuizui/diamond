@@ -29,6 +29,7 @@ public interface KindService {
 
     /**
      * 通过条形码查询Sku信息
+     *
      * @param barCode
      * @return
      */
@@ -36,8 +37,18 @@ public interface KindService {
 
     /**
      * 设置sku品类关联
+     *
      * @param skuKindBo
      * @return
      */
     Boolean setkind(SkuKindBo skuKindBo);
+
+    /**
+     * 获得某个门店下某个大类下的sku列表
+     *
+     * @param shopId
+     * @param categoryId
+     * @return
+     */
+    List<SkuVo> selectSkuList(Integer shopId, Integer categoryId);
 }

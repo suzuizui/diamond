@@ -19,5 +19,7 @@ public interface SkuKindMapper {
 
     List<KindVo> selectKind(@Param("skuId") Integer skuId, @Param("shopId") Integer shopId);
 
+    List<SkuKindPo> selectByRecord(SkuKindPo record);
+
     int updateByPrimaryKeySelective(SkuKindPo record);
 }

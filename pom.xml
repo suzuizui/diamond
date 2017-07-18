@@ -23,11 +23,11 @@
         <cvs.product.api.version>1.0.39-SNAPSHOT</cvs.product.api.version>
     </properties>
 
-	<parent>
+    <parent>
         <groupId>com.wormpex.cvs</groupId>
         <artifactId>cvs-root</artifactId>
         <version>1.0.6</version>
-    </parent> 
+    </parent>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -188,7 +188,7 @@
                 <artifactId>freshness-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--本项目内 EN-->
+            <!--本项目内 END-->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -227,6 +227,28 @@
             </dependency>
             <!--cvs-product-api门店服务 END-->
             <!--引用第三方服务 END-->
+
+            <!--测试类-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>4.3.8.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-test</artifactId>
+                <version>1.4.3.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+            <!--测试类 END-->
+
         </dependencies>
     </dependencyManagement>
 

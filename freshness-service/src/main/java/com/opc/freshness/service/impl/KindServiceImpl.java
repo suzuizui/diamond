@@ -58,15 +58,31 @@ public class KindServiceImpl implements KindService {
 
     @Override
     public Boolean setkind(SkuKindBo bo) {
+        BeeProductDetail sku = productService.queryProductDetail(bo.getSkuId());
         List<SkuKindPo> skuKindList =
                 bo.getCategoryIds().stream().map(kindId -> {
                     SkuKindPo po = new SkuKindPo();
                     po.setSkuId(bo.getSkuId());
                     po.setShopId(bo.getShopId());
+                    po.setSkuName(sku.getProductBase().getDisplayName());
+                    po.setImgUrl(sku.getProductBase().getImage());
                     po.setKindId(kindId);
                     return po;
                 }).collect(Collectors.toList());
         kindBiz.batchInsertSkuKinds(skuKindList);
         return true;
+    }
+
+    @Override
+    public List<SkuVo> selectSkuList(Integer shopId, Integer categoryId) {
+
+        return kindBiz.selectSkuList(shopId, categoryId)
+                .stream().map(skuKindPo ->
+                        SkuVo.builder()
+                                .skuId(skuKindPo.getSkuId())
+                                .skuName(skuKindPo.getSkuName())
+                                .imgUrl(skuKindPo.getImgUrl())
+                                .build())
+                .collect(Collectors.toList());
     }
 }

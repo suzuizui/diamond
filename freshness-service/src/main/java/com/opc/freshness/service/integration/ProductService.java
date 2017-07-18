@@ -14,11 +14,19 @@ import java.util.Set;
 public interface ProductService {
     /**
      * 通过SkuId和shopId查询Sku
+     *
      * @param shopId
      * @param skuIds
      * @return
      */
     Map<Integer, BeeProduct> queryProductMap(Integer shopId, Set<Integer> skuIds);
+    /**
+     * 查询商品详情
+     *
+     * @param productId productId
+     * @return 商品详情
+     */
+    BeeProductDetail queryProductDetail(int productId);
 
     /**
      * 通过SkuId和shopId查询shopSku
@@ -28,6 +36,7 @@ public interface ProductService {
      * @return
      */
     Map<Integer, BeeShopProduct> queryShopProductMap(Integer shopId, Set<Integer> skuIds);
+
     /**
      * 根据条形码获取商品信息
      *

@@ -1,11 +1,12 @@
 package com.opc.freshness.domain.po;
 
-/**
- * Created by qishang on 2017/7/17.
- */
 
 import lombok.Builder;
 import lombok.Data;
+/**
+ * AUTHOR: qishang
+ * DATE: 2017/7/17
+ */
 
 /**
  * 拓展字段结构
