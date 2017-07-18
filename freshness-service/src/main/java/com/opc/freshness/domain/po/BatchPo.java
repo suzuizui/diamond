@@ -66,7 +66,10 @@ public class BatchPo {
      * @see BatchPoExtras
      */
     private String extras;
-
+    /**
+     * 分组标志
+     */
+    private Integer groupFlag;
 
     public static class status {
         /**

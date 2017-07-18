@@ -48,10 +48,7 @@ public class BatchBizImpl implements BatchBiz {
     @Override
     public List<BatchPo> selectAbortList(Integer shopId) {
         logger.info("selectAbortList shopId:{}", shopId);
-        BatchPo search = new BatchPo();
-        search.setStatus(BatchPo.status.TO_ABORT);
-        search.setShopId(shopId);
-        return batchMapper.selectByRecord(search);
+        return batchMapper.selectLastNGroupByKindAndFlag(shopId, BatchPo.status.TO_ABORT, 2);
     }
 
     @Override

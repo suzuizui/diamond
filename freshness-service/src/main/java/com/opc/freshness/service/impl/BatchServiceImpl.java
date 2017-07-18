@@ -51,12 +51,12 @@ public class BatchServiceImpl implements BatchService {
         BatchPo search = new BatchPo();
         search.setStatus(BatchPo.status.TO_ABORT);
         search.setShopId(shopId);
-        return null;
+        return batchBiz.selectAbortList(shopId);
     }
 
     @Override
     public Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo,
-            Integer pageSize) {
+                                             Integer pageSize) {
         return batchBiz.selectLogByPage(shopId, statusList, pageNo, pageSize);
     }
 
@@ -88,6 +88,10 @@ public class BatchServiceImpl implements BatchService {
         // 设置拓展字段
         batch.setExtras(JsonUtil.toJson(BatchPoExtras.builder().degree(batchBo.getDegree()).tag(batchBo.getTag())
                 .unit(batchBo.getUnit()).build()));
+        //设置分组标志
+        if (batchBo.getSkuList().size() == 1) {
+            batch.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
+        }
         // 插入批次
         batchBiz.insertSelective(batch);
         return true;
@@ -123,7 +127,7 @@ public class BatchServiceImpl implements BatchService {
      *
      * @param batch
      * @param batchBo
-     * @param stauts * @see BatchPo.status
+     * @param stauts  * @see BatchPo.status
      * @return 所有记录中的quantity的和
      */
     @Transactional

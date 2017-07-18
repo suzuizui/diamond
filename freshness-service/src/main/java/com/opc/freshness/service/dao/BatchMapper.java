@@ -19,4 +19,13 @@ public interface BatchMapper {
 
     int updateByPrimaryKeySelective(BatchPo record);
 
+    /**
+     * 选取
+     *
+     * @param shopId 门店Id
+     * @param status 状态
+     * @param count  个数
+     * @return
+     */
+    List<BatchPo> selectLastNGroupByKindAndFlag(Integer shopId, int status, Integer count);
 }

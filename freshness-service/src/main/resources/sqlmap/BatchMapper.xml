@@ -16,15 +16,35 @@
         <result column="expired_count" jdbcType="INTEGER" property="expiredCount"/>
         <result column="break_count" jdbcType="INTEGER" property="breakCount"/>
         <result column="extras" jdbcType="VARCHAR" property="extras"/>
+        <result column="group_flag" jdbcType="VARCHAR" property="groupFlag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, name, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count, extras
+        id, name, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count, extras, group_flag
+    </sql>
+    <sql id="selectLastNGroupByKindAndFlagSubQuery">
+        SELECT
+            DISTINCT a.id AS id
+        FROM freshness_batch a LEFT JOIN freshness_batch b
+                ON a.kinds_id = b.kinds_id
+                   AND a.group_flag = b.group_flag
+        <![CDATA[   AND a.create_time <= b.create_time]]>
+        WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
+              AND a.status = #{status,jdbcType=INTEGER}
+        GROUP BY a.kinds_id, a.group_flag, a.create_time
+        <![CDATA[  HAVING count(b.create_time) <= ]]>   #{count,jdbcType=INTEGER}
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from freshness_batch
         where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectLastNGroupByKindAndFlag" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM freshness_batch f
+        INNER JOIN (<include refid="selectLastNGroupByKindAndFlagSubQuery"/>) temp ON f.id =temp.id
+        ORDER BY f.kinds_id ASC, f.create_time ASC
     </select>
     <select id="selectByRecord" parameterType="com.opc.freshness.domain.po.BatchPo" resultMap="BaseResultMap">
         select
@@ -106,6 +126,9 @@
             <if test="extras != null">
                 extras,
             </if>
+            <if test="groupFlag != null">
+                group_flag,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -150,6 +173,9 @@
             <if test="extras != null">
                 #{extras,jdbcType=VARCHAR},
             </if>
+            <if test="groupFlag != null">
+                #{groupFlag,jdbcType=INTEGER},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.BatchPo">
@@ -190,6 +216,9 @@
             </if>
             <if test="extras != null">
                 extras = #{extras,jdbcType=VARCHAR},
+            </if>
+            <if test="groupFlag != null">
+                group_flag= #{groupFlag,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
