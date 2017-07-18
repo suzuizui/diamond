@@ -9,7 +9,6 @@ import com.opc.freshness.common.Success;
 import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
 import com.opc.freshness.common.util.Pager;
-import com.opc.freshness.config.ControllerExceptionHandler;
 import com.opc.freshness.domain.bo.BatchBo;
 import com.opc.freshness.domain.bo.SkuKindBo;
 import com.opc.freshness.domain.po.BatchPo;
@@ -34,7 +33,7 @@ import static com.opc.freshness.controller.ShopController.OperateType.getByValue
  * DATE: 2017/7/12.
  */
 @RestController
-public class ShopController extends ControllerExceptionHandler {
+public class ShopController  {
     @Autowired
     private BatchService batchService;
     @Autowired
