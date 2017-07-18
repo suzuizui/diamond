@@ -57,7 +57,7 @@ public class FileController {
         List<SkuMakeBo> boList = kindService.skuMakeInfoList(shopId, categoryId, date);
         KindPo po = kindService.selectByPrimaryKey(categoryId);
         //组装
-        String codedFileName = URLEncoder.encode(po.getName() + FILE_NAME,"UTF-8") + DateUtils.format(date, DATE_FORMAT);
+        String codedFileName = URLEncoder.encode(po.getName() + FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);
 
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("content-disposition", "attachment;filename=" + codedFileName + ".xls");

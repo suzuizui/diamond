@@ -26,4 +26,32 @@ public class ShopControllerTest {
         String result = template.getForObject(url, String.class);
         System.out.println(result);
     }
+
+    @Test
+    public void getStaff() {
+        String url = "http://localhost:" + port + "/api/shop/staff/{cardCode}/v1";
+        String result = template.getForObject(url, String.class, "111");
+        System.out.println(result);
+    }
+
+    @Test
+    public void getSkuList() {
+        String url = "http://localhost:" + port + "/api/shop/sku/list/v1?shopId=1&categoryId=1";
+        String result = template.getForObject(url, String.class);
+        System.out.println(result);
+    }
+
+    @Test
+    public void skuByBarCode() {
+        String url = "http://localhost:" + port + "/api/shop/sku/{barCode}/v1?shopId=1";
+        String result = template.getForObject(url, String.class, "11");
+        System.out.println(result);
+    }
+
+    @Test
+    public void getAbortList() {
+        String url = "http://localhost:" + port + "/api/shop/expire/list/v1?shopId=1";
+        String result = template.getForObject(url, String.class);
+        System.out.println(result);
+    }
 }
