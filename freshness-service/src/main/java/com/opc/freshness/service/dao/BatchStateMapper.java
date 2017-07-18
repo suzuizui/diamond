@@ -1,10 +1,5 @@
 package com.opc.freshness.service.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import com.opc.freshness.common.util.PageRequest;
 import com.opc.freshness.domain.bo.SkuCountBo;
 import com.opc.freshness.domain.po.BatchStatePo;

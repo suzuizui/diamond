@@ -20,7 +20,8 @@
         from freshness_sku_kind
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByRecord" parameterType="com.opc.freshness.domain.po.SkuKindPo">
+    <select id="selectByRecord" parameterType="com.opc.freshness.domain.po.SkuKindPo"
+    resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from freshness_sku_kind

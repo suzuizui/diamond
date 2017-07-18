@@ -1,10 +1,9 @@
 package com.opc.freshness.service.dao;
 
-import java.util.List;
-
+import com.opc.freshness.domain.po.BatchPo;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.opc.freshness.domain.po.BatchPo;
+import java.util.List;
 
 @Mapper
 public interface BatchMapper {

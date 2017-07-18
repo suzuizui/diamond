@@ -1,8 +1,7 @@
 package com.opc.freshness.service.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.opc.freshness.domain.po.EmployeePo;
+import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface EmployeeMapper {
@@ -16,6 +15,7 @@ public interface EmployeeMapper {
 
     /**
      * 通过卡号查询员工信息
+     *
      * @param cardCode
      * @return
      */
