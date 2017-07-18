@@ -9,6 +9,9 @@ import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.dao.BatchMapper;
 import com.opc.freshness.service.dao.BatchStateMapper;
 import com.wormpex.biz.BizException;
+import com.wormpex.biz.BizTemplate;
+import com.wormpex.cvs.root.bundles.lang.WAssert;
+
 import org.apache.http.util.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +35,19 @@ public class BatchBizImpl implements BatchBiz {
 
     @Override
     public int insertSelective(BatchPo batch) {
-        return batchMapper.insertSelective(batch);
+        return new BizTemplate<Integer>() {
+
+            @Override
+            protected void checkParams() {
+               WAssert.notNull(batch);
+                
+            }
+
+            @Override
+            protected Integer process() {
+                return batchMapper.insertSelective(batch);
+            }
+        }.execute();
     }
 
     @Override
