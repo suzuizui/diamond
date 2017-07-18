@@ -32,8 +32,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * AUTHOR: qishang
- * DATE:2017/7/17.
+ * AUTHOR: qishang DATE:2017/7/17.
  */
 @Service
 public class BatchServiceImpl implements BatchService {
@@ -56,50 +55,40 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public Pager<BatchLogVo> selectLogByPage(Integer shopId, List statusList, Integer pageNo, Integer pageSize) {
+    public Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo,
+            Integer pageSize) {
         return batchBiz.selectLogByPage(shopId, statusList, pageNo, pageSize);
     }
 
     @Transactional
     public boolean addBatch(final BatchBo batchBo) {
         logger.info("addBatch dto:{}", batchBo.toString());
-        //查询大类
+        // 查询大类
         KindPo kind = kindBiz.selectByPrimaryKey(batchBo.getCategoryId());
-        //查询门店
+        // 查询门店
         BeeShop shop = shopService.queryById(batchBo.getShopId());
-        //封装批次
+        // 封装批次
         BatchPo batch = BeanCopyUtils.convertClass(batchBo, BatchPo.class);
         batch.setShopName(shop.getPropInfo().getDisplayName());
-        //制作时间精确到分钟
+        // 制作时间精确到分钟
         batch.setCreateTime(DateUtils.formatToMin(batchBo.getCreateTime()));
-        //预计过期时间 = 制作时间+延迟时间+过期时间
+        // 预计过期时间 = 制作时间+延迟时间+过期时间
         batch.setExpiredTime(
-                new Date(
-                        DateUtils.addMin(
-                                batch.getCreateTime(),
-                                kind.getDelay() + kind.getExpired().intValue()
-                        )
-                )
-        );
-        //设置状态
+                new Date(DateUtils.addMin(batch.getCreateTime(), kind.getDelay() + kind.getExpired().intValue())));
+        // 设置状态
         if (kind.getDelay() <= 0) {
-            //如果大类有延迟时间，则进入准备中
+            // 如果大类有延迟时间，则进入准备中
             batch.setStatus(BatchPo.status.PREING);
         } else {
-            //如果没有延迟时间，直接进入售卖中
+            // 如果没有延迟时间，直接进入售卖中
             batch.setStatus(BatchPo.status.SALING);
         }
-        //设置总个数，并插入流水表
+        // 设置总个数，并插入流水表
         batch.setTotalCount(addBatchStateLog(batch, batchBo, batch.getStatus()));
-        //设置拓展字段
-        batch.setExtras(
-                JsonUtil.toJson(
-                        BatchPoExtras.builder()
-                                .degree(batchBo.getDegree())
-                                .tag(batchBo.getTag())
-                                .unit(batchBo.getUnit())
-                                .build()));
-        //插入批次
+        // 设置拓展字段
+        batch.setExtras(JsonUtil.toJson(BatchPoExtras.builder().degree(batchBo.getDegree()).tag(batchBo.getTag())
+                .unit(batchBo.getUnit()).build()));
+        // 插入批次
         batchBiz.insertSelective(batch);
         return true;
 
@@ -134,14 +123,14 @@ public class BatchServiceImpl implements BatchService {
      *
      * @param batch
      * @param batchBo
-     * @param stauts  * @see BatchPo.status
+     * @param stauts * @see BatchPo.status
      * @return 所有记录中的quantity的和
      */
     @Transactional
     private int addBatchStateLog(BatchPo batch, final BatchBo batchBo, int stauts) {
-        //log集合
+        // log集合
         List<BatchStatePo> logs = new ArrayList<>(batchBo.getSkuList().size());
-        //skuId集合
+        // skuId集合
         Set<Integer> skuSet = batchBo.getSkuList().stream().map(SkuBo::getSkuId).collect(Collectors.toSet());
 
         Map<Integer, BeeProduct> skuMap = productService.queryProductMap(batch.getShopId(), skuSet);

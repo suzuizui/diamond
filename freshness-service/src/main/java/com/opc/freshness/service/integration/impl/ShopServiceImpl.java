@@ -1,13 +1,12 @@
 package com.opc.freshness.service.integration.impl;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.opc.freshness.service.integration.ShopService;
 import com.wormpex.cvs.product.api.bean.BeeShop;
 import com.wormpex.cvs.product.api.remote.ShopRemote;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * AUTHOR: qishang
@@ -15,7 +14,6 @@ import javax.annotation.Resource;
  */
 @Service
 public class ShopServiceImpl implements ShopService {
-    private final static Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
     @Resource
     private ShopRemote shopRemote;
 

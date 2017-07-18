@@ -1,6 +1,5 @@
 package com.opc.freshness.domain.vo;
 
-import lombok.Builder;
 import lombok.Data;
 
 /**

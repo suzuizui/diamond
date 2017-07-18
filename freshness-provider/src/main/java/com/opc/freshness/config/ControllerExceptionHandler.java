@@ -26,11 +26,11 @@ public  final class ControllerExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Result exp(HttpServletRequest request, Exception e) {
+    public @ResponseBody Result<String> exp(HttpServletRequest request, Exception e) {
         logger.error("系统异常", e);
         if (e instanceof BizException) {
-            return new Error(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
+            return new Error<>(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
         }
-        return new Error("系统异常");
+        return new Error<>("系统异常");
     }
 }

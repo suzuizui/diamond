@@ -1,7 +1,5 @@
 package com.opc.freshness.common.util;
 
-import org.apache.http.util.TextUtils;
-
 import java.util.Collection;
 
 /**

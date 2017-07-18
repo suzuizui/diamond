@@ -52,5 +52,5 @@ public interface BatchService {
      * @param pageSize   页面大小
      * @return
      */
-    Pager<BatchLogVo> selectLogByPage(Integer shopId, List statusList, Integer pageNo, Integer pageSize);
+    Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo, Integer pageSize);
 }

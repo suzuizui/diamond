@@ -1,9 +1,8 @@
 package com.opc.freshness.domain.vo;
 
-import lombok.Builder;
-import lombok.Data;
-
 import java.util.Date;
+
+import lombok.Data;
 
 /**
  * Created by qishang on 2017/7/17.
