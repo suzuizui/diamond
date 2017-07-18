@@ -12,7 +12,6 @@ import com.opc.freshness.service.dao.BatchStateMapper;
 import com.wormpex.biz.BizException;
 import com.wormpex.biz.BizTemplate;
 import com.wormpex.cvs.root.bundles.lang.WAssert;
-
 import org.apache.http.util.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +40,8 @@ public class BatchBizImpl implements BatchBiz {
 
             @Override
             protected void checkParams() {
-               WAssert.notNull(batch);
-                
+                WAssert.notNull(batch);
+
             }
 
             @Override
@@ -83,7 +82,7 @@ public class BatchBizImpl implements BatchBiz {
 
     @Override
     public List<SkuCountBo> selectSkuCountByStatus(Integer shopId, Integer kindId, Date date, int staus) {
-        return batchStateMapper.selectSkuCountByStatus(shopId,kindId,date,staus);
+        return batchStateMapper.selectSkuCountByStatus(shopId, kindId, date, staus);
     }
 
     /**
