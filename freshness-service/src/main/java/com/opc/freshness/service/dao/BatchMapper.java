@@ -26,5 +26,5 @@ public interface BatchMapper {
      * @param count  个数
      * @return
      */
-    List<BatchPo> selectLastNGroupByKindAndFlag(@Param("shopId") Integer shopId, @Param("status") Integer status, @Param("count") Integer count);
+    List<BatchPo> selectLastNGroupByKindAndFlag(@Param("shopId") Integer shopId, @Param("status") List<Integer> status, @Param("count") Integer count);
 }

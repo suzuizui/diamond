@@ -40,7 +40,7 @@ public class FileController {
     private KindService kindService;
 
     /**
-     * 获取店员信息
+     * 导出制作统计列表
      *
      * @param shopId     卡号
      * @param date       查询日期

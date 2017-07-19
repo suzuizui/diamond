@@ -39,12 +39,12 @@ public interface BatchBiz {
     BatchPo selectByPrimaryKey(Integer batchId);
 
     /**
-     * 待废弃列表
+     * 制作中待废弃列表
      *
      * @param shopId
      * @return
      */
-    List<BatchPo> selectAbortList(Integer shopId);
+    List<BatchPo> selectMakeAndAbortList(Integer shopId);
 
     /**
      * 查询列表

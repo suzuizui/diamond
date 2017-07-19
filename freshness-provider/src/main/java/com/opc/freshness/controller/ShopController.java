@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.opc.freshness.domain.bo.SkuBo;
+import com.opc.freshness.domain.vo.*;
 import org.apache.http.util.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +32,7 @@ import com.opc.freshness.domain.bo.BatchBo;
 import com.opc.freshness.domain.bo.SkuKindBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.KindPo;
-import com.opc.freshness.domain.vo.BatchLogVo;
-import com.opc.freshness.domain.vo.DeviceVo;
-import com.opc.freshness.domain.vo.KindVo;
-import com.opc.freshness.domain.vo.ShopVo;
-import com.opc.freshness.domain.vo.SkuVo;
-import com.opc.freshness.domain.vo.StaffVo;
-import com.opc.freshness.domain.vo.ToAbortBatchVo;
+import com.opc.freshness.domain.vo.BatchVo;
 import com.opc.freshness.service.BatchService;
 import com.opc.freshness.service.KindService;
 import com.opc.freshness.service.StaffService;
@@ -122,20 +117,21 @@ public class ShopController {
     }
 
     /**
-     * 门店待废弃列表
+     * 门店制作中和待废弃列表
      *
      * @param shopId
      * @return
      */
     @RequestMapping(value = "/api/shop/expire/list/v1", method = {RequestMethod.GET})
-    public Result<List<ToAbortBatchVo>> getAbortList(@RequestParam Integer shopId) {
-        return new Success<List<ToAbortBatchVo>>(
-                batchService.selectAbortList(shopId).stream()
+    public Result<List<BatchVo>> getMakeAndAbortList(@RequestParam Integer shopId) {
+        return new Success<List<BatchVo>>(
+                batchService.selectMakeAndAbortList(shopId).stream()
                         .map(batchPo ->
-                                ToAbortBatchVo
+                                BatchVo
                                         .builder()
                                         .batchId(batchPo.getId())
                                         .batchName(batchPo.getName())
+                                        .status(batchPo.getStatus())
                                         .categoryId(batchPo.getKindsId())
                                         .quanity(batchPo.getTotalCount() - batchPo.getBreakCount() - batchPo.getExpiredCount())
                                         .expiredTime(batchPo.getExpiredTime())

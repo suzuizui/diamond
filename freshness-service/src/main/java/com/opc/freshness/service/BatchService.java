@@ -42,7 +42,7 @@ public interface BatchService {
      * @param shopId
      * @return
      */
-    List<BatchPo> selectAbortList(Integer shopId);
+    List<BatchPo> selectMakeAndAbortList(Integer shopId);
 
 
     /**

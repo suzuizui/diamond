@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @Builder
-public class ToAbortBatchVo {
+public class BatchVo {
     /**
      * 批次Id
      */
@@ -25,6 +25,10 @@ public class ToAbortBatchVo {
      * 批次名称
      */
     private String batchName;
+    /**
+     * @see com.opc.freshness.domain.po.BatchPo.status
+     */
+    private Integer status;
     /**
      * 数量
      */

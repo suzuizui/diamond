@@ -1,5 +1,6 @@
 package com.opc.freshness.service.biz.impl;
 
+import com.google.common.collect.Lists;
 import com.opc.freshness.common.util.PageRequest;
 import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.SkuCountBo;
@@ -60,9 +61,9 @@ public class BatchBizImpl implements BatchBiz {
     }
 
     @Override
-    public List<BatchPo> selectAbortList(Integer shopId) {
-        logger.info("selectAbortList shopId:{}", shopId);
-        return batchMapper.selectLastNGroupByKindAndFlag(shopId, BatchPo.status.TO_ABORT, 2);
+    public List<BatchPo> selectMakeAndAbortList(Integer shopId) {
+        logger.info("selectMakeAndAbortList shopId:{}", shopId);
+        return batchMapper.selectLastNGroupByKindAndFlag(shopId, Lists.newArrayList(BatchPo.status.MAKING,BatchPo.status.TO_ABORT), 2);
     }
 
     @Override

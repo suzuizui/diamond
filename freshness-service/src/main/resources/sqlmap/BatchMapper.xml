@@ -26,13 +26,16 @@
     </sql>
     <sql id="selectLastNGroupByKindAndFlagSubQuery">
         SELECT
-            DISTINCT a.id AS id
+        DISTINCT a.id AS id
         FROM freshness_batch a LEFT JOIN freshness_batch b
-                ON a.kinds_id = b.kinds_id
-                   AND a.group_flag = b.group_flag
+        ON a.kinds_id = b.kinds_id
+        AND a.group_flag = b.group_flag
         <![CDATA[   AND a.create_time <= b.create_time]]>
         WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
-              AND a.status = #{status,jdbcType=INTEGER}
+        AND a.status IN
+        <foreach collection="status" separator="," item="item" open="(" close=")">
+            #{item,jdbcType=INTEGER}
+        </foreach>
         GROUP BY a.kinds_id, a.group_flag, a.create_time
         <![CDATA[  HAVING count(b.create_time) <= ]]>   #{count,jdbcType=INTEGER}
     </sql>
