@@ -21,14 +21,14 @@
         from freshness_device_kind
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectKindListByDeviceId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectKindListByDeviceId" parameterType="java.lang.String" resultMap="KindResultMap">
         SELECT
             b.id,
             b.name,
             b.config
         FROM freshness_device_kind a
             LEFT JOIN freshness_kind b ON a.kind_id = b.id
-        WHERE device_id = #{deviceId,jdbcType=INTEGER}
+        WHERE device_id = #{deviceId,jdbcType=VARCHAR}
         ORDER BY b.sort ASC
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
