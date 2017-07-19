@@ -2,6 +2,7 @@ package com.opc.freshness.domain.vo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -38,4 +39,9 @@ public class BatchLogVo {
      * 操作时间
      */
     private Date operateTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getOperateTime() {
+        return operateTime;
+    }
 }

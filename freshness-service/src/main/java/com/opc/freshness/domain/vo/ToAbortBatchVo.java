@@ -1,5 +1,6 @@
 package com.opc.freshness.domain.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -37,4 +38,9 @@ public class ToAbortBatchVo {
      * 预计废弃时间
      */
     private Date expiredTime;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    public Date getExpiredTime() {
+        return expiredTime;
+    }
 }
