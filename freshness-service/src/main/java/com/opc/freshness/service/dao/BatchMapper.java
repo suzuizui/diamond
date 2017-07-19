@@ -2,6 +2,7 @@ package com.opc.freshness.service.dao;
 
 import com.opc.freshness.domain.po.BatchPo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,5 +26,5 @@ public interface BatchMapper {
      * @param count  个数
      * @return
      */
-    List<BatchPo> selectLastNGroupByKindAndFlag(Integer shopId, int status, Integer count);
+    List<BatchPo> selectLastNGroupByKindAndFlag(@Param("shopId") Integer shopId, @Param("status") Integer status, @Param("count") Integer count);
 }

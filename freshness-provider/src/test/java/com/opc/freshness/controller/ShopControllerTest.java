@@ -8,6 +8,7 @@ import com.opc.freshness.api.model.dto.SkuKindDto;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
@@ -78,11 +79,11 @@ public class ShopControllerTest {
 
         SkuKindDto dto = new SkuKindDto();
         dto.setShopId(1);
-        dto.setSkuId(100);
+        dto.setSkuId(30);
         dto.setCategoryIds(Stream.of(1,2,3,4, 5, 6).collect(Collectors.toList()));
 
         String result = template.postForObject(url, dto, String.class);
-        System.out.println(xml2JSON(result));
+        Assert.assertEquals( xml2JSON(result),"{\"Success\":{\"data\":[\"true\"],\"ret\":[\"true\"]}}");
     }
 
     @Test

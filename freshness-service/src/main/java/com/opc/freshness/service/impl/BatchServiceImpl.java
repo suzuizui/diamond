@@ -69,6 +69,8 @@ public class BatchServiceImpl implements BatchService {
         BeeShop shop = shopService.queryById(batchBo.getShopId());
         // 封装批次
         BatchPo batchPo = BeanCopyUtils.convertClass(batchBo, BatchPo.class);
+        //设置品类
+        batchPo.setKindsId(batchBo.getCategoryId());
         batchPo.setShopName(shop.getPropInfo().getDisplayName());
         // 制作时间精确到分钟
         batchPo.setCreateTime(DateUtils.formatToMin(batchBo.getCreateTime()));
@@ -140,6 +142,7 @@ public class BatchServiceImpl implements BatchService {
         for (SkuBo skuBo : batchBo.getSkuList()) {
             BatchStatePo state = new BatchStatePo();
             state.setBatchId(batch.getId());
+            state.setShopId(batch.getShopId());
             state.setStatus(stauts);
             state.setCreateTime(batch.getCreateTime());
 

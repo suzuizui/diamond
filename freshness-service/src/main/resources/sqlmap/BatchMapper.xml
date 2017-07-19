@@ -21,6 +21,9 @@
     <sql id="Base_Column_List">
         id, name, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count, extras, group_flag
     </sql>
+    <sql id="alias_Column_List">
+        f.id, f.name, f.kinds_id, f.shop_id, f.shop_name, f.status, f.expired_time, f.expired_real_time, f.create_time, f.last_modify_time, f.total_count, f.expired_count, f.break_count, f.extras, f.group_flag
+    </sql>
     <sql id="selectLastNGroupByKindAndFlagSubQuery">
         SELECT
             DISTINCT a.id AS id
@@ -41,7 +44,7 @@
     </select>
     <select id="selectLastNGroupByKindAndFlag" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="alias_Column_List"/>
         FROM freshness_batch f
         INNER JOIN (<include refid="selectLastNGroupByKindAndFlagSubQuery"/>) temp ON f.id =temp.id
         ORDER BY f.kinds_id ASC, f.create_time ASC
@@ -49,7 +52,7 @@
     <select id="selectByRecord" parameterType="com.opc.freshness.domain.po.BatchPo" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from freshness_batch
+        from freshness_batch f
         where 1=1
         <if test="id != null">
             AND id = #{id,jdbcType=INTEGER}

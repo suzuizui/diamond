@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class AbortBatchJob {
             jedisClient.expire(RedisKeyUtils.getLockKey(ABORT), 120);
 
             //逻辑处理
-            process(ABORT, BatchPo.status.MAKING, BatchPo.status.SALING);
+            process(ABORT, BatchPo.status.SALING, BatchPo.status.TO_ABORT);
 
             jedisClient.del(RedisKeyUtils.getLockKey(ABORT));
         } catch (Exception e) {
@@ -70,7 +71,7 @@ public class AbortBatchJob {
             jedisClient.expire(RedisKeyUtils.getLockKey(TOSALING), 120);
 
             //逻辑处理
-            process(TOSALING, BatchPo.status.SALING, BatchPo.status.TO_ABORT);
+            process(TOSALING, BatchPo.status.MAKING, BatchPo.status.SALING);
 
             jedisClient.del(RedisKeyUtils.getLockKey(TOSALING));
         } catch (Exception e) {
@@ -99,7 +100,7 @@ public class AbortBatchJob {
                                 preEndTime = DateUtils.addMin(batchPo.getCreateTime(), skuKind.getDelay());
                                 break;
                             case BatchPo.status.TO_ABORT:
-                                preEndTime = DateUtils.addMin(batchPo.getCreateTime(), skuKind.getExpired());
+                                preEndTime = batchPo.getExpiredTime().getTime();
                                 break;
                             default:
                                 throw new BizException("targetStatus错误");
@@ -110,6 +111,9 @@ public class AbortBatchJob {
                             logger.info(processName + " 批次过期 batchId:{}", batchPo.getId());
 
                             batchPo.setStatus(targetStatus);
+                            if (targetStatus == BatchPo.status.TO_ABORT){
+                                batchPo.setExpiredRealTime(new Date());
+                            }
                             batchBiz.updateBatchByPrimaryKeyLock(batchPo);
                         }
                     } catch (Exception e) {

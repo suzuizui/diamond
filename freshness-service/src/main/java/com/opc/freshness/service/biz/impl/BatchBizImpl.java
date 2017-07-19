@@ -41,9 +41,7 @@ public class BatchBizImpl implements BatchBiz {
             @Override
             protected void checkParams() {
                 WAssert.notNull(batch);
-
             }
-
             @Override
             protected Integer process() {
                 return batchMapper.insertSelective(batch);
