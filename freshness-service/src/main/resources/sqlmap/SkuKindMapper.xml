@@ -69,11 +69,11 @@
         ( sku_id, sku_name,img_url, shop_id, kind_id)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.skuId,jdbcType=INTEGER},
-            #{item.skuName,jdbcType=VARCHAR},#{item.imgUrl,jdbcType=VARCHAR},
-            #{item.shopId,jdbcType=INTEGER},#{item.kindId,jdbcType=INTEGER})
+            (#{item.skuId,jdbcType=INTEGER},#{item.skuName,jdbcType=VARCHAR}
+            ,#{item.imgUrl,jdbcType=VARCHAR},#{item.shopId,jdbcType=INTEGER}
+            ,#{item.kindId,jdbcType=INTEGER})
         </foreach>
-        ON DUPLICATE KEY UPDATE sku_name = VALUES(sku_name) AND img_url = VALUES(img_url)
+        ON DUPLICATE KEY UPDATE sku_name = VALUES(sku_name) , img_url = VALUES(img_url)
     </insert>
     <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.SkuKindPo">
         insert into freshness_sku_kind
