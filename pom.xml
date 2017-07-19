@@ -262,29 +262,55 @@
                 <scope>test</scope>
             </dependency>
             <!--测试类 END-->
+			<!--测试类 -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>4.3.8.RELEASE</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-test</artifactId>
+				<version>1.4.3.RELEASE</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<version>1.4.3.RELEASE</version>
+				<scope>test</scope>
+			</dependency>
+			<!--测试类 END -->
 
-        </dependencies>
-    </dependencyManagement>
+		</dependencies>
+	</dependencyManagement>
 
-    <profiles>
-        <profile>
-            <id>devmagic</id>
-            <properties>
-                <profile.active>devmagic</profile.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>betamagic</id>
-            <properties>
-                <profile.active>betamagic</profile.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <profile.active>prod</profile.active>
-            </properties>
-        </profile>
-    </profiles>
+	<profiles>
+		<profile>
+			<id>devmagic</id>
+			<properties>
+				<profile.active>devmagic</profile.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>betamagic</id>
+			<properties>
+				<profile.active>betamagic</profile.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profile.active>prod</profile.active>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>
