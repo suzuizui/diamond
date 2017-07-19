@@ -40,7 +40,7 @@ public class KindBizImpl implements KindBiz {
     }
 
     @Override
-    public List<KindVo> selectKindBySkuIdAndShopId(int skuId, Integer shopId) {
+    public List<KindVo> selectKindBySkuIdAndShopId(Integer skuId, Integer shopId) {
         return skuKindMapper.selectKind(skuId, shopId);
     }
 

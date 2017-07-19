@@ -34,7 +34,7 @@ public interface KindBiz {
      * @param shopId
      * @return
      */
-    List<KindVo> selectKindBySkuIdAndShopId(int skuId, Integer shopId);
+    List<KindVo> selectKindBySkuIdAndShopId(Integer skuId, Integer shopId);
 
     /**
      * 查询所有品类
