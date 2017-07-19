@@ -66,6 +66,10 @@
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test-autoconfigure</artifactId>
+        </dependency>
         <!--测试类 END-->
         <dependency>
             <groupId>org.apache.poi</groupId>

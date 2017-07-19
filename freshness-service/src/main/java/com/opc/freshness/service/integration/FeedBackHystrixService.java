@@ -2,8 +2,6 @@ package com.opc.freshness.service.integration;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.opc.freshness.service.integration.domain.FeedBackUser;
-import com.wormpex.biz.BizException;
-import com.wormpex.biz.lang.Biz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +28,6 @@ public class FeedBackHystrixService {
 
     @HystrixCommand(fallbackMethod = "fallbackMethod")
     public FeedBackUser queryMemberByUserno(String userno) {
-        if (userno!=null) {
-            throw new BizException("1111");
-        }
         return this.service.queryMemberByUserno(userno);
     }
 
