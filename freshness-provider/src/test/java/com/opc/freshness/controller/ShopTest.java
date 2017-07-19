@@ -12,7 +12,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  * DATE: 2017/7/19
  */
 public class ShopTest extends TestBase {
-    private static final String GET_DEMO_BY_ID_EXPECT = "{\"id\":1,\"name\":\"demoName\"}";
+    private static final String GET_STAFF_EXPECT = "{\n" +
+            "  \"ret\": true,\n" +
+            "  \"data\": {\n" +
+            "    \"name\": \"马云玲\",\n" +
+            "    \"emplayeeId\": \"600106\"\n" +
+            "  }\n" +
+            "}";
 
     @Test
     public void getStaff() throws Exception {
@@ -22,6 +28,6 @@ public class ShopTest extends TestBase {
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(200, status);
         System.out.println(mvcResult.getResponse().getContentAsString());
-        Assert.assertEquals(mvcResult.getResponse().getContentAsString(), GET_DEMO_BY_ID_EXPECT);
+        Assert.assertEquals(mvcResult.getResponse().getContentAsString(), GET_STAFF_EXPECT);
     }
 }

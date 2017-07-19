@@ -3,8 +3,10 @@ package com.opc.freshness;
 import com.opc.freshness.service.integration.FeedBackHystrixService;
 import com.opc.freshness.service.integration.domain.FeedBackUser;
 import com.wormpex.api.json.JsonUtil;
+import com.wormpex.cvs.product.api.bean.BeeProductDetail;
 import com.wormpex.cvs.product.api.bean.BeeShop;
 import com.wormpex.cvs.product.api.bean.BeeShopDevice;
+import com.wormpex.cvs.product.api.bean.BeeShortProduct;
 import com.wormpex.cvs.product.api.remote.ProductRemote;
 import com.wormpex.cvs.product.api.remote.ShopRemote;
 import org.junit.Test;
@@ -33,6 +35,7 @@ public class ThirdartyTest {
     private ProductRemote productRemote;
     @Resource
     private FeedBackHystrixService feedBackHystrixService;
+
     @Test
     public void getShops() {
         List<BeeShop> list = shopRemote.queryAllShop();
@@ -53,10 +56,32 @@ public class ThirdartyTest {
         System.out.println(JsonUtil.toJson(shop));
         System.out.println("end");
     }
+
     @Test
-    public void getUserByShopId(){
+    public void getUserByShopId() {
         List<FeedBackUser> list = feedBackHystrixService.queryMembersByShopno("100001001");
         System.out.println(JsonUtil.toJson(list));
+        System.out.println("end");
+    }
+
+    @Test
+    public void getUserByUserno() {
+        FeedBackUser user = feedBackHystrixService.queryMemberByUserno("600106");
+        System.out.println(JsonUtil.toJson(user));
+        System.out.println("end");
+    }
+
+    @Test
+    public void getSkuList() {
+        List<BeeShortProduct> skulist = productRemote.queryAllShortProductList(0, 100);
+        System.out.println(JsonUtil.toJson(skulist));
+        System.out.println("end");
+    }
+
+    @Test
+    public void getSkuId() {
+        BeeProductDetail detail = productRemote.queryProductDetail(2);
+        System.out.println(JsonUtil.toJson(detail));
         System.out.println("end");
     }
 }

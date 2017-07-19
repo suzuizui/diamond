@@ -78,7 +78,7 @@ public class ShopControllerTest {
 
         SkuKindDto dto = new SkuKindDto();
         dto.setShopId(1);
-        dto.setSkuId(1);
+        dto.setSkuId(2);
         dto.setCategoryIds(Stream.of(1, 2, 3).collect(Collectors.toList()));
 
         String result = template.postForObject(url, dto, String.class);

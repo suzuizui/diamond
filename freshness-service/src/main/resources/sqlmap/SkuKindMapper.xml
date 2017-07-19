@@ -21,7 +21,7 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectByRecord" parameterType="com.opc.freshness.domain.po.SkuKindPo"
-    resultMap="BaseResultMap">
+            resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from freshness_sku_kind
@@ -66,14 +66,14 @@
     </delete>
     <insert id="batchInsert" parameterType="java.util.List">
         INSERT INTO freshness_sku_kind
-        (id, sku_id,sku_id, sku_name, shop_id, kind_id)
+        ( sku_id, sku_name,img_url, shop_id, kind_id)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.id,jdbcType=INTEGER},#{item.skuId,jdbcType=INTEGER},
-            #{item.skuName,jdbcType=INTEGER},#{item.imgUrl,jdbcType=INTEGER},
+            (#{item.skuId,jdbcType=INTEGER},
+            #{item.skuName,jdbcType=VARCHAR},#{item.imgUrl,jdbcType=VARCHAR},
             #{item.shopId,jdbcType=INTEGER},#{item.kindId,jdbcType=INTEGER})
         </foreach>
-        ON DUPLICATE KEY UPDATE
+        ON DUPLICATE KEY UPDATE sku_name = VALUES(sku_name) AND img_url = VALUES(img_url)
     </insert>
     <insert id="insertSelective" parameterType="com.opc.freshness.domain.po.SkuKindPo">
         insert into freshness_sku_kind
