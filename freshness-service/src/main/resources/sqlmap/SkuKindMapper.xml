@@ -58,7 +58,7 @@
             b.config
         FROM freshness_sku_kind a LEFT JOIN freshness_kind b ON a.kind_id = b.id
         WHERE sku_id = #{skuId,jdbcType=INTEGER}
-              AND shop_id = #{shop_id,jdbcType=INTEGER}
+              AND shop_id = #{shopId,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM freshness_sku_kind

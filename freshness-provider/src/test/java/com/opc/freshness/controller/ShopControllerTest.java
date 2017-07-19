@@ -54,7 +54,7 @@ public class ShopControllerTest {
     @Test
     public void skuByBarCode() {
         String url = "http://localhost:" + port + "/api/shop/sku/{barCode}/v1?shopId=1";
-        String result = template.getForObject(url, String.class, "11");
+        String result = template.getForObject(url, String.class, "6914068019529");
         System.out.println(xml2JSON(result));
     }
 
@@ -78,8 +78,8 @@ public class ShopControllerTest {
 
         SkuKindDto dto = new SkuKindDto();
         dto.setShopId(1);
-        dto.setSkuId(2);
-        dto.setCategoryIds(Stream.of(1, 2, 3).collect(Collectors.toList()));
+        dto.setSkuId(100);
+        dto.setCategoryIds(Stream.of(1,2,3,4, 5, 6).collect(Collectors.toList()));
 
         String result = template.postForObject(url, dto, String.class);
         System.out.println(xml2JSON(result));
