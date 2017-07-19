@@ -1,5 +1,6 @@
 package com.opc.freshness.domain.bo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
  * sku 数据传输对象
  */
 @Data
+@AllArgsConstructor
 public class SkuBo {
     /**
      * 商品SkuId

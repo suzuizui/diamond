@@ -73,6 +73,11 @@ public class BatchBizImpl implements BatchBiz {
     }
 
     @Override
+    public int updateByPrimaryKeySelective(BatchPo batchPo) {
+        return batchMapper.updateByPrimaryKeySelective(batchPo);
+    }
+
+    @Override
     public Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo, Integer pageSize) {
         PageRequest pageRequest = new PageRequest();
         pageRequest.setPage(new PageRequest.Page(pageNo, pageSize));

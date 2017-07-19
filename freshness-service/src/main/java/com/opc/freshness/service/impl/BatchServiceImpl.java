@@ -68,26 +68,28 @@ public class BatchServiceImpl implements BatchService {
         // 查询门店
         BeeShop shop = shopService.queryById(batchBo.getShopId());
         // 封装批次
-        BatchPo batch = BeanCopyUtils.convertClass(batchBo, BatchPo.class);
-        batch.setShopName(shop.getPropInfo().getDisplayName());
+        BatchPo batchPo = BeanCopyUtils.convertClass(batchBo, BatchPo.class);
+        batchPo.setShopName(shop.getPropInfo().getDisplayName());
         // 制作时间精确到分钟
-        batch.setCreateTime(DateUtils.formatToMin(batchBo.getCreateTime()));
+        batchPo.setCreateTime(DateUtils.formatToMin(batchBo.getCreateTime()));
         // 预计过期时间 = 制作时间+延迟时间+过期时间
-        batch.setExpiredTime(
-                new Date(DateUtils.addMin(batch.getCreateTime(), kind.getDelay() + kind.getExpired().intValue())));
+        batchPo.setExpiredTime(
+                new Date(DateUtils.addMin(batchPo.getCreateTime(), kind.getDelay() + kind.getExpired().intValue())));
         // 设置状态
-        batch.setStatus(BatchPo.status.MAKING);
-        // 设置总个数，并插入流水表
-        batch.setTotalCount(addBatchStateLog(batch, batchBo, batch.getStatus()));
+        batchPo.setStatus(BatchPo.status.MAKING);
         // 设置拓展字段
-        batch.setExtras(JsonUtil.toJson(BatchPoExtras.builder().degree(batchBo.getDegree()).tag(batchBo.getTag())
+        batchPo.setExtras(JsonUtil.toJson(BatchPoExtras.builder().degree(batchBo.getDegree()).tag(batchBo.getTag())
                 .unit(batchBo.getUnit()).build()));
         //设置分组标志
         if (batchBo.getSkuList().size() == 1) {
-            batch.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
+            batchPo.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
         }
-        // 插入批次
-        batchBiz.insertSelective(batch);
+        //插入批次，返回主键
+        batchBiz.insertSelective(batchPo);
+        // 设置总个数，并插入流水表
+        batchPo.setTotalCount(addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
+        // 更新批次总个数
+        batchBiz.updateByPrimaryKeySelective(batchPo);
         return true;
 
     }

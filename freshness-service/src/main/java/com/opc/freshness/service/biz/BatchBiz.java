@@ -53,7 +53,12 @@ public interface BatchBiz {
      * @return
      */
     List<BatchPo> selectByRecord(BatchPo batchPo);
-
+    /**
+     * batch 不具有乐观锁的更新
+     *
+     * @param batchPo
+     */
+    int updateByPrimaryKeySelective(BatchPo batchPo);
     /**
      * batch 具有乐观锁的更新
      *

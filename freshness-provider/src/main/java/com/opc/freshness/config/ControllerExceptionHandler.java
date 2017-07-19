@@ -19,16 +19,20 @@ import javax.servlet.http.HttpServletRequest;
  * DATE: 2017/7/12
  */
 @ControllerAdvice
-public  final class ControllerExceptionHandler {
+public final class ControllerExceptionHandler {
     private final static Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
     /**
      * 基于@ExceptionHandler异常处理
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Result<String> exp(HttpServletRequest request, Exception e) {
+    public @ResponseBody
+    Result<String> exp(HttpServletRequest request, Exception e) {
         logger.error("系统异常", e);
         if (e instanceof BizException) {
+            return new Error<>(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
+        } else if (e instanceof IllegalStateException) {
             return new Error<>(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
         }
         return new Error<>("系统异常");

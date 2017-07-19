@@ -100,7 +100,7 @@ public class ShopControllerTest {
         dto.setTag("蓝");
 
         SkuDto sku = new SkuDto();
-        sku.setSkuId(1);
+        sku.setSkuId(2);
         sku.setQuantity(10);
         dto.setSkuList(Lists.newArrayList(sku));
 

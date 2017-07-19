@@ -5,6 +5,7 @@ import static com.opc.freshness.controller.ShopController.OperateType.getByValue
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.opc.freshness.domain.bo.SkuBo;
 import org.apache.http.util.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -167,27 +168,31 @@ public class ShopController {
      * @return
      */
     @RequestMapping(value = "/api/shop/sku/option/v1", method = {RequestMethod.POST})
-    public Result<Boolean> addSku(@RequestBody BatchDto batchDto) {
+    public Result<Boolean> option(@RequestBody BatchDto batchDto) {
+
         Asserts.notNull(batchDto.getShopId(), "店铺Id");
         Asserts.notNull(batchDto.getCategoryId(), "操作类型");
         Asserts.notNull(batchDto.getCreateTime(), "操作时间");
 
         Asserts.notEmpty(batchDto.getOperator(), "操作员");
+
         CollectionUtils.notEmpty(batchDto.getSkuList(), "sku列表");
         batchDto.getSkuList().forEach(skuDto -> {
             Asserts.notNull(skuDto.getSkuId(), "skuId");
             Asserts.notNull(skuDto.getQuantity(), "sku数量");
         });
+        BatchBo bo = BeanCopyUtils.convertClass(batchDto, BatchBo.class);
+        bo.setSkuList(batchDto.getSkuList().stream().map(skuDto -> new SkuBo(skuDto.getSkuId(), skuDto.getQuantity())).collect(Collectors.toList()));
         switch (getByValue(batchDto.getOption())) {
             case MAKE: //制作
                 Asserts.notNull(batchDto.getCategoryId(), "分类Id");
-                return new Success<Boolean>(batchService.addBatch(BeanCopyUtils.convertClass(batchDto, BatchBo.class)));
+                return new Success<Boolean>(batchService.addBatch(bo));
             case LOSS: //报损
                 Asserts.notNull(batchDto.getBatchId(), "批次号");
-                return new Success<Boolean>(batchService.batchLoss(BeanCopyUtils.convertClass(batchDto, BatchBo.class)));
+                return new Success<Boolean>(batchService.batchLoss(bo));
             case ABORT: //废弃
                 Asserts.notNull(batchDto.getBatchId(), "批次号");
-                return new Success<Boolean>(batchService.batchAbort(BeanCopyUtils.convertClass(batchDto, BatchBo.class)));
+                return new Success<Boolean>(batchService.batchAbort(bo));
             default:
                 return new Error<Boolean>("不支持的操作");
         }
