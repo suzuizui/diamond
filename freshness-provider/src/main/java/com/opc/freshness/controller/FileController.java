@@ -35,7 +35,7 @@ public class FileController {
     private static final String DATE_FORMAT = "yyyyMMdd";
     private static final String FILE_NAME = "制作统计";
     //表头
-    private static final String[] HEADER = {"商品名", "商品编号", "制作数量", "报损数量", "废弃率", "报损率"};
+    private static final String[] HEADER = {"商品名", "商品编号", "制作数量", "报损数量","废弃数量", "废弃率", "报损率"};
     @Resource
     private KindService kindService;
 
@@ -93,4 +93,5 @@ public class FileController {
             logger.error("exportMakeExcel error..", e);
         }
     }
+
 }
