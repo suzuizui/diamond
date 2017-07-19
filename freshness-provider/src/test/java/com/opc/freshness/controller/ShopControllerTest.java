@@ -1,20 +1,15 @@
+package com.opc.freshness.controller;
+
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
-import com.opc.freshness.Application;
 import com.opc.freshness.api.model.dto.BatchDto;
 import com.opc.freshness.api.model.dto.SkuDto;
 import com.opc.freshness.api.model.dto.SkuKindDto;
-import com.opc.freshness.controller.ShopController;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -26,14 +21,14 @@ import java.util.stream.Stream;
  * AUTHOR: qishang
  * DATE: 2017/7/18
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringApplicationConfiguration(classes = Application.class)
 //@WebAppConfiguration // 使用@WebIntegrationTest注解需要将@WebAppConfiguration注释掉
-@WebIntegrationTest("server.port:0")// 使用0表示端口号随机，也可以具体指定如8888这样的固定端口
+//@WebIntegrationTest("server.port:0")// 使用0表示端口号随机，也可以具体指定如8888这样的固定端口
 public class ShopControllerTest {
     TestRestTemplate template = new TestRestTemplate();
-    @Value("${local.server.port}")// 注入端口号
-    private int port;
+    //    @Value("${local.server.port}")// 注入端口号
+    private int port = 8080;
 
     @Test
     public void postitionByDeviceId() {
@@ -45,7 +40,7 @@ public class ShopControllerTest {
     @Test
     public void getStaff() {
         String url = "http://localhost:" + port + "/api/shop/staff/{cardCode}/v1";
-        String result = template.getForObject(url, String.class, "111");
+        String result = template.getForObject(url, String.class, "1");
         System.out.println(xml2JSON(result));
     }
 
