@@ -78,9 +78,9 @@ public class BatchBizImpl implements BatchBiz {
     @Override
     public Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo, Integer pageSize) {
         PageRequest pageRequest = new PageRequest();
-        pageRequest.setPage(new PageRequest.Page(pageNo, pageSize));
+        pageRequest.setPage(new PageRequest.Page(pageSize, pageNo));
         Pager.PageData pageData = new Pager.PageData(pageNo, pageSize, batchStateMapper.selectVoCount(shopId, statusList));
-        return new Pager<BatchLogVo>(pageData, batchStateMapper.selectVoList(shopId, statusList, pageRequest));
+        return new Pager<BatchLogVo>(pageData,batchStateMapper.selectVoList(shopId, statusList, pageRequest));
     }
 
     @Override

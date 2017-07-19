@@ -63,7 +63,7 @@
         WHERE
         <include refid="selectVoWhere"/>
         ORDER BY create_time DESC
-        LIMIT #{page.limit,jdbcType=INTEGER} ,#{page.offset,jdbcType=INTEGER}
+        LIMIT #{page.offset,jdbcType=INTEGER} ,#{page.limit,jdbcType=INTEGER}
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
