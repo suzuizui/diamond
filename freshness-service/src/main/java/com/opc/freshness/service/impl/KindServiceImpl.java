@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
 import com.opc.freshness.domain.bo.SkuCountBo;
+import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.bo.SkuKindBo;
 import com.opc.freshness.domain.bo.SkuMakeBo;
 import com.opc.freshness.domain.po.BatchPo;
@@ -133,5 +134,18 @@ public class KindServiceImpl implements KindService {
                 .sorted(Comparator.comparing(Map.Entry::getKey))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 获得某个品类下sku流水信息
+     *
+     * @param shopId
+     * @param categoryId
+     * @param date
+     * @return
+     */
+    @Override
+    public List<SkuDetailBo> skuDetailInfoList(Integer shopId, Integer categoryId, Date date) {
+        return null;
     }
 }

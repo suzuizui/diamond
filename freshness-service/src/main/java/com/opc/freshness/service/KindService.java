@@ -1,5 +1,6 @@
 package com.opc.freshness.service;
 
+import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.bo.SkuKindBo;
 import com.opc.freshness.domain.bo.SkuMakeBo;
 import com.opc.freshness.domain.po.KindPo;
@@ -55,7 +56,7 @@ public interface KindService {
     List<SkuVo> selectSkuList(Integer shopId, Integer categoryId);
 
     /**
-     * 获得sku制作统计信息
+     * 获得某个品类下sku制作统计信息
      *
      * @param shopId
      * @param categoryId
@@ -63,4 +64,13 @@ public interface KindService {
      * @return
      */
     List<SkuMakeBo> skuMakeInfoList(Integer shopId, Integer categoryId, Date date);
+
+    /**
+     * 获得某个品类下sku流水信息
+     * @param shopId
+     * @param categoryId
+     * @param date
+     * @return
+     */
+    List<SkuDetailBo> skuDetailInfoList(Integer shopId, Integer categoryId, Date date);
 }

@@ -35,7 +35,8 @@ public class FileController {
     private static final String DATE_FORMAT = "yyyyMMdd";
     private static final String FILE_NAME = "制作统计";
     //表头
-    private static final String[] HEADER = {"商品名", "商品编号", "制作数量", "报损数量","废弃数量", "废弃率", "报损率"};
+    private static final String[] HEADER = {"商品名", "商品编号", "制作数量", "报损数量", "废弃数量", "废弃率", "报损率"};
+    private static final String[] DETAIL_HEADER = {"商品名", "制作人", "制作时间", "温度℃", "理论废弃时间", "实际废弃时间", "废弃个数", "废弃人"};
     @Resource
     private KindService kindService;
 
@@ -94,4 +95,58 @@ public class FileController {
         }
     }
 
+    /**
+     * 导出明细列表
+     *
+     * @param shopId     卡号
+     * @param date       查询日期
+     * @param categoryId 品类Id
+     * @return
+     */
+    @RequestMapping(value = "/api/export/detail/v1", method = RequestMethod.GET)
+    public void exportDetailExcel(HttpServletRequest request, HttpServletResponse response,
+                                  @RequestParam Integer shopId,
+                                  @RequestParam Integer categoryId,
+                                  @RequestParam Date date) throws IOException {
+        logger.info("exportDetailExcel shopId:{} categoryId:{} date:{}", shopId, categoryId, date);
+        //准备数据
+        List<SkuMakeBo> boList = kindService.skuMakeInfoList(shopId, categoryId, date);
+        KindPo po = kindService.selectByPrimaryKey(categoryId);
+        //组装
+        String codedFileName = URLEncoder.encode(po.getName() + FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);
+
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("content-disposition", "attachment;filename=" + codedFileName + ".xls");
+        try (
+                OutputStream fout = response.getOutputStream()
+        ) {
+            // 产生工作簿对象
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            //产生工作表对象
+            HSSFSheet sheet = workbook.createSheet();
+            //创建表头
+            HSSFRow headRow = sheet.createRow(0);
+            for (int i = 0; i < DETAIL_HEADER.length; i++) {
+                headRow.createCell(i, CellType.STRING).setCellValue(HEADER[i]);
+            }
+            //填充数据
+            for (int i = 0; i < boList.size(); i++) {
+                SkuMakeBo makeBo = boList.get(0);
+                HSSFRow row = sheet.createRow(i + 1);
+                int j = 0;
+                row.createCell(j++, CellType.STRING).setCellValue(makeBo.getSkuName());
+                row.createCell(j++, CellType.NUMERIC).setCellValue(makeBo.getSkuId());
+                row.createCell(j++, CellType.NUMERIC).setCellValue(makeBo.getMakeCount());
+                row.createCell(j++, CellType.NUMERIC).setCellValue(makeBo.getLossCount());
+                row.createCell(j++, CellType.NUMERIC).setCellValue(makeBo.getAbortCount());
+                row.createCell(j++, CellType.STRING).setCellValue(makeBo.getAbortPercent());
+                row.createCell(j, CellType.STRING).setCellValue(makeBo.getLossPercent());
+            }
+            //输出
+            workbook.write(fout);
+
+        } catch (Exception e) {
+            logger.error("exportMakeExcel error..", e);
+        }
+    }
 }
