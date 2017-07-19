@@ -25,15 +25,15 @@ public class SkuMakeBo {
     /**
      * 制作数量
      */
-    private Integer makeCount;
+    private int makeCount;
     /**
      * 废弃数量
      */
-    private Integer abortCount;
+    private int abortCount;
     /**
      * 报损数量
      */
-    private Integer lossCount;
+    private int lossCount;
 
     public SkuMakeBo(Integer id, Integer skuId, String skuName, Integer makeCount) {
         this.id = id;
@@ -43,15 +43,17 @@ public class SkuMakeBo {
     }
 
     public String getAbortPercent() {
-        if (makeCount == null || abortCount == null) {
-            return null;
+        if (makeCount ==0){
+            return new BigDecimal(0).toString() + "%";
+
         }
         return new BigDecimal(abortCount).divide(new BigDecimal(makeCount), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString() + "%";
     }
 
     public String getLossPercent() {
-        if (makeCount == null || lossCount == null) {
-            return null;
+        if (makeCount ==0){
+            return new BigDecimal(0).toString() + "%";
+
         }
         return new BigDecimal(lossCount).divide(new BigDecimal(makeCount), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString() + "%";
     }

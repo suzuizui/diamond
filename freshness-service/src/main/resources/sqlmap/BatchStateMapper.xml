@@ -208,7 +208,7 @@
             sum(a.quantity) AS count
         FROM freshness_batch_state a
             LEFT JOIN freshness_batch b ON a.batch_id = b.id
-            LEFT JOIN freshness_sku_kind c ON a.sku_id = c.sku_id AND a.shop_id = c.shop_id
+            LEFT JOIN freshness_sku_kind c ON a.sku_id = c.sku_id AND a.shop_id = c.shop_id AND b.kinds_id =c.kind_id
         WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
               AND a.status = #{status,jdbcType=INTEGER}
               AND b.kinds_id = #{kindId,jdbcType=INTEGER}
