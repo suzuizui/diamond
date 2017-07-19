@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <jmxConfigurator/>
+
+    <property resource="application.properties" />
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- default 日志输出，按照每天生成日志文件 -->
+    <appender name="DEFAULT-APPENDER"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/${spring.application.name}/default.log</file>  
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${log.path}/${spring.application.name}/default.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy> 
+	    <encoder>  
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n</pattern>
+	    </encoder> 
+    </appender>
+    
+     <!-- error 日志输出，按照每天生成日志文件 -->
+    <appender name="ERROR-APPENDER"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/${spring.application.name}/error.log</file>  
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${log.path}/${spring.application.name}/error.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy> 
+	    <encoder>  
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n</pattern>
+	    </encoder> 
+    	<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 打印warn日志 -->  
+	        <level>WARN</level>  
+	        <onMatch>ACCEPT</onMatch>  
+   		</filter>
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 打印error日志 -->  
+	        <level>ERROR</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+    	</filter>
+    </appender>
+    
+    <!-- provider 日志输出，按照每天生成日志文件 -->
+    <appender name="PROVIDER-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+	    <file>${log.path}/${spring.application.name}/provider.log</file>  
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${log.path}/${spring.application.name}/provider.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy> 
+	    <encoder>  
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n</pattern>
+	    </encoder>  
+	</appender>  
+	
+	<!-- service 日志输出，按照每天生成日志文件 -->
+    <appender name="SERVICE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+	    <file>${log.path}/${spring.application.name}/service.log</file>  
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${log.path}/${spring.application.name}/service.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy> 
+	    <encoder>  
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n</pattern>
+	    </encoder>  
+	</appender>
+	
+	 <!-- httpMonitoer日志文件 -->
+    <appender name="Monitor-APPENDER"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/${spring.application.name}/http-monitor.log</file>  
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${log.path}/${spring.application.name}/http-monitor.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy> 
+	    <encoder>  
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n</pattern>
+	    </encoder> 
+    </appender>
+	  
+	<logger name="com.opc.freshness.controller" additivity="true">
+		<level value="info" />
+		<appender-ref ref="PROVIDER-APPENDER" />
+        <appender-ref ref="ERROR-APPENDER" />
+	</logger>
+	
+	<logger name="com.opc.freshness.service" additivity="true">
+		<level value="info" />
+		<appender-ref ref="SERVICE-APPENDER" />
+		<appender-ref ref="DEFAULT-APPENDER" />
+		<appender-ref ref="ERROR-APPENDER" />
+	</logger>
+	
+    <root level="INFO">
+        <appender-ref ref="DEFAULT-APPENDER" />
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
