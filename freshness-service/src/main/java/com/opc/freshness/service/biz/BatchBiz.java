@@ -102,4 +102,6 @@ public interface BatchBiz {
      * @return
      */
     List<SkuDetailBo> skuDetailInfoListByBatchId(Integer batchId);
+
+    List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit);
 }

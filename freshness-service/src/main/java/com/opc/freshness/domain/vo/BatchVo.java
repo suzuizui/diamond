@@ -38,6 +38,10 @@ public class BatchVo {
      * 颜色
      */
     private String tag;
+    /**
+     * 制作时间
+     */
+    private Date createTime;
 
     /**
      * 预计废弃时间
@@ -47,6 +51,11 @@ public class BatchVo {
      * skuList
      */
     private List<SkuVo> skuList;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getCreateTime() {
+        return createTime;
+    }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getExpiredTime() {

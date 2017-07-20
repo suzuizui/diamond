@@ -57,6 +57,7 @@ public class BatchServiceImpl implements BatchService {
         return batchBiz.selectMakeAndAbortList(shopId);
     }
 
+
     @Override
     public BatchPo selectByPrimaryKey(Integer batchId) {
         return batchBiz.selectByPrimaryKey(batchId);
@@ -87,6 +88,12 @@ public class BatchServiceImpl implements BatchService {
                                         .build())
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    @Override
+    public List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit) {
+
+        return batchBiz.batchListBySkuIdAndKindId(skuId,categoryId,limit);
     }
 
     @Override

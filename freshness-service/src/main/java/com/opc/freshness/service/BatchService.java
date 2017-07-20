@@ -61,6 +61,15 @@ public interface BatchService {
      */
     List<BatchPo> selectMakeAndAbortList(Integer shopId);
 
+    /**
+     * 批次列表
+     *
+     * @param skuId
+     * @param categoryId
+     * @return
+     */
+    List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit);
+
 
     /**
      * @param shopId     门店Id
@@ -70,4 +79,5 @@ public interface BatchService {
      * @return
      */
     Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo, Integer pageSize);
+
 }

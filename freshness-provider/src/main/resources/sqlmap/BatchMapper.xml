@@ -45,7 +45,7 @@
         from freshness_batch
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectLastNGroupByKindAndFlag" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectLastNGroupByKindAndFlag" resultMap="BaseResultMap">
         SELECT
         <include refid="alias_Column_List"/>
         FROM freshness_batch f
@@ -82,6 +82,18 @@
             AND date(create_time) = date(#{createTime,jdbcType=TIMESTAMP})
         </if>
     </select>
+    <select id="batchListBySkuIdAndKindId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM freshness_batch
+        WHERE id IN (SELECT DISTINCT batch_id FROM freshness_batch_state a WHERE a.sku_id = #{skuId,jdbcType=INTEGER})
+        AND kinds_id = #{kindId,jdbcType=INTEGER}
+        order by create_time desc
+        <if test="limit!=null">
+            limit 0,#{limit,jdbcType=INTEGER}
+        </if>
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM freshness_batch
         WHERE id = #{id,jdbcType=INTEGER}

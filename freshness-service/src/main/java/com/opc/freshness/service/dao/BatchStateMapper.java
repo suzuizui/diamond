@@ -3,6 +3,7 @@ package com.opc.freshness.service.dao;
 import com.opc.freshness.common.util.PageRequest;
 import com.opc.freshness.domain.bo.SkuCountBo;
 import com.opc.freshness.domain.bo.SkuDetailBo;
+import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.vo.BatchLogVo;
 import org.apache.ibatis.annotations.Mapper;

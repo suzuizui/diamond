@@ -11,6 +11,7 @@ import com.opc.freshness.domain.vo.BatchLogVo;
 import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.dao.BatchMapper;
 import com.opc.freshness.service.dao.BatchStateMapper;
+import com.sun.org.apache.regexp.internal.RE;
 import com.wormpex.biz.BizException;
 import com.wormpex.biz.BizTemplate;
 import com.wormpex.cvs.root.bundles.lang.WAssert;
@@ -98,6 +99,11 @@ public class BatchBizImpl implements BatchBiz {
     @Override
     public List<SkuDetailBo> skuDetailInfoListByBatchId(Integer batchId) {
         return batchStateMapper.skuDetailInfoListByBatchId(batchId);
+    }
+
+    @Override
+    public List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit) {
+        return batchMapper.batchListBySkuIdAndKindId(skuId,categoryId,limit);
     }
 
     /**

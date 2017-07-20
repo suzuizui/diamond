@@ -162,6 +162,31 @@ public class ShopController {
     }
 
     /**
+     * 通过SkuId和大类Id获取批次列表
+     *
+     * @param skuId
+     * @param categoryId
+     * @return
+     */
+    @RequestMapping(value = "/api/shop/batch/list/last2/v1", method = RequestMethod.POST)
+    public Result<List<BatchVo>> batchListBySkuIdAndKindId(
+            @RequestParam Integer skuId,
+            @RequestParam Integer categoryId) {
+        return new Success<List<BatchVo>>(
+                batchService.batchListBySkuIdAndKindId(skuId, categoryId, 2)
+                        .stream()
+                        .map(po -> BatchVo.builder()
+                                .batchId(po.getId())
+                                .batchName(po.getName())
+                                .quanity(po.getTotalCount())
+                                .createTime(po.getCreateTime())
+                                .expiredTime(po.getExpiredTime())
+                                .categoryId(po.getKindsId())
+                                .build())
+                        .collect(Collectors.toList()));
+    }
+
+    /**
      * 操作批次
      *
      * @param batchDto
@@ -263,9 +288,9 @@ public class ShopController {
                 .categoryId(1)
                 .status(1)
                 .quanity(10)
+                .createTime(new Date())
                 .expiredTime(new Date())
-                .skuList(Lists.newArrayList(SkuVo.builder().skuId(1).skuName("test1").imgUrl("www.www.www").count(5).abortCount(5).build()))
                 .build();
-        System.out.println(JsonUtils.toJsonString(new Success<>(vo)));
+        System.out.println(JsonUtils.toJsonString(new Success<>(Lists.newArrayList(vo))));
     }
 }
