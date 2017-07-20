@@ -9,6 +9,7 @@ import java.util.Date;
  */
 @Data
 public class SkuDetailBo {
+    private Integer id;
     /**
      * sku编号
      */

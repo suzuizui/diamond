@@ -2,6 +2,7 @@ package com.opc.freshness.service.biz;
 
 import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.SkuCountBo;
+import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.vo.BatchLogVo;
@@ -85,4 +86,13 @@ public interface BatchBiz {
      * @return
      */
     List<SkuCountBo> selectSkuCountByStatus(Integer shopId, Integer kindId, Date date, int staus);
+
+    /**
+     * 查询某大类下的流水明细
+     * @param shopId
+     * @param categoryId
+     * @param date
+     * @return
+     */
+    List<SkuDetailBo> skuDetailInfoList(Integer shopId, Integer categoryId, Date date);
 }

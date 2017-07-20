@@ -30,6 +30,18 @@
         <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
         <result column="count" property="count" jdbcType="INTEGER"/>
     </resultMap>
+    <resultMap id="SkuDetailResultMap" type="com.opc.freshness.domain.bo.SkuDetailBo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sku_id" property="skuId" jdbcType="INTEGER"/>
+        <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
+        <result column="maker" property="maker" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="extras" property="extras" jdbcType="VARCHAR"/>
+        <result column="expired_time" property="expiredTime" jdbcType="TIMESTAMP"/>
+        <result column="expired_real_time" property="expiredRealTime" jdbcType="TIMESTAMP"/>
+        <result column="expired_count" property="expiredCount" jdbcType="INTEGER"/>
+        <result column="aborter" property="aborter" jdbcType="VARCHAR"/>
+    </resultMap>
     <sql id="Base_Column_List">
         id, batch_id, shop_id, status, sku_id, sku_name, sku_stock, img_url, quantity, operator, create_time
     </sql>
@@ -208,11 +220,32 @@
             sum(a.quantity) AS count
         FROM freshness_batch_state a
             LEFT JOIN freshness_batch b ON a.batch_id = b.id
-            LEFT JOIN freshness_sku_kind c ON a.sku_id = c.sku_id AND a.shop_id = c.shop_id AND b.kinds_id =c.kind_id
+            LEFT JOIN freshness_sku_kind c ON a.sku_id = c.sku_id AND a.shop_id = c.shop_id AND b.kinds_id = c.kind_id
         WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
               AND a.status = #{status,jdbcType=INTEGER}
               AND b.kinds_id = #{kindId,jdbcType=INTEGER}
               AND date(b.create_time) = date(#{date,jdbcType=TIMESTAMP})
         GROUP BY sku_id;
+    </select>
+    <select id="skuDetailInfoList" resultMap="SkuDetailResultMap">
+        SELECT
+            a.id                AS id,
+            a.sku_id            AS sku_id,
+            a.sku_name          AS sku_name,
+            a.operator          AS maker,
+            a.create_time       AS create_time,
+            b.extras            AS extras,
+            b.expired_time      AS expired_time,
+            b.expired_real_time AS expired_real_time,
+            c.quantity          AS expired_count,
+            c.operator          AS aborter
+        FROM freshness_batch_state a
+            LEFT JOIN freshness_batch b ON a.batch_id = b.id
+            INNER JOIN freshness_batch_state c ON a.batch_id = c.batch_id AND c.status = 5
+        WHERE a.shop_id = #{shopId,jdbcType=VARCHAR}
+              AND a.status = 1
+              AND b.kinds_id = #{kindId,jdbcType=INTEGER}
+              AND b.create_time = date(#{date,,jdbcType=TIMESTAMP})
+        ORDER BY a.create_time ASC
     </select>
 </mapper>

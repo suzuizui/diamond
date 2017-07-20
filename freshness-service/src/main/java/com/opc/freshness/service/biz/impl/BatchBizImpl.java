@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.opc.freshness.common.util.PageRequest;
 import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.SkuCountBo;
+import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.vo.BatchLogVo;
@@ -87,6 +88,11 @@ public class BatchBizImpl implements BatchBiz {
     @Override
     public List<SkuCountBo> selectSkuCountByStatus(Integer shopId, Integer kindId, Date date, int staus) {
         return batchStateMapper.selectSkuCountByStatus(shopId, kindId, date, staus);
+    }
+
+    @Override
+    public List<SkuDetailBo> skuDetailInfoList(Integer shopId, Integer categoryId, Date date) {
+        return batchStateMapper.skuDetailInfoList(shopId,categoryId,date);
     }
 
     /**

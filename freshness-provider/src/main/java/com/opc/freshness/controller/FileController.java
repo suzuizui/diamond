@@ -3,8 +3,11 @@ package com.opc.freshness.controller;
 import com.opc.freshness.common.util.DateUtils;
 import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.bo.SkuMakeBo;
+import com.opc.freshness.domain.po.BatchPoExtras;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.service.KindService;
+import com.wormpex.inf.wmq.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -34,10 +37,11 @@ public class FileController {
     private final static Logger logger = LoggerFactory.getLogger(FileController.class);
 
     private static final String DATE_FORMAT = "yyyyMMdd";
+    private static final String DATE_FORMAT2 = "yyyy-MM-dd hh:mm";
     private static final String FILE_NAME = "制作统计";
     //表头
     private static final String[] HEADER = {"商品名", "商品编号", "制作数量", "报损数量", "废弃数量", "废弃率", "报损率"};
-    private static final String[] DETAIL_HEADER = {"商品名", "制作人", "制作时间", "温度℃", "理论废弃时间", "实际废弃时间", "废弃个数", "废弃人"};
+    private static final String[] DETAIL_HEADER = {"商品名", "商品编号", "制作人", "制作时间", "温度℃", "理论废弃时间", "实际废弃时间", "废弃个数", "废弃人"};
     @Resource
     private KindService kindService;
 
@@ -135,6 +139,30 @@ public class FileController {
                 SkuDetailBo detailBo = boList.get(0);
                 HSSFRow row = sheet.createRow(i + 1);
                 int j = 0;
+                row.createCell(j++, CellType.STRING).setCellValue(detailBo.getSkuName());
+                row.createCell(j++, CellType.NUMERIC).setCellValue(detailBo.getSkuId());
+                row.createCell(j++, CellType.STRING).setCellValue(detailBo.getMaker());
+                row.createCell(j++, CellType.STRING).setCellValue(DateUtils.format(detailBo.getCreateTime(), DATE_FORMAT2));
+                //设置温度
+                if (j++ > 0 && StringUtils.isNotBlank(detailBo.getExtras())) {
+                    BatchPoExtras extras = JsonUtils.toBean(detailBo.getExtras(), BatchPoExtras.class);
+                    if (extras.getDegree() != null)
+                        row.createCell(j, CellType.NUMERIC).setCellValue(extras.getDegree());
+                }
+                //设置理论废弃时间
+                row.createCell(j++, CellType.STRING).setCellValue(DateUtils.format(detailBo.getExpiredTime(), DATE_FORMAT2));
+                //设置实际废弃时间
+                if (j++ > 0 && detailBo.getExpiredRealTime() != null) {
+                    row.createCell(j, CellType.STRING).setCellValue(DateUtils.format(detailBo.getExpiredRealTime(), DATE_FORMAT2));
+                }
+                //设置废弃个数
+                if (j++ > 0 && detailBo.getExpiredCount() != null) {
+                    row.createCell(j++, CellType.NUMERIC).setCellValue(detailBo.getExpiredCount());
+                }
+                //设置废弃人
+                if (StringUtils.isNotBlank(detailBo.getAborter())) {
+                    row.createCell(j, CellType.STRING).setCellValue(detailBo.getAborter());
+                }
             }
             //输出
             workbook.write(fout);

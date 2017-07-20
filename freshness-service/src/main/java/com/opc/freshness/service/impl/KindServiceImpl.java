@@ -146,6 +146,7 @@ public class KindServiceImpl implements KindService {
      */
     @Override
     public List<SkuDetailBo> skuDetailInfoList(Integer shopId, Integer categoryId, Date date) {
-        return null;
+        logger.info("skuDetailInfoList shopId:{} categoryId:{} date:{}", shopId, categoryId, date);
+        return batchBiz.skuDetailInfoList(shopId,categoryId,date) ;
     }
 }

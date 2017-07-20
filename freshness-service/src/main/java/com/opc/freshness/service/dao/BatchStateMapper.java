@@ -2,6 +2,7 @@ package com.opc.freshness.service.dao;
 
 import com.opc.freshness.common.util.PageRequest;
 import com.opc.freshness.domain.bo.SkuCountBo;
+import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.vo.BatchLogVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,5 +27,7 @@ public interface BatchStateMapper {
 
     int updateByPrimaryKeySelective(BatchStatePo record);
 
-    List<SkuCountBo> selectSkuCountByStatus(@Param("shopId") Integer shopId, @Param("kindId") Integer kindId,@Param("date") Date date, @Param("status") int staus);
+    List<SkuCountBo> selectSkuCountByStatus(@Param("shopId") Integer shopId, @Param("kindId") Integer kindId, @Param("date") Date date, @Param("status") int staus);
+
+    List<SkuDetailBo> skuDetailInfoList(@Param("shopId") Integer shopId, @Param("kindId") Integer kindId, @Param("date") Date date);
 }
