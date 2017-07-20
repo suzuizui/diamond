@@ -27,8 +27,8 @@ public class SkuController {
      * @param shopName
      * @param skuId
      * @param skuName
-     * @param peakTime
-     * @param adviseCount
+     * @param peakTime    1.早高峰 2.午高峰 3.晚高峰
+     * @param adviseCount 预测个数
      * @param saleDay
      * @return
      */
@@ -46,10 +46,11 @@ public class SkuController {
 
     /**
      * 添加sku特殊规则
+     *
      * @param skuId
      * @param kindId
-     * @param delay
-     * @param expired
+     * @param delay   开始制作后延迟时间 分钟
+     * @param expired 过期时间 分钟
      * @return
      */
     @RequestMapping(value = " /api/sku/rules/add", method = RequestMethod.POST)
@@ -58,6 +59,6 @@ public class SkuController {
             @RequestParam Integer kindId,
             @RequestParam Integer delay,
             @RequestParam Integer expired) {
-        return new Success<Boolean>(saleService.addSkuTime(skuId,kindId,delay,expired));
+        return new Success<Boolean>(saleService.addSkuTime(skuId, kindId, delay, expired));
     }
 }

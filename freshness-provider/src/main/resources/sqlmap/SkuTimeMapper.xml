@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.opc.freshness.service.dao.SkuTimeMapper">
+    <resultMap id="BaseResultMap" type="com.opc.freshness.domain.po.SkuTimePo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sku_id" property="skuId" jdbcType="INTEGER"/>
+        <result column="kind_id" property="kindId" jdbcType="INTEGER"/>
+        <result column="delay" property="delay" jdbcType="INTEGER"/>
+        <result column="expired" property="expired" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, sku_id, kind_id, delay, expired, create_time, last_modify_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from freshness_sku_time
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectBySkuIdAndKindId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from freshness_sku_time
+        where sku_id = #{skuId,jdbcType=INTEGER}
+        and kind_id = #{kindId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM freshness_sku_time
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.opc.freshness.domain.po.SkuTimePo">
+        INSERT INTO freshness_sku_time (id, sku_id, kind_id, delay, expired)
+        VALUES
+            (#{id,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER},
+             #{kindId,jdbcType=INTEGER}, #{delay,jdbcType=INTEGER},
+             #{expired,jdbcType=INTEGER}
+            )
+        ON DUPLICATE KEY UPDATE delay = VALUES(delay), expired = VALUES(expired)
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.SkuTimePo">
+        update freshness_sku_time
+        <set>
+            <if test="skuId != null">
+                sku_id = #{skuId,jdbcType=INTEGER},
+            </if>
+            <if test="delay != null">
+                delay = #{delay,jdbcType=INTEGER},
+            </if>
+            <if test="expired != null">
+                expired = #{expired,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifyTime != null">
+                last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
