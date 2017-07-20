@@ -18,7 +18,7 @@ import java.util.Date;
 @RestController
 public class SkuController {
     @Resource
-    private SkuService saleService;
+    private SkuService skuService;
 
     /**
      * 添加sku销量预测信息
@@ -41,7 +41,7 @@ public class SkuController {
             @RequestParam Integer peakTime,
             @RequestParam Integer adviseCount,
             @RequestParam Date saleDay) {
-        return new Success<Boolean>(saleService.salePredictAdd(shopId, shopName, skuId, skuName, peakTime, adviseCount, saleDay));
+        return new Success<Boolean>(skuService.salePredictAdd(shopId, shopName, skuId, skuName, peakTime, adviseCount, saleDay));
     }
 
     /**
@@ -59,6 +59,6 @@ public class SkuController {
             @RequestParam Integer kindId,
             @RequestParam Integer delay,
             @RequestParam Integer expired) {
-        return new Success<Boolean>(saleService.addSkuTime(skuId, kindId, delay, expired));
+        return new Success<Boolean>(skuService.addSkuTime(skuId, kindId, delay, expired));
     }
 }

@@ -247,7 +247,7 @@
         WHERE a.shop_id = #{shopId,jdbcType=VARCHAR}
               AND a.status = 1
               AND b.kinds_id = #{kindId,jdbcType=INTEGER}
-              AND b.create_time = date(#{date,,jdbcType=TIMESTAMP})
+              AND b.create_time = date(#{date,jdbcType=TIMESTAMP})
         ORDER BY a.create_time ASC
     </select>
     <select id="skuDetailInfoListByBatchId" resultMap="SkuDetailResultMap">
