@@ -1,6 +1,7 @@
 package com.opc.freshness.controller;
 
 import com.opc.freshness.common.util.DateUtils;
+import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.bo.SkuMakeBo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.service.KindService;
@@ -110,7 +111,7 @@ public class FileController {
                                   @RequestParam Date date) throws IOException {
         logger.info("exportDetailExcel shopId:{} categoryId:{} date:{}", shopId, categoryId, date);
         //准备数据
-        List<SkuMakeBo> boList = kindService.skuMakeInfoList(shopId, categoryId, date);
+        List<SkuDetailBo> boList = kindService.skuDetailInfoList(shopId, categoryId, date);
         KindPo po = kindService.selectByPrimaryKey(categoryId);
         //组装
         String codedFileName = URLEncoder.encode(po.getName() + FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);
@@ -131,16 +132,9 @@ public class FileController {
             }
             //填充数据
             for (int i = 0; i < boList.size(); i++) {
-                SkuMakeBo makeBo = boList.get(0);
+                SkuDetailBo detailBo = boList.get(0);
                 HSSFRow row = sheet.createRow(i + 1);
                 int j = 0;
-                row.createCell(j++, CellType.STRING).setCellValue(makeBo.getSkuName());
-                row.createCell(j++, CellType.NUMERIC).setCellValue(makeBo.getSkuId());
-                row.createCell(j++, CellType.NUMERIC).setCellValue(makeBo.getMakeCount());
-                row.createCell(j++, CellType.NUMERIC).setCellValue(makeBo.getLossCount());
-                row.createCell(j++, CellType.NUMERIC).setCellValue(makeBo.getAbortCount());
-                row.createCell(j++, CellType.STRING).setCellValue(makeBo.getAbortPercent());
-                row.createCell(j, CellType.STRING).setCellValue(makeBo.getLossPercent());
             }
             //输出
             workbook.write(fout);
