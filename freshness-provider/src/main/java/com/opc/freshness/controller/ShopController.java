@@ -159,7 +159,7 @@ public class ShopController {
      * @param shopId
      * @return
      */
-    @RequestMapping(value = "/api/shop/batch/list/last2/v1", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/shop/batch/list/last2/v1", method = RequestMethod.GET)
     public Result<List<BatchVo>> batchListBySkuIdAndKindId(
             @RequestParam Integer skuId,
             @RequestParam Integer categoryId,
