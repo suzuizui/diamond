@@ -11,7 +11,6 @@ import com.opc.freshness.domain.vo.BatchLogVo;
 import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.dao.BatchMapper;
 import com.opc.freshness.service.dao.BatchStateMapper;
-import com.sun.org.apache.regexp.internal.RE;
 import com.wormpex.biz.BizException;
 import com.wormpex.biz.BizTemplate;
 import com.wormpex.cvs.root.bundles.lang.WAssert;
@@ -45,6 +44,7 @@ public class BatchBizImpl implements BatchBiz {
             protected void checkParams() {
                 WAssert.notNull(batch);
             }
+
             @Override
             protected Integer process() {
                 return batchMapper.insertSelective(batch);
@@ -65,7 +65,7 @@ public class BatchBizImpl implements BatchBiz {
     @Override
     public List<BatchPo> selectMakeAndAbortList(Integer shopId) {
         logger.info("selectMakeAndAbortList shopId:{}", shopId);
-        return batchMapper.selectLastNGroupByKindAndFlag(shopId, Lists.newArrayList(BatchPo.status.MAKING,BatchPo.status.TO_ABORT), 2);
+        return batchMapper.selectLastNGroupByKindAndFlag(shopId, Lists.newArrayList(BatchPo.status.MAKING, BatchPo.status.TO_ABORT), 2);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class BatchBizImpl implements BatchBiz {
         PageRequest pageRequest = new PageRequest();
         pageRequest.setPage(new PageRequest.Page(pageSize, pageNo));
         Pager.PageData pageData = new Pager.PageData(pageNo, pageSize, batchStateMapper.selectVoCount(shopId, statusList));
-        return new Pager<BatchLogVo>(pageData,batchStateMapper.selectVoList(shopId, statusList, pageRequest));
+        return new Pager<BatchLogVo>(pageData, batchStateMapper.selectVoList(shopId, statusList, pageRequest));
     }
 
     @Override
@@ -93,7 +93,7 @@ public class BatchBizImpl implements BatchBiz {
 
     @Override
     public List<SkuDetailBo> skuDetailInfoList(Integer shopId, Integer categoryId, Date date) {
-        return batchStateMapper.skuDetailInfoList(shopId,categoryId,date);
+        return batchStateMapper.skuDetailInfoList(shopId, categoryId, date);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class BatchBizImpl implements BatchBiz {
 
     @Override
     public List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit) {
-        return batchMapper.batchListBySkuIdAndKindId(skuId,categoryId,limit);
+        return batchMapper.batchListBySkuIdAndKindId(skuId, categoryId, limit);
     }
 
     /**

@@ -93,7 +93,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit) {
 
-        return batchBiz.batchListBySkuIdAndKindId(skuId,categoryId,limit);
+        return batchBiz.batchListBySkuIdAndKindId(skuId, categoryId, limit);
     }
 
     @Override
