@@ -8,6 +8,7 @@ import com.opc.freshness.common.Result;
 import com.opc.freshness.common.Success;
 import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
+import com.opc.freshness.common.util.DateUtils;
 import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.BatchBo;
 import com.opc.freshness.domain.bo.SkuBo;
@@ -41,7 +42,7 @@ import static com.opc.freshness.controller.ShopController.OperateType.getByValue
 @RestController
 public class ShopController {
     private final static Logger logger = LoggerFactory.getLogger(ShopController.class);
-
+    private final static String DATE_FORMAT= "yyyy-MM-dd HH:mm:ss";
     @Autowired
     private BatchService batchService;
     @Autowired
@@ -198,6 +199,7 @@ public class ShopController {
             Asserts.notNull(skuDto.getQuantity(), "sku数量");
         });
         BatchBo bo = BeanCopyUtils.convertClass(batchDto, BatchBo.class);
+        bo.setCreateTime(DateUtils.parse(batchDto.getCreateTime(),DATE_FORMAT));
         bo.setSkuList(batchDto.getSkuList().stream().map(skuDto -> new SkuBo(skuDto.getSkuId(), skuDto.getQuantity())).collect(Collectors.toList()));
         switch (getByValue(batchDto.getOption())) {
             case MAKE: //制作

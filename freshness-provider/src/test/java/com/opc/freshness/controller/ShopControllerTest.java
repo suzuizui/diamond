@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import com.opc.freshness.api.model.dto.BatchDto;
 import com.opc.freshness.api.model.dto.SkuDto;
 import com.opc.freshness.api.model.dto.SkuKindDto;
+import com.wormpex.api.json.JsonUtil;
+import com.wormpex.inf.wmq.utils.JsonUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -95,7 +97,7 @@ public class ShopControllerTest {
         dto.setOption(ShopController.OperateType.MAKE.getValue());
         dto.setCategoryId(1);
         dto.setOperator("张三");
-        dto.setCreateTime(new Date());
+        dto.setCreateTime("");
         dto.setUnit("个");
         dto.setDegree(10);
         dto.setTag("蓝");
@@ -104,7 +106,7 @@ public class ShopControllerTest {
         sku.setSkuId(2);
         sku.setQuantity(10);
         dto.setSkuList(Lists.newArrayList(sku));
-
+        System.out.println(JsonUtils.toJsonString(dto));
         String result = template.postForObject(url, dto, String.class);
 
         System.out.println(xml2JSON(result));
@@ -119,7 +121,7 @@ public class ShopControllerTest {
         dto.setBatchId(1);
         dto.setOption(ShopController.OperateType.LOSS.getValue());
         dto.setOperator("张三");
-        dto.setCreateTime(new Date());
+        dto.setCreateTime("");
 
         SkuDto sku = new SkuDto();
         sku.setSkuId(1);
@@ -141,7 +143,7 @@ public class ShopControllerTest {
         dto.setBatchId(1);
         dto.setOption(ShopController.OperateType.ABORT.getValue());
         dto.setOperator("张三");
-        dto.setCreateTime(new Date());
+        dto.setCreateTime("");
 
         SkuDto sku = new SkuDto();
         sku.setSkuId(1);
