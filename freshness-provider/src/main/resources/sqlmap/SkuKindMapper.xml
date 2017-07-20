@@ -129,7 +129,7 @@
                 #{lastMofifyTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
-        ON DUPLICATE KEY UPDATE
+        ON DUPLICATE KEY UPDATE sku_name = VALUES(sku_name) , img_url = VALUES(img_url)
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.SkuKindPo">
         update freshness_sku_kind
