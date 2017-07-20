@@ -115,7 +115,7 @@ public class FileController {
                                   @RequestParam Date date) throws IOException {
         logger.info("exportDetailExcel shopId:{} categoryId:{} date:{}", shopId, categoryId, date);
         //准备数据
-        List<SkuDetailBo> boList = kindService.skuDetailInfoList(shopId, categoryId, date,null);
+        List<SkuDetailBo> boList = kindService.skuDetailInfoList(shopId, categoryId, date);
         KindPo po = kindService.selectByPrimaryKey(categoryId);
         //组装
         String codedFileName = URLEncoder.encode(po.getName() + FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);

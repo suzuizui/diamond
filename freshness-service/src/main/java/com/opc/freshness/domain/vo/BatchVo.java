@@ -52,4 +52,6 @@ public class BatchVo {
     public Date getExpiredTime() {
         return expiredTime;
     }
+
+
 }

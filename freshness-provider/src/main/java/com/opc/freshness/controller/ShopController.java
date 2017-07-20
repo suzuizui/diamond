@@ -1,27 +1,5 @@
 package com.opc.freshness.controller;
 
-import static com.opc.freshness.controller.ShopController.OperateType.getByValue;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.opc.freshness.domain.bo.SkuBo;
-import com.opc.freshness.domain.bo.SkuDetailBo;
-import com.opc.freshness.domain.vo.*;
-import org.apache.http.util.Asserts;
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.google.common.collect.Lists;
 import com.opc.freshness.api.model.dto.BatchDto;
 import com.opc.freshness.api.model.dto.SkuKindDto;
@@ -32,15 +10,28 @@ import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
 import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.BatchBo;
+import com.opc.freshness.domain.bo.SkuBo;
 import com.opc.freshness.domain.bo.SkuKindBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.KindPo;
-import com.opc.freshness.domain.vo.BatchVo;
+import com.opc.freshness.domain.vo.*;
 import com.opc.freshness.service.BatchService;
 import com.opc.freshness.service.KindService;
 import com.opc.freshness.service.StaffService;
 import com.opc.freshness.service.integration.ShopService;
 import com.wormpex.cvs.product.api.bean.BeeShop;
+import com.wormpex.inf.wmq.utils.JsonUtils;
+import org.apache.http.util.Asserts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.opc.freshness.controller.ShopController.OperateType.getByValue;
 
 /**
  * AUTHOR: qishang
@@ -165,7 +156,7 @@ public class ShopController {
      *
      * @return
      */
-    @RequestMapping(value = "/api/shop/sku/setkinds/v1", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/shop/batch/detail/v1", method = RequestMethod.POST)
     public Result<BatchVo> batchDetail(@RequestParam Integer batchId) {
         return new Success<BatchVo>(batchService.skuDetailInfoListByBatchId(batchId));
     }
@@ -263,5 +254,18 @@ public class ShopController {
             }
             return null;
         }
+    }
+
+    public static void main(String[] args) {
+        BatchVo vo = BatchVo.builder()
+                .batchId(1)
+                .batchName("test")
+                .categoryId(1)
+                .status(1)
+                .quanity(10)
+                .expiredTime(new Date())
+                .skuList(Lists.newArrayList(SkuVo.builder().skuId(1).skuName("test1").imgUrl("www.www.www").count(5).abortCount(5).build()))
+                .build();
+        System.out.println(JsonUtils.toJsonString(new Success<>(vo)));
     }
 }
