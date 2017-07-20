@@ -5,7 +5,7 @@ import com.opc.freshness.domain.bo.*;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.po.SkuKindPo;
-import com.opc.freshness.domain.vo.PeakVo;
+import com.opc.freshness.domain.vo.SkuPeakVo;
 import com.opc.freshness.domain.vo.SkuVo;
 import com.opc.freshness.enums.PeakEnums;
 import com.opc.freshness.service.KindService;
@@ -87,7 +87,7 @@ public class KindServiceImpl implements KindService {
                                 .skuId(bo.getSkuId())
                                 .skuName(bo.getSkuName())
                                 .imgUrl(bo.getImgUrl())
-                                .peakInfo(PeakVo.builder()
+                                .peakInfo(SkuPeakVo.builder()
                                         .id(enums.getId())
                                         .name(enums.getName())
                                         .makeCount(map.get(bo.getSkuId()) != null && map.get(bo.getSkuId()).getCount() != null ? map.get(bo.getSkuId()).getCount() : 0)

@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class PeakVo {
+public class SkuPeakVo {
     /**
      * 高峰Id
      */

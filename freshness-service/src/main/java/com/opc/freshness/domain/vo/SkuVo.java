@@ -43,5 +43,5 @@ public class SkuVo {
     /**
      * 高峰信息
      */
-    private PeakVo peakInfo;
+    private SkuPeakVo peakInfo;
 }
