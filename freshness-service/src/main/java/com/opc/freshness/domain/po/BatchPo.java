@@ -33,6 +33,10 @@ public class BatchPo {
      */
     private Integer status;
     /**
+     *  延迟到期时间
+     */
+    private Date delayTime;
+    /**
      * 预计废弃时间
      */
     private Date expiredTime;

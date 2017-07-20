@@ -1,5 +1,7 @@
 package com.opc.freshness.service.biz;
 
+import com.opc.freshness.domain.po.SkuTimePo;
+
 import java.util.Date;
 
 /**
@@ -30,4 +32,6 @@ public interface SkuBiz {
      * @return
      */
     Boolean addSkuTime(Integer skuId, Integer kindId, Integer delay, Integer expired);
+
+    SkuTimePo selectRuleBySkuIdAndKindId(Integer SkuId,Integer kindId);
 }

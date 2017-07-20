@@ -45,4 +45,9 @@ public class SkuBizImpl implements SkuBiz {
         skuTimeMapper.insert(po);
         return true;
     }
+
+    @Override
+    public SkuTimePo selectRuleBySkuIdAndKindId(Integer SkuId, Integer kindId) {
+        return skuTimeMapper.selectBySkuIdAndKindId(SkuId,kindId);
+    }
 }

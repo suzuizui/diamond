@@ -6,16 +6,14 @@ import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.BatchBo;
 import com.opc.freshness.domain.bo.SkuBo;
 import com.opc.freshness.domain.bo.SkuDetailBo;
-import com.opc.freshness.domain.po.BatchPo;
-import com.opc.freshness.domain.po.BatchPoExtras;
-import com.opc.freshness.domain.po.BatchStatePo;
-import com.opc.freshness.domain.po.KindPo;
+import com.opc.freshness.domain.po.*;
 import com.opc.freshness.domain.vo.BatchLogVo;
 import com.opc.freshness.domain.vo.BatchVo;
 import com.opc.freshness.domain.vo.SkuVo;
 import com.opc.freshness.service.BatchService;
 import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.biz.KindBiz;
+import com.opc.freshness.service.biz.SkuBiz;
 import com.opc.freshness.service.biz.impl.BatchBizImpl;
 import com.opc.freshness.service.integration.ProductService;
 import com.opc.freshness.service.integration.ShopService;
@@ -48,6 +46,8 @@ public class BatchServiceImpl implements BatchService {
     private BatchBiz batchBiz;
     @Resource
     private KindBiz kindBiz;
+    @Resource
+    private SkuBiz skuBiz;
 
     @Override
     public List<BatchPo> selectMakeAndAbortList(Integer shopId) {
@@ -117,8 +117,16 @@ public class BatchServiceImpl implements BatchService {
         // 制作时间精确到分钟
         batchPo.setCreateTime(DateUtils.formatToMin(batchBo.getCreateTime()));
         // 预计过期时间 = 制作时间+延迟时间+过期时间
-        batchPo.setExpiredTime(
-                new Date(DateUtils.addMin(batchPo.getCreateTime(), kind.getDelay() + kind.getExpired().intValue())));
+        SkuTimePo skuTimePo = skuBiz.selectRuleBySkuIdAndKindId(batchBo.getSkuList().get(0).getSkuId(), batchBo.getCategoryId());
+        if (batchBo.getSkuList().size() != 1 || skuTimePo == null) {
+            //如果批次有多个sku或者没有sku特殊规则
+            batchPo.setDelayTime(new Date(DateUtils.addMin(batchPo.getCreateTime(), kind.getDelay())));
+            batchPo.setExpiredTime(new Date(DateUtils.addMin(batchPo.getCreateTime(), kind.getExpired().intValue())));
+        } else {
+            //如果有特殊规则
+            batchPo.setDelayTime(new Date(DateUtils.addMin(batchPo.getCreateTime(), skuTimePo.getDelay())));
+            batchPo.setExpiredTime(new Date(DateUtils.addMin(batchPo.getCreateTime(), skuTimePo.getExpired())));
+        }
         // 设置状态
         batchPo.setStatus(BatchPo.status.MAKING);
         // 设置拓展字段
@@ -171,7 +179,7 @@ public class BatchServiceImpl implements BatchService {
      * @return 所有记录中的quantity的和
      */
     @Transactional
-    private int addBatchStateLog(BatchPo batch, final BatchBo batchBo, int stauts) {
+    int addBatchStateLog(BatchPo batch, final BatchBo batchBo, int stauts) {
         // log集合
         List<BatchStatePo> logs = new ArrayList<>(batchBo.getSkuList().size());
         // skuId集合
@@ -194,7 +202,7 @@ public class BatchServiceImpl implements BatchService {
             state.setSkuId(sku.getId());
             state.setSkuStock(shopSku.getSaleCount());
             state.setSkuName(sku.getPropInfo().getDisplayName());
-            state.setImgUrl(sku.getImages().stream().findFirst().get().getImageUrl());
+            state.setImgUrl(sku.getImages().isEmpty()?null:sku.getImages().get(0).getImageUrl());
 
             state.setOperator(batchBo.getOperator());
 

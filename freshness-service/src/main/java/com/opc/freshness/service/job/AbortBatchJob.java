@@ -1,6 +1,5 @@
 package com.opc.freshness.service.job;
 
-import com.opc.freshness.common.util.DateUtils;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.service.biz.BatchBiz;
@@ -97,7 +96,7 @@ public class AbortBatchJob {
                         Long preEndTime;
                         switch (targetStatus) {
                             case BatchPo.status.SALING:
-                                preEndTime = DateUtils.addMin(batchPo.getCreateTime(), skuKind.getDelay());
+                                preEndTime = batchPo.getDelayTime().getTime();
                                 break;
                             case BatchPo.status.TO_ABORT:
                                 preEndTime = batchPo.getExpiredTime().getTime();
@@ -111,7 +110,7 @@ public class AbortBatchJob {
                             logger.info(processName + " 批次过期 batchId:{}", batchPo.getId());
 
                             batchPo.setStatus(targetStatus);
-                            if (targetStatus == BatchPo.status.TO_ABORT){
+                            if (targetStatus == BatchPo.status.TO_ABORT) {
                                 batchPo.setExpiredRealTime(new Date());
                             }
                             batchBiz.updateBatchByPrimaryKeyLock(batchPo);

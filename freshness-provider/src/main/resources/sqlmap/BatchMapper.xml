@@ -8,6 +8,7 @@
         <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
         <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="delay_time" jdbcType="TIMESTAMP" property="delayTime"/>
         <result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime"/>
         <result column="expired_real_time" jdbcType="TIMESTAMP" property="expiredRealTime"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -19,10 +20,10 @@
         <result column="group_flag" jdbcType="VARCHAR" property="groupFlag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, name, kinds_id, shop_id, shop_name, status, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count, extras, group_flag
+        id, name, kinds_id, shop_id, shop_name, status, delay_time, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count, extras, group_flag
     </sql>
     <sql id="alias_Column_List">
-        f.id, f.name, f.kinds_id, f.shop_id, f.shop_name, f.status, f.expired_time, f.expired_real_time, f.create_time, f.last_modify_time, f.total_count, f.expired_count, f.break_count, f.extras, f.group_flag
+        f.id, f.name, f.kinds_id, f.shop_id, f.shop_name, f.status, f.delay_time, f.expired_time, f.expired_real_time, f.create_time, f.last_modify_time, f.total_count, f.expired_count, f.break_count, f.extras, f.group_flag
     </sql>
     <sql id="selectLastNGroupByKindAndFlagSubQuery">
         SELECT
@@ -121,6 +122,9 @@
             <if test="status != null">
                 status,
             </if>
+            <if test="delayTime != null">
+                delay_time,
+            </if>
             <if test="expiredTime != null">
                 expired_time,
             </if>
@@ -167,6 +171,9 @@
             </if>
             <if test="status != null">
                 #{status,jdbcType=INTEGER},
+            </if>
+            <if test="delayTime != null">
+                #{delayTime,jdbcType=TIMESTAMP},
             </if>
             <if test="expiredTime != null">
                 #{expiredTime,jdbcType=TIMESTAMP},
@@ -215,8 +222,8 @@
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
             </if>
-            <if test="expiredTime != null">
-                expired_time = #{expiredTime,jdbcType=TIMESTAMP},
+            <if test="delayTime != null">
+                delay_time = #{delayTime,jdbcType=TIMESTAMP},
             </if>
             <if test="expiredRealTime != null">
                 expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
