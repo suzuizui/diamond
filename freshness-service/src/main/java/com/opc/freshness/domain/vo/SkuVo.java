@@ -25,6 +25,14 @@ public class SkuVo {
      */
     private String imgUrl;
     /**
+     * 个数
+     */
+    private Integer count;
+    /**
+     * 废弃数量
+     */
+    private Integer abortCount;
+    /**
      * 品类信息
      */
     private List<KindVo> categories;

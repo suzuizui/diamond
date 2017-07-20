@@ -149,4 +149,8 @@ public class KindServiceImpl implements KindService {
         logger.info("skuDetailInfoList shopId:{} categoryId:{} date:{}", shopId, categoryId, date);
         return batchBiz.skuDetailInfoList(shopId,categoryId,date) ;
     }
+    public List<SkuDetailBo> skuDetailInfoListByBatchId(Integer batchId) {
+        logger.info("skuDetailInfoListByBatchId  batchId:{}",batchId);
+        return batchBiz.skuDetailInfoListByBatchId(batchId) ;
+    }
 }

@@ -2,12 +2,15 @@ package com.opc.freshness.controller;
 
 import static com.opc.freshness.controller.ShopController.OperateType.getByValue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.opc.freshness.domain.bo.SkuBo;
+import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.vo.*;
 import org.apache.http.util.Asserts;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,6 +158,16 @@ public class ShopController {
             Asserts.notNull(categoryId, "品类Id");
         }
         return new Success<Boolean>(kindService.setkind(BeanCopyUtils.convertClass(skuKindDto, SkuKindBo.class)));
+    }
+
+    /**
+     * 查询批次明细
+     *
+     * @return
+     */
+    @RequestMapping(value = "/api/shop/sku/setkinds/v1", method = RequestMethod.POST)
+    public Result<BatchVo> batchDetail(@RequestParam Integer batchId) {
+        return new Success<BatchVo>(batchService.skuDetailInfoListByBatchId(batchId));
     }
 
     /**

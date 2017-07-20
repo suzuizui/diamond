@@ -5,7 +5,8 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * Created by qishang on 2017/7/19.
+ * AUTHOR: qishang
+ * DATE: 2017/7/19
  */
 @Data
 public class SkuDetailBo {
@@ -18,6 +19,10 @@ public class SkuDetailBo {
      * sku名称
      */
     private String skuName;
+    /**
+     * 总个数
+     */
+    private Integer totalCount;
     /**
      * 制作人
      */
@@ -46,4 +51,8 @@ public class SkuDetailBo {
      * 废弃人
      */
     private String aborter;
+    /**
+     * 图片地址
+     */
+    private String imgUrl;
 }

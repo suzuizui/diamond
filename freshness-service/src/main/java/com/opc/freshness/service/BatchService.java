@@ -4,6 +4,7 @@ import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.BatchBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.vo.BatchLogVo;
+import com.opc.freshness.domain.vo.BatchVo;
 
 import java.util.List;
 
@@ -19,6 +20,22 @@ public interface BatchService {
      * @return
      */
     boolean addBatch(BatchBo batchBo);
+
+    /**
+     * 通过批次Id查询批次
+     *
+     * @param batchId
+     * @return
+     */
+    BatchPo selectByPrimaryKey(Integer batchId);
+
+    /**
+     * 查询批次明细
+     *
+     * @param batchId
+     * @return
+     */
+    BatchVo skuDetailInfoListByBatchId(Integer batchId);
 
     /**
      * 批次报损

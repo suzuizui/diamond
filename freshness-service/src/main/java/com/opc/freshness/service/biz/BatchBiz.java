@@ -95,4 +95,11 @@ public interface BatchBiz {
      * @return
      */
     List<SkuDetailBo> skuDetailInfoList(Integer shopId, Integer categoryId, Date date);
+
+    /**
+     * 查询批次明细
+     * @param batchId
+     * @return
+     */
+    List<SkuDetailBo> skuDetailInfoListByBatchId(Integer batchId);
 }

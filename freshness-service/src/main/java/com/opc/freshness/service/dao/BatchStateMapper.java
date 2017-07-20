@@ -30,4 +30,6 @@ public interface BatchStateMapper {
     List<SkuCountBo> selectSkuCountByStatus(@Param("shopId") Integer shopId, @Param("kindId") Integer kindId, @Param("date") Date date, @Param("status") int staus);
 
     List<SkuDetailBo> skuDetailInfoList(@Param("shopId") Integer shopId, @Param("kindId") Integer kindId, @Param("date") Date date);
+
+    List<SkuDetailBo> skuDetailInfoListByBatchId(Integer batchId);
 }

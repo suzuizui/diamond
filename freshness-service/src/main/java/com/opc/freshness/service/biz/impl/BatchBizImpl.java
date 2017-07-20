@@ -95,6 +95,11 @@ public class BatchBizImpl implements BatchBiz {
         return batchStateMapper.skuDetailInfoList(shopId,categoryId,date);
     }
 
+    @Override
+    public List<SkuDetailBo> skuDetailInfoListByBatchId(Integer batchId) {
+        return batchStateMapper.skuDetailInfoListByBatchId(batchId);
+    }
+
     /**
      * 批次更新  - 具有乐观锁的更新
      *

@@ -34,8 +34,10 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="sku_id" property="skuId" jdbcType="INTEGER"/>
         <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
+        <result column="total_count" property="totalCount" jdbcType="INTEGER"/>
         <result column="maker" property="maker" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
         <result column="extras" property="extras" jdbcType="VARCHAR"/>
         <result column="expired_time" property="expiredTime" jdbcType="TIMESTAMP"/>
         <result column="expired_real_time" property="expiredRealTime" jdbcType="TIMESTAMP"/>
@@ -241,11 +243,31 @@
             c.operator          AS aborter
         FROM freshness_batch_state a
             LEFT JOIN freshness_batch b ON a.batch_id = b.id
-            INNER JOIN freshness_batch_state c ON a.batch_id = c.batch_id AND c.status = 5
+            INNER JOIN freshness_batch_state c ON a.batch_id = c.batch_id AND a.sku_id = c.sku_id AND c.status = 5
         WHERE a.shop_id = #{shopId,jdbcType=VARCHAR}
               AND a.status = 1
               AND b.kinds_id = #{kindId,jdbcType=INTEGER}
               AND b.create_time = date(#{date,,jdbcType=TIMESTAMP})
         ORDER BY a.create_time ASC
+    </select>
+    <select id="skuDetailInfoListByBatchId" resultMap="SkuDetailResultMap">
+        SELECT
+            a.id                AS id,
+            a.sku_id            AS sku_id,
+            a.sku_name          AS sku_name,
+            a.operator          AS maker,
+            a.img_url           AS img_url,
+            a.quantity          AS total_count,
+            b.create_time       AS create_time,
+            b.extras            AS extras,
+            b.expired_time      AS expired_time,
+            b.expired_real_time AS expired_real_time,
+            c.quantity          AS expired_count,
+            c.operator          AS aborter
+        FROM freshness_batch_state a
+            LEFT JOIN freshness_batch b ON a.batch_id = b.id
+            INNER JOIN freshness_batch_state c ON a.batch_id = c.batch_id AND a.sku_id = c.sku_id AND c.status = 5
+        WHERE a.batch_id = #{batchId,jdbcType=INTEGER}
+              AND a.status = 1
     </select>
 </mapper>

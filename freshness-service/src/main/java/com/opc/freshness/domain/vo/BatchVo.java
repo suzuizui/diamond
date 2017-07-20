@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by qishang on 2017/7/13.
@@ -42,8 +43,12 @@ public class BatchVo {
      * 预计废弃时间
      */
     private Date expiredTime;
+    /**
+     * skuList
+     */
+    private List<SkuVo> skuList;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getExpiredTime() {
         return expiredTime;
     }

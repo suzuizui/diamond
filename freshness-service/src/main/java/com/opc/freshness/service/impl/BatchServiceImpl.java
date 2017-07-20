@@ -5,11 +5,14 @@ import com.opc.freshness.common.util.DateUtils;
 import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.BatchBo;
 import com.opc.freshness.domain.bo.SkuBo;
+import com.opc.freshness.domain.bo.SkuDetailBo;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.BatchPoExtras;
 import com.opc.freshness.domain.po.BatchStatePo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.vo.BatchLogVo;
+import com.opc.freshness.domain.vo.BatchVo;
+import com.opc.freshness.domain.vo.SkuVo;
 import com.opc.freshness.service.BatchService;
 import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.biz.KindBiz;
@@ -52,6 +55,38 @@ public class BatchServiceImpl implements BatchService {
         search.setStatus(BatchPo.status.TO_ABORT);
         search.setShopId(shopId);
         return batchBiz.selectMakeAndAbortList(shopId);
+    }
+
+    @Override
+    public BatchPo selectByPrimaryKey(Integer batchId) {
+        return batchBiz.selectByPrimaryKey(batchId);
+    }
+
+    @Override
+    public BatchVo skuDetailInfoListByBatchId(Integer batchId) {
+        BatchPo po = batchBiz.selectByPrimaryKey(batchId);
+        if (po == null) {
+            throw new BizException("不存在的批次");
+        }
+        List<SkuDetailBo> detailBos = batchBiz.skuDetailInfoListByBatchId(batchId);
+        return BatchVo.builder()
+                .batchId(batchId)
+                .categoryId(po.getKindsId())
+                .batchName(po.getName())
+                .status(po.getStatus())
+                .quanity(po.getTotalCount())
+                .expiredTime(po.getExpiredTime())
+                .skuList(detailBos.stream()
+                        .map(bo ->
+                                SkuVo.builder()
+                                        .skuId(bo.getSkuId())
+                                        .skuName(bo.getSkuName())
+                                        .imgUrl(bo.getImgUrl())
+                                        .count(bo.getTotalCount())
+                                        .abortCount(bo.getExpiredCount())
+                                        .build())
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     @Override
