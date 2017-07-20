@@ -6,6 +6,7 @@ import com.opc.freshness.domain.bo.SkuMakeBo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.vo.SkuVo;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -31,14 +32,6 @@ public interface KindService {
     List<KindPo> selectListByDeviceId(String deviceId);
 
     /**
-     * 通过条形码查询Sku信息
-     *
-     * @param barCode
-     * @return
-     */
-    SkuVo selectSkuByBarCode(String barCode, Integer shopId);
-
-    /**
      * 设置sku品类关联
      *
      * @param skuKindBo
@@ -53,7 +46,7 @@ public interface KindService {
      * @param categoryId
      * @return
      */
-    List<SkuVo> selectSkuList(Integer shopId, Integer categoryId);
+    List<SkuVo> selectSkuList(Integer shopId, Integer categoryId) throws ParseException;
 
     /**
      * 获得某个品类下sku制作统计信息
@@ -67,6 +60,7 @@ public interface KindService {
 
     /**
      * 获得某个品类下sku流水信息
+     *
      * @param shopId
      * @param categoryId
      * @param date

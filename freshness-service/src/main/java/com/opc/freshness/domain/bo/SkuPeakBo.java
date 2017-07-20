@@ -1,17 +1,16 @@
-package com.opc.freshness.domain.vo;
+package com.opc.freshness.domain.bo;
 
-import lombok.Builder;
+import com.opc.freshness.domain.vo.KindVo;
 import lombok.Data;
 
 import java.util.List;
 
 /**
- * Created by qishang on 2017/7/13.
- * 商品sku
+ * AUTHOR: qishang
+ * DATE: 2017/7/20
  */
 @Data
-@Builder
-public class SkuVo {
+public class SkuPeakBo {
     /**
      * 商品SkuId
      */
@@ -25,7 +24,7 @@ public class SkuVo {
      */
     private String imgUrl;
     /**
-     * 个数
+     * 制作个数
      */
     private Integer count;
     /**
@@ -41,7 +40,7 @@ public class SkuVo {
      */
     private Boolean hasCategory;
     /**
-     * 高峰信息
+     * 销量预测个数
      */
-    private PeakVo peakInfo;
+    private Integer adviceCount;
 }

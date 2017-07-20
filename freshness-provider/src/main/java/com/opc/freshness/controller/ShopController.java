@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,22 +94,10 @@ public class ShopController {
      */
     @RequestMapping(value = "/api/shop/sku/list/v1", method = RequestMethod.GET)
     public Result<List<SkuVo>> getSkuList(@RequestParam Integer shopId,
-                                          @RequestParam Integer categoryId) {
+                                          @RequestParam Integer categoryId) throws ParseException {
         return new Success<List<SkuVo>>(kindService.selectSkuList(shopId, categoryId));
     }
 
-    /**
-     * 根据条形码获取SKU
-     *
-     * @param barCode 条形码
-     * @param shopId  门店Id
-     * @return
-     */
-    @RequestMapping(value = "/api/shop/sku/{barCode}/v1", method = RequestMethod.GET)
-    public Result<SkuVo> skuByBarCode(@PathVariable String barCode,
-                                      @RequestParam Integer shopId) {
-        return new Success<SkuVo>(kindService.selectSkuByBarCode(barCode, shopId));
-    }
 
     /**
      * 门店制作中和待废弃列表

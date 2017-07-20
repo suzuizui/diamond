@@ -1,10 +1,13 @@
 package com.opc.freshness.service.biz;
 
+import com.opc.freshness.domain.bo.SkuPeakBo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.po.SkuKindPo;
 import com.opc.freshness.domain.vo.KindVo;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * AUTHOR: qishang
@@ -59,4 +62,25 @@ public interface KindBiz {
      * @return
      */
     List<SkuKindPo> selectSkuList(Integer shopId, Integer kindId);
+
+    /**
+     * 高峰时，带销量预测的sku列表
+     *
+     * @param shopId
+     * @param categoryId
+     * @param PeakId
+     * @param target     查询的日期
+     * @return
+     */
+    List<SkuPeakBo> selectSkuListByPeak(Integer shopId, Integer categoryId, Integer PeakId, Date target);
+
+    /**
+     *获取sku制作情况
+     * @param shopId
+     * @param categoryId
+     * @param beginDate
+     * @param endDate
+     * @return <skuId,SkuPeakBo>
+     */
+    Map<Integer,SkuPeakBo> selectSkuMakeList(Integer shopId, Integer categoryId, Date beginDate, Date endDate);
 }

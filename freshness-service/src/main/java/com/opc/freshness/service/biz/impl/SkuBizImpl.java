@@ -30,6 +30,7 @@ public class SkuBizImpl implements SkuBiz {
         po.setSkuName(skuName);
         po.setAdviseCount(adviseCount);
         po.setSalesDay(saleDay);
+        po.setPeak(peakTime);
         salePredictMapper.save(po);
         return true;
     }

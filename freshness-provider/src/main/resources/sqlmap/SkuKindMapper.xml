@@ -11,6 +11,14 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="last_mofify_time" jdbcType="TIMESTAMP" property="lastMofifyTime"/>
     </resultMap>
+    <resultMap id="PeakResultMap" type="com.opc.freshness.domain.bo.SkuPeakBo">
+        <result column="sku_id" jdbcType="INTEGER" property="skuId"/>
+        <result column="sku_name" jdbcType="VARCHAR" property="skuName"/>
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
+        <result column="make_count" jdbcType="INTEGER" property="count"/>
+        <result column="advise_count" jdbcType="INTEGER" property="adviceCount"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id, sku_id, sku_name, img_url, shop_id, kind_id, create_time, last_mofify_time
     </sql>
@@ -59,6 +67,38 @@
         FROM freshness_sku_kind a LEFT JOIN freshness_kind b ON a.kind_id = b.id
         WHERE sku_id = #{skuId,jdbcType=INTEGER}
               AND shop_id = #{shopId,jdbcType=INTEGER}
+    </select>
+    <select id="selectWithPeakInfo" resultMap="PeakResultMap">
+        SELECT
+            a.sku_id,
+            a.sku_name,
+            a.img_url,
+            b.advise_count
+        FROM freshness_sku_kind a
+            LEFT JOIN fressness_sales_predict b
+                ON a.sku_id = b.sku_id
+                   AND a.shop_id = b.shop_id
+                   AND b.peak = #{peakId,jdbcType=INTEGER}
+                   AND b.sales_day = date(#{date,jdbcType=TIMESTAMP})
+        WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
+              AND a.kind_id = #{kindId,jdbcType=INTEGER}
+    </select>
+    <select id="selectSkuMakeList" resultMap="PeakResultMap">
+        SELECT
+            a.sku_id,
+            a.sku_name,
+            a.img_url,
+            sum(b.quantity) AS count
+        FROM freshness_sku_kind a
+            LEFT JOIN freshness_batch_state b
+                ON a.sku_id = b.sku_id
+                   AND b.status = 1
+        <![CDATA[
+                   AND b.create_time >= #{begin,jdbcType=TIMESTAMP}
+                   AND b.create_time <= #{end,jdbcType=TIMESTAMP}]]>
+        WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
+              AND a.kind_id = #{kindId,jdbcType=INTEGER}
+        group by sku_id
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM freshness_sku_kind
