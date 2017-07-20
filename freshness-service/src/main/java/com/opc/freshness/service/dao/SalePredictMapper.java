@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SalePredictMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SalePredictPo record);
+    int save(SalePredictPo record);
 
     SalePredictPo selectByPrimaryKey(Integer id);
 

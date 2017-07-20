@@ -26,7 +26,7 @@
         DELETE FROM fressness_sales_predict
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.opc.freshness.domain.po.SalePredictPo">
+    <insert id="save" parameterType="com.opc.freshness.domain.po.SalePredictPo">
         INSERT INTO fressness_sales_predict (id, shop_id, shop_name,
                                              sku_id, sku_name, peak,
                                              advise_count, sales_day
