@@ -103,5 +103,13 @@ public interface BatchBiz {
      */
     List<SkuDetailBo> skuDetailInfoListByBatchId(Integer batchId);
 
-    List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit);
+    /**
+     * 通过sku和大类获得批次列表
+     * @param skuId
+     * @param categoryId
+     * @param shopId
+     * @param limit
+     * @return
+     */
+    List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId,Integer shopId, Integer limit);
 }

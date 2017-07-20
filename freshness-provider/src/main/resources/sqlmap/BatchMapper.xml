@@ -87,6 +87,7 @@
         <include refid="Base_Column_List"/>
         FROM freshness_batch
         WHERE id IN (SELECT DISTINCT batch_id FROM freshness_batch_state a WHERE a.sku_id = #{skuId,jdbcType=INTEGER})
+        AND shop_id = #{shopId,jdbcType=INTEGER}
         AND kinds_id = #{kindId,jdbcType=INTEGER}
         order by create_time desc
         <if test="limit!=null">

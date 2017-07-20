@@ -29,11 +29,11 @@ public interface BatchMapper {
     List<BatchPo> selectLastNGroupByKindAndFlag(@Param("shopId") Integer shopId, @Param("status") List<Integer> status, @Param("count") Integer count);
 
     /**
-     *
      * @param skuId
      * @param kindId
      * @param limit
+     * @param shopId
      * @return
      */
-    List<BatchPo> batchListBySkuIdAndKindId(@Param("skuId") Integer skuId, @Param("kindId") Integer kindId, @Param("limit") Integer limit);
+    List<BatchPo> batchListBySkuIdAndKindId(@Param("skuId") Integer skuId, @Param("kindId") Integer kindId, @Param("shopId") Integer shopId, @Param("limit") Integer limit);
 }

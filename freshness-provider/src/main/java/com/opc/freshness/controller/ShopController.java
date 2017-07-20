@@ -166,14 +166,16 @@ public class ShopController {
      *
      * @param skuId
      * @param categoryId
+     * @param shopId
      * @return
      */
     @RequestMapping(value = "/api/shop/batch/list/last2/v1", method = RequestMethod.POST)
     public Result<List<BatchVo>> batchListBySkuIdAndKindId(
             @RequestParam Integer skuId,
-            @RequestParam Integer categoryId) {
+            @RequestParam Integer categoryId,
+            @RequestParam Integer shopId) {
         return new Success<List<BatchVo>>(
-                batchService.batchListBySkuIdAndKindId(skuId, categoryId, 2)
+                batchService.batchListBySkuIdAndKindId(skuId, categoryId, shopId, 2)
                         .stream()
                         .map(po -> BatchVo.builder()
                                 .batchId(po.getId())

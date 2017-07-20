@@ -102,8 +102,8 @@ public class BatchBizImpl implements BatchBiz {
     }
 
     @Override
-    public List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit) {
-        return batchMapper.batchListBySkuIdAndKindId(skuId, categoryId, limit);
+    public List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer shopId, Integer limit) {
+        return batchMapper.batchListBySkuIdAndKindId(skuId, categoryId, shopId, limit);
     }
 
     /**

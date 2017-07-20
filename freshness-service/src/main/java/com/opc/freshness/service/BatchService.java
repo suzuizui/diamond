@@ -66,9 +66,10 @@ public interface BatchService {
      *
      * @param skuId
      * @param categoryId
+     * @param shopId
      * @return
      */
-    List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer limit);
+    List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId, Integer shopId, Integer limit);
 
 
     /**
