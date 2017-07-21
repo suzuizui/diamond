@@ -20,6 +20,7 @@ import com.opc.freshness.service.BatchService;
 import com.opc.freshness.service.KindService;
 import com.opc.freshness.service.StaffService;
 import com.opc.freshness.service.integration.ShopService;
+import com.wormpex.biz.BizException;
 import com.wormpex.cvs.product.api.bean.BeeShop;
 import com.wormpex.inf.wmq.utils.JsonUtils;
 import org.apache.http.util.Asserts;
@@ -63,6 +64,9 @@ public class ShopController {
     Result<DeviceVo> postitionByDeviceId(@RequestParam String deviceId) {
         logger.info("postitionByDeviceId deviceId:{}", deviceId);
         BeeShop shop = shopService.queryByDevice(deviceId);
+        if (shop==null){
+            throw new BizException("未查找到设备对应门店");
+        }
         List<KindPo> kinds = kindService.selectListByDeviceId(deviceId);
         return new Success<DeviceVo>(
                 DeviceVo.builder()
