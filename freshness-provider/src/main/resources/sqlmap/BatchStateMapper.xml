@@ -266,7 +266,7 @@
             c.operator          AS aborter
         FROM freshness_batch_state a
             LEFT JOIN freshness_batch b ON a.batch_id = b.id
-            INNER JOIN freshness_batch_state c ON a.batch_id = c.batch_id AND a.sku_id = c.sku_id AND c.status = 5
+            LEFT JOIN freshness_batch_state c ON a.batch_id = c.batch_id AND a.sku_id = c.sku_id AND c.status = 5
         WHERE a.batch_id = #{batchId,jdbcType=INTEGER}
               AND a.status = 1
     </select>

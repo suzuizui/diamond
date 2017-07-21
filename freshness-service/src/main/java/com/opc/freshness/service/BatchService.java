@@ -6,6 +6,7 @@ import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.vo.BatchLogVo;
 import com.opc.freshness.domain.vo.BatchVo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,4 +82,10 @@ public interface BatchService {
      */
     Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo, Integer pageSize);
 
+    /**
+     * 查询下次刷新时间
+     * @param now
+     * @return
+     */
+    Date selectNextTime(Date now,Integer shopId);
 }

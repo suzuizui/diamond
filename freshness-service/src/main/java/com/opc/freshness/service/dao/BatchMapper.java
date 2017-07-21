@@ -4,6 +4,7 @@ import com.opc.freshness.domain.po.BatchPo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -36,4 +37,9 @@ public interface BatchMapper {
      * @return
      */
     List<BatchPo> batchListBySkuIdAndKindId(@Param("skuId") Integer skuId, @Param("kindId") Integer kindId, @Param("shopId") Integer shopId, @Param("limit") Integer limit);
+
+    Date selectNextDelayTime(@Param("now") Date now,@Param("shopId") Integer shopId);
+
+    Date selectNextExpiredTime(@Param("now") Date now,@Param("shopId") Integer shopId);
+
 }

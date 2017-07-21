@@ -31,7 +31,7 @@
         FROM freshness_batch a LEFT JOIN freshness_batch b
         ON a.kinds_id = b.kinds_id
         AND a.group_flag = b.group_flag
-        <![CDATA[   AND a.create_time <= b.create_time]]>
+        <![CDATA[   AND a.create_time <= b.create_time ]]>
         WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
         AND a.status IN
         <foreach collection="status" separator="," item="item" open="(" close=")">
@@ -95,7 +95,23 @@
             limit #{limit,jdbcType=INTEGER}
         </if>
     </select>
+    <select id="selectNextDelayTime" resultType="java.util.Date">
+        SELECT min(delay_time)
+        FROM freshness_batch
+       <![CDATA[ WHERE delay_time >= #{now,jdbcType=TIMESTAMP}
+        ]]>
+        AND shop_id = #{shopId,jdbcType=INTEGER}
+              AND status IN (1, 5)
+    </select>
+    <select id="selectNextExpiredTime" resultType="java.util.Date">
+        SELECT min(expired_time)
+        FROM freshness_batch
+        <![CDATA[ WHERE expired_time >= #{now,jdbcType=TIMESTAMP}
+        ]]>
+        AND shop_id = #{shopId,jdbcType=INTEGER}
+              AND status IN (1, 5)
 
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM freshness_batch
         WHERE id = #{id,jdbcType=INTEGER}

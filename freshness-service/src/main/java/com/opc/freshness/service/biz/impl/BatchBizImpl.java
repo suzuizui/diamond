@@ -106,6 +106,25 @@ public class BatchBizImpl implements BatchBiz {
         return batchMapper.batchListBySkuIdAndKindId(skuId, categoryId, shopId, limit);
     }
 
+    @Override
+    public Date selectNextTime(Date now,Integer shopId) {
+        Date delayDate = batchMapper.selectNextDelayTime(now,shopId);
+        Date expiredDate = batchMapper.selectNextExpiredTime(now,shopId);
+        if (delayDate == null || expiredDate == null) {
+            if (delayDate == null) {
+                return expiredDate;
+            } else {
+                return delayDate;
+            }
+        } else {
+            if (delayDate.before(expiredDate)) {
+                return delayDate;
+            } else {
+                return expiredDate;
+            }
+        }
+    }
+
     /**
      * 批次更新  - 具有乐观锁的更新
      *

@@ -16,6 +16,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -97,7 +98,7 @@ public class ShopControllerTest {
         dto.setOption(ShopController.OperateType.MAKE.getValue());
         dto.setCategoryId(1);
         dto.setOperator("张三");
-        dto.setCreateTime("");
+        dto.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         dto.setUnit("个");
         dto.setDegree(10);
         dto.setTag("蓝");

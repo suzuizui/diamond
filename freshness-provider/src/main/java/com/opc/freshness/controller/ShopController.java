@@ -64,7 +64,7 @@ public class ShopController {
     Result<DeviceVo> postitionByDeviceId(@RequestParam String deviceId) {
         logger.info("postitionByDeviceId deviceId:{}", deviceId);
         BeeShop shop = shopService.queryByDevice(deviceId);
-        if (shop==null){
+        if (shop == null) {
             throw new BizException("未查找到设备对应门店");
         }
         List<KindPo> kinds = kindService.selectListByDeviceId(deviceId);
@@ -111,20 +111,25 @@ public class ShopController {
      * @return
      */
     @RequestMapping(value = "/api/shop/expire/list/v1", method = {RequestMethod.GET})
-    public Result<List<BatchVo>> getMakeAndAbortList(@RequestParam Integer shopId) {
-        return new Success<List<BatchVo>>(
-                batchService.selectMakeAndAbortList(shopId).stream()
-                        .map(batchPo ->
-                                BatchVo
-                                        .builder()
-                                        .batchId(batchPo.getId())
-                                        .batchName(batchPo.getName())
-                                        .status(batchPo.getStatus())
-                                        .categoryId(batchPo.getKindsId())
-                                        .quanity(batchPo.getTotalCount() - batchPo.getBreakCount() - batchPo.getExpiredCount())
-                                        .expiredTime(batchPo.getExpiredTime())
-                                        .build())
-                        .collect(Collectors.toList()));
+    public Result<MakeAndAbortBatchVo> getMakeAndAbortList(@RequestParam Integer shopId) {
+        Date now = new Date();
+        return new Success<MakeAndAbortBatchVo>(
+                MakeAndAbortBatchVo.builder()
+                        .batchList(batchService.selectMakeAndAbortList(shopId).stream()
+                                .map(batchPo ->
+                                        BatchVo
+                                                .builder()
+                                                .batchId(batchPo.getId())
+                                                .batchName(batchPo.getName())
+                                                .status(batchPo.getStatus())
+                                                .categoryId(batchPo.getKindsId())
+                                                .quanity(batchPo.getTotalCount() - batchPo.getBreakCount() - batchPo.getExpiredCount())
+                                                .expiredTime(batchPo.getExpiredTime())
+                                                .build())
+                                .collect(Collectors.toList()))
+                        .nextTime(batchService.selectNextTime(now,shopId))
+                        .build()
+        );
     }
 
 

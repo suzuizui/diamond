@@ -102,6 +102,11 @@ public class BatchServiceImpl implements BatchService {
         return batchBiz.selectLogByPage(shopId, statusList, pageNo, pageSize);
     }
 
+    @Override
+    public Date selectNextTime(Date now ,Integer shopId) {
+        return batchBiz.selectNextTime(now,shopId);
+    }
+
     @Transactional
     public boolean addBatch(final BatchBo batchBo) {
         logger.info("addBatch dto:{}", batchBo.toString());
