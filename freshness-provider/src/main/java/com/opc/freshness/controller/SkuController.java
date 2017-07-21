@@ -44,7 +44,7 @@ public class SkuController {
      * @param saleDay
      * @return
      */
-    @RequestMapping(value = "/api/sales/predict/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/sku/predict/add/v1", method = RequestMethod.POST)
     public Result<Boolean> salePredictAdd(
             @RequestParam Integer shopId,
             @RequestParam String shopName,

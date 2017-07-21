@@ -1,9 +1,7 @@
 package com.opc.freshness.api.model.dto;
 
 import lombok.Data;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import java.util.Date;
 import java.util.List;
 
 /**
