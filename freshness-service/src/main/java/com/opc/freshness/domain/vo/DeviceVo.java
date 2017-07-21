@@ -19,4 +19,8 @@ public class DeviceVo {
      * 品类信息
      */
     private List<KindVo> categories;
+    /**
+     * 关联设备Id
+     */
+    private List<String> contactIds;
 }

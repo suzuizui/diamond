@@ -10,6 +10,7 @@ import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
 import com.opc.freshness.common.util.DateUtils;
 import com.opc.freshness.common.util.Pager;
+import com.opc.freshness.config.ContactDeviceConfig;
 import com.opc.freshness.domain.bo.BatchBo;
 import com.opc.freshness.domain.bo.SkuBo;
 import com.opc.freshness.domain.bo.SkuKindBo;
@@ -76,6 +77,7 @@ public class ShopController {
                                         .shopName(shop.getPropInfo().getDisplayName())
                                         .build())
                         .categories(BeanCopyUtils.convertList(kinds, KindVo.class))
+                        .contactIds(ContactDeviceConfig.getConfig(deviceId))
                         .build());
     }
 
@@ -127,7 +129,7 @@ public class ShopController {
                                                 .expiredTime(batchPo.getExpiredTime())
                                                 .build())
                                 .collect(Collectors.toList()))
-                        .nextTime(batchService.selectNextTime(now,shopId))
+                        .nextTime(batchService.selectNextTime(now, shopId))
                         .build()
         );
     }
