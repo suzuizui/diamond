@@ -26,8 +26,8 @@ public class SkuController {
      * @param shopId  门店Id
      * @return
      */
-    @RequestMapping(value = "/api/shop/sku/{barCode}/v1", method = RequestMethod.GET)
-    public Result<SkuVo> skuByBarCode(@PathVariable String barCode,
+    @RequestMapping(value = "/api/shop/sku/detail/v1", method = RequestMethod.GET)
+    public Result<SkuVo> skuByBarCode(@RequestParam String barCode,
                                       @RequestParam Integer shopId) {
         return new Success<SkuVo>(skuService.selectSkuByBarCode(barCode, shopId));
     }
