@@ -6,7 +6,7 @@ import com.opc.freshness.domain.bo.SkuMakeBo;
 import com.opc.freshness.domain.po.BatchPoExtras;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.service.KindService;
-import com.wormpex.inf.wmq.utils.JsonUtils;
+import com.wormpex.api.json.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -133,7 +133,7 @@ public class FileController {
             //创建表头
             HSSFRow headRow = sheet.createRow(0);
             for (int i = 0; i < DETAIL_HEADER.length; i++) {
-                headRow.createCell(i, CellType.STRING).setCellValue(HEADER[i]);
+                headRow.createCell(i, CellType.STRING).setCellValue(DETAIL_HEADER[i]);
             }
             //填充数据
             for (int i = 0; i < boList.size(); i++) {
@@ -146,7 +146,7 @@ public class FileController {
                 row.createCell(j++, CellType.STRING).setCellValue(DateUtils.format(detailBo.getCreateTime(), DATE_FORMAT2));
                 //设置温度
                 if (j++ > 0 && StringUtils.isNotBlank(detailBo.getExtras())) {
-                    BatchPoExtras extras = JsonUtils.toBean(detailBo.getExtras(), BatchPoExtras.class);
+                    BatchPoExtras extras = JsonUtil.of(detailBo.getExtras(), BatchPoExtras.class);
                     if (extras.getDegree() != null)
                         row.createCell(j, CellType.NUMERIC).setCellValue(extras.getDegree());
                 }

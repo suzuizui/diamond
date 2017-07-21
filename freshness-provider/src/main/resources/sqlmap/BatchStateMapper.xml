@@ -243,11 +243,11 @@
             c.operator          AS aborter
         FROM freshness_batch_state a
             LEFT JOIN freshness_batch b ON a.batch_id = b.id
-            INNER JOIN freshness_batch_state c ON a.batch_id = c.batch_id AND a.sku_id = c.sku_id AND c.status = 5
+            LEFT JOIN freshness_batch_state c ON a.batch_id = c.batch_id AND a.sku_id = c.sku_id AND c.status = 5
         WHERE a.shop_id = #{shopId,jdbcType=VARCHAR}
               AND a.status = 1
               AND b.kinds_id = #{kindId,jdbcType=INTEGER}
-              AND b.create_time = date(#{date,jdbcType=TIMESTAMP})
+              AND date(b.create_time) = date(#{date,jdbcType=TIMESTAMP})
         ORDER BY a.create_time ASC
     </select>
     <select id="skuDetailInfoListByBatchId" resultMap="SkuDetailResultMap">

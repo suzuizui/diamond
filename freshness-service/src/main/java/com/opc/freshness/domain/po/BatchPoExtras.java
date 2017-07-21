@@ -1,8 +1,9 @@
 package com.opc.freshness.domain.po;
 
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 /**
  * AUTHOR: qishang
  * DATE: 2017/7/17
@@ -12,7 +13,8 @@ import lombok.Data;
  * 拓展字段结构
  */
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BatchPoExtras {
     /**
      * 温度

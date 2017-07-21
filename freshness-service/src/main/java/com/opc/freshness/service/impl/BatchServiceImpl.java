@@ -130,8 +130,7 @@ public class BatchServiceImpl implements BatchService {
         // 设置状态
         batchPo.setStatus(BatchPo.status.MAKING);
         // 设置拓展字段
-        batchPo.setExtras(JsonUtil.toJson(BatchPoExtras.builder().degree(batchBo.getDegree()).tag(batchBo.getTag())
-                .unit(batchBo.getUnit()).build()));
+        batchPo.setExtras(JsonUtil.toJson(new BatchPoExtras(batchBo.getDegree(),batchBo.getTag(),batchBo.getUnit())));
         //设置分组标志
         if (batchBo.getSkuList().size() == 1) {
             batchPo.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
