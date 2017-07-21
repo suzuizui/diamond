@@ -40,7 +40,7 @@ public class BatchLogVo {
      */
     private Date operateTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getOperateTime() {
         return operateTime;
     }

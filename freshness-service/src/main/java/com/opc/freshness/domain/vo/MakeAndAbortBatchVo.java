@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Builder
 public class MakeAndAbortBatchVo {
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date nextTime;
 
     private List<BatchVo> batchList;
