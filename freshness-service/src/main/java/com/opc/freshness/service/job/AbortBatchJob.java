@@ -103,9 +103,6 @@ public class AbortBatchJob {
                             logger.info(processName + " 批次过期 batchId:{}", batchPo.getId());
 
                             batchPo.setStatus(targetStatus);
-                            if (targetStatus == BatchPo.status.TO_ABORT) {
-                                batchPo.setExpiredRealTime(new Date());
-                            }
                             batchBiz.updateBatchByPrimaryKeyLock(batchPo);
                         }
                     } catch (Exception e) {
