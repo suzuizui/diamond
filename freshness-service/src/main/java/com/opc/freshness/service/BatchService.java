@@ -55,6 +55,15 @@ public interface BatchService {
     boolean batchAbort(BatchBo batchBo);
 
     /**
+     * 批次售完
+     *
+     * @param bo
+     * @return
+     */
+    boolean batchSellOut(BatchBo bo);
+
+
+    /**
      * 待废弃列表
      *
      * @param shopId
@@ -84,8 +93,10 @@ public interface BatchService {
 
     /**
      * 查询下次刷新时间
+     *
      * @param now
      * @return
      */
-    Date selectNextTime(Date now,Integer shopId);
+    Date selectNextTime(Date now, Integer shopId);
+
 }

@@ -2,6 +2,7 @@ package com.opc.freshness.controller;
 
 import com.google.common.collect.Lists;
 import com.opc.freshness.api.model.dto.BatchDto;
+import com.opc.freshness.api.model.dto.SkuDto;
 import com.opc.freshness.api.model.dto.SkuKindDto;
 import com.opc.freshness.common.Error;
 import com.opc.freshness.common.Result;
@@ -21,9 +22,9 @@ import com.opc.freshness.service.BatchService;
 import com.opc.freshness.service.KindService;
 import com.opc.freshness.service.StaffService;
 import com.opc.freshness.service.integration.ShopService;
+import com.wormpex.api.json.JsonUtil;
 import com.wormpex.biz.BizException;
 import com.wormpex.cvs.product.api.bean.BeeShop;
-import com.wormpex.inf.wmq.utils.JsonUtils;
 import org.apache.http.util.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +77,15 @@ public class ShopController {
                                         .shopId(shop.getShopId())
                                         .shopName(shop.getPropInfo().getDisplayName())
                                         .build())
-                        .categories(BeanCopyUtils.convertList(kinds, KindVo.class))
+                        .categories(
+                                kinds.stream()
+                                        .map(kindPo ->
+                                                new KindVo(
+                                                        kindPo.getId(),
+                                                        kindPo.getName(),
+                                                        kindPo.getConfig(),
+                                                        JsonUtil.ofMap(kindPo.getConfig(), String.class, String.class)))
+                                        .collect(Collectors.toList()))
                         .contactIds(ContactDeviceConfig.getConfig(deviceId))
                         .build());
     }
@@ -115,7 +124,7 @@ public class ShopController {
     @RequestMapping(value = "/api/shop/expire/list/v1", method = {RequestMethod.GET})
     public Result<MakeAndAbortBatchVo> getMakeAndAbortList(@RequestParam Integer shopId) {
         Date now = new Date();
-        now =batchService.selectNextTime(now, shopId);
+        now = batchService.selectNextTime(now, shopId);
         return new Success<MakeAndAbortBatchVo>(
                 MakeAndAbortBatchVo.builder()
                         .batchList(batchService.selectMakeAndAbortList(shopId).stream()
@@ -205,24 +214,24 @@ public class ShopController {
 
         Asserts.notEmpty(batchDto.getOperator(), "操作员");
 
-        CollectionUtils.notEmpty(batchDto.getSkuList(), "sku列表");
-        batchDto.getSkuList().forEach(skuDto -> {
-            Asserts.notNull(skuDto.getSkuId(), "skuId");
-            Asserts.notNull(skuDto.getQuantity(), "sku数量");
-        });
         BatchBo bo = BeanCopyUtils.convertClass(batchDto, BatchBo.class);
         bo.setCreateTime(DateUtils.parse(batchDto.getCreateTime(), DATE_FORMAT));
-        bo.setSkuList(batchDto.getSkuList().stream().map(skuDto -> new SkuBo(skuDto.getSkuId(), skuDto.getQuantity())).collect(Collectors.toList()));
         switch (getByValue(batchDto.getOption())) {
             case MAKE: //制作
                 Asserts.notNull(batchDto.getCategoryId(), "分类Id");
+                assertSkuList(bo, batchDto.getSkuList());
                 return new Success<Boolean>(batchService.addBatch(bo));
             case LOSS: //报损
                 Asserts.notNull(batchDto.getBatchId(), "批次号");
+                assertSkuList(bo, batchDto.getSkuList());
                 return new Success<Boolean>(batchService.batchLoss(bo));
             case ABORT: //废弃
                 Asserts.notNull(batchDto.getBatchId(), "批次号");
+                assertSkuList(bo, batchDto.getSkuList());
                 return new Success<Boolean>(batchService.batchAbort(bo));
+            case SELLOUT:
+                Asserts.notNull(batchDto.getBatchId(), "批次号");
+                return new Success<Boolean>(batchService.batchSellOut(bo));
             default:
                 return new Error<Boolean>("不支持的操作");
         }
@@ -253,7 +262,8 @@ public class ShopController {
         ALL(0, "全部", Lists.newArrayList(BatchPo.status.MAKING, BatchPo.status.LOSS, BatchPo.status.ABORTED)),
         MAKE(1, "制作", Lists.newArrayList(BatchPo.status.MAKING)),
         LOSS(2, "报损", Lists.newArrayList(BatchPo.status.LOSS)),
-        ABORT(3, "废弃", Lists.newArrayList(BatchPo.status.ABORTED));
+        ABORT(3, "废弃", Lists.newArrayList(BatchPo.status.ABORTED)),
+        SELLOUT(4, "售完", Lists.newArrayList(BatchPo.status.ABORTED));
         private int value;
         private String desc;
         private List<Integer> statusList;
@@ -286,16 +296,13 @@ public class ShopController {
         }
     }
 
-    public static void main(String[] args) {
-        BatchVo vo = BatchVo.builder()
-                .batchId(1)
-                .batchName("test")
-                .categoryId(1)
-                .status(1)
-                .quanity(10)
-                .createTime(new Date())
-                .expiredTime(new Date())
-                .build();
-        System.out.println(JsonUtils.toJsonString(new Success<>(Lists.newArrayList(vo))));
+    private void assertSkuList(BatchBo bo, List<SkuDto> skuList) {
+        CollectionUtils.notEmpty(skuList, "sku列表");
+        for (SkuDto dto : skuList) {
+            Asserts.notNull(dto.getSkuId(), "skuId");
+            Asserts.notNull(dto.getQuantity(), "sku数量");
+        }
+        bo.setSkuList(skuList.stream().map(skuDto -> new SkuBo(skuDto.getSkuId(), skuDto.getQuantity())).collect(Collectors.toList()));
+
     }
 }

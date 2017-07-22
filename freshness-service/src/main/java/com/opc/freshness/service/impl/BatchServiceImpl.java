@@ -103,8 +103,8 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public Date selectNextTime(Date now ,Integer shopId) {
-        return batchBiz.selectNextTime(now,shopId);
+    public Date selectNextTime(Date now, Integer shopId) {
+        return batchBiz.selectNextTime(now, shopId);
     }
 
     @Transactional
@@ -135,7 +135,7 @@ public class BatchServiceImpl implements BatchService {
         // 设置状态
         batchPo.setStatus(BatchPo.status.MAKING);
         // 设置拓展字段
-        batchPo.setExtras(JsonUtil.toJson(new BatchPoExtras(batchBo.getDegree(),batchBo.getTag(),batchBo.getUnit())));
+        batchPo.setExtras(JsonUtil.toJson(new BatchPoExtras(batchBo.getDegree(), batchBo.getTag(), batchBo.getUnit())));
         //设置分组标志
         if (batchBo.getSkuList().size() == 1) {
             batchPo.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
@@ -168,6 +168,18 @@ public class BatchServiceImpl implements BatchService {
         }
         batchPo.setStatus(BatchPo.status.ABORTED);
         batchPo.setBreakCount(batchPo.getBreakCount() + addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
+        batchBiz.updateBatchByPrimaryKeyLock(batchPo);
+        return true;
+    }
+
+    @Override
+    public boolean batchSellOut(BatchBo batchBo) {
+        BatchPo batchPo = batchBiz.selectByPrimaryKey(batchBo.getBatchId());
+        if (batchPo.getStatus() == BatchPo.status.ABORTED) {
+            throw new BizException("批次已经废弃 batchId:"+batchBo.getBatchId());
+        }
+        batchPo.setStatus(BatchPo.status.SELL_OUT);
+        batchPo.setSellOutTime(batchBo.getCreateTime());
         batchBiz.updateBatchByPrimaryKeyLock(batchPo);
         return true;
     }
@@ -206,7 +218,7 @@ public class BatchServiceImpl implements BatchService {
             state.setSkuId(sku.getId());
             state.setSkuStock(shopSku.getSaleCount());
             state.setSkuName(sku.getPropInfo().getDisplayName());
-            state.setImgUrl(sku.getImages().isEmpty()?null:sku.getImages().get(0).getImageUrl());
+            state.setImgUrl(sku.getImages().isEmpty() ? null : sku.getImages().get(0).getImageUrl());
 
             state.setOperator(batchBo.getOperator());
 

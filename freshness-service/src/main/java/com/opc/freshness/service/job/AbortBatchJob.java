@@ -1,9 +1,7 @@
 package com.opc.freshness.service.job;
 
 import com.opc.freshness.domain.po.BatchPo;
-import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.service.biz.BatchBiz;
-import com.opc.freshness.service.biz.KindBiz;
 import com.opc.freshness.utils.RedisKeyUtils;
 import com.wormpex.biz.BizException;
 import com.wormpex.wcommon.redis.JedisClient;
@@ -25,8 +23,6 @@ public class AbortBatchJob {
     private static final String ABORT = "abortBatch";
     private static final String TOSALING = "toSaling";
 
-    @Resource
-    private KindBiz kindBiz;
     @Resource
     private BatchBiz batchBiz;
     @Resource
@@ -89,9 +85,6 @@ public class AbortBatchJob {
                 .forEach(batchPo -> {
                     try {
                         logger.info(processName + " 处理批次 batchId:{}", batchPo.getId());
-
-                        KindPo skuKind = kindBiz.selectByPrimaryKey(batchPo.getKindsId());
-
                         //过期时间
                         Long preEndTime;
                         switch (targetStatus) {

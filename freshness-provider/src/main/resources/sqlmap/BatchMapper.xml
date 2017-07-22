@@ -11,6 +11,7 @@
         <result column="delay_time" jdbcType="TIMESTAMP" property="delayTime"/>
         <result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime"/>
         <result column="expired_real_time" jdbcType="TIMESTAMP" property="expiredRealTime"/>
+        <result column="sell_out_time" jdbcType="TIMESTAMP" property="sellOutTime"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime"/>
         <result column="total_count" jdbcType="INTEGER" property="totalCount"/>
@@ -20,10 +21,10 @@
         <result column="group_flag" jdbcType="VARCHAR" property="groupFlag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, name, kinds_id, shop_id, shop_name, status, delay_time, expired_time, expired_real_time, create_time, last_modify_time, total_count, expired_count, break_count, extras, group_flag
+        id, name, kinds_id, shop_id, shop_name, status, delay_time, expired_time, expired_real_time, sell_out_time, create_time, last_modify_time, total_count, expired_count, break_count, extras, group_flag
     </sql>
     <sql id="alias_Column_List">
-        f.id, f.name, f.kinds_id, f.shop_id, f.shop_name, f.status, f.delay_time, f.expired_time, f.expired_real_time, f.create_time, f.last_modify_time, f.total_count, f.expired_count, f.break_count, f.extras, f.group_flag
+        f.id, f.name, f.kinds_id, f.shop_id, f.shop_name, f.status, f.delay_time, f.expired_time, f.expired_real_time, f.sell_out_time, f.create_time, f.last_modify_time, f.total_count, f.expired_count, f.break_count, f.extras, f.group_flag
     </sql>
     <sql id="selectLastNGroupByKindAndFlagSubQuery">
         SELECT
@@ -147,6 +148,9 @@
             <if test="expiredRealTime != null">
                 expired_real_time,
             </if>
+            <if test="sellOutTime != null">
+                sell_out_time,
+            </if>
             <if test="createTime != null">
                 create_time,
             </if>
@@ -197,6 +201,9 @@
             <if test="expiredRealTime != null">
                 #{expiredRealTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="sellOutTime != null">
+                #{sellOutTime,jdbcType=TIMESTAMP},
+            </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
@@ -243,6 +250,9 @@
             </if>
             <if test="expiredRealTime != null">
                 expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sellOutTime != null">
+                sell_out_time = #{sellOutTime,jdbcType=TIMESTAMP},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},

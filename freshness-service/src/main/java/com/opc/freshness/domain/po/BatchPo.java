@@ -33,7 +33,7 @@ public class BatchPo {
      */
     private Integer status;
     /**
-     *  延迟到期时间
+     * 延迟到期时间
      */
     private Date delayTime;
     /**
@@ -44,6 +44,10 @@ public class BatchPo {
      * 实际废弃时间
      */
     private Date expiredRealTime;
+    /**
+     * 售完时间
+     */
+    private Date sellOutTime;
     /**
      * 创建时间
      */
@@ -91,7 +95,7 @@ public class BatchPo {
         /**
          * 已售完
          */
-        public static final int SALE_OUT = 4;
+        public static final int SELL_OUT = 4;
         /**
          * 已废弃
          */
