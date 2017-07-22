@@ -175,7 +175,7 @@ public class BatchServiceImpl implements BatchService {
         }
         batchPo.setStatus(BatchPo.status.ABORTED);
         batchPo.setExpiredRealTime(batchBo.getCreateTime());
-        batchPo.setBreakCount(batchPo.getExpiredCount() + addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
+        batchPo.setExpiredCount(batchPo.getExpiredCount() + addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
         batchBiz.updateBatchByPrimaryKeyLock(batchPo);
         return true;
     }
