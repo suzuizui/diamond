@@ -96,7 +96,7 @@ public class ShopControllerTest {
         BatchDto dto = new BatchDto();
         dto.setShopId(1);
         dto.setOption(ShopController.OperateType.MAKE.getValue());
-        dto.setCategoryId(1);
+        dto.setCategoryId(2);
         dto.setOperator("张三");
         dto.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         dto.setUnit("个");
@@ -119,14 +119,14 @@ public class ShopControllerTest {
 
         BatchDto dto = new BatchDto();
         dto.setShopId(1);
-        dto.setBatchId(1);
+        dto.setBatchId(34);
         dto.setOption(ShopController.OperateType.LOSS.getValue());
         dto.setOperator("张三");
-        dto.setCreateTime("");
+        dto.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         SkuDto sku = new SkuDto();
-        sku.setSkuId(1);
-        sku.setQuantity(1);
+        sku.setSkuId(6);
+        sku.setQuantity(2);
 
         dto.setSkuList(Lists.newArrayList(sku));
 
@@ -156,7 +156,21 @@ public class ShopControllerTest {
 
         System.out.println(xml2JSON(result));
     }
+    @Test
+    public void sellOut() {
+        String url = "http://localhost:" + port + "/api/shop/sku/option/v1";
 
+        BatchDto dto = new BatchDto();
+        dto.setShopId(1);
+        dto.setBatchId(5);
+        dto.setOption(ShopController.OperateType.SELLOUT.getValue());
+        dto.setOperator("张三");
+        dto.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+        String result = template.postForObject(url, dto, String.class);
+
+        System.out.println(xml2JSON(result));
+    }
     /**
      * 转换一个xml格式的字符串到json格式
      *

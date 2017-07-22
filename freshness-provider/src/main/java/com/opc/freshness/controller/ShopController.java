@@ -207,7 +207,7 @@ public class ShopController {
      */
     @RequestMapping(value = "/api/shop/sku/option/v1", method = {RequestMethod.POST})
     public Result<Boolean> option(@RequestBody BatchDto batchDto) {
-
+        logger.info("/api/shop/sku/option/v1 dto:{}",batchDto.toString());
         Asserts.notNull(batchDto.getShopId(), "店铺Id");
         Asserts.notNull(batchDto.getOption(), "操作类型");
         Asserts.notNull(batchDto.getCreateTime(), "操作时间");
