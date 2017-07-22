@@ -24,9 +24,9 @@ public class KindVo {
     /**
      * 配置信息
      */
-    private String config;
+    private String configStr;
     /**
      * 配置信息Map
      */
-    private Map<String,Object> configObj;
+    private Map<String,Object> config;
 }
