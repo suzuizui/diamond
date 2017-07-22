@@ -154,6 +154,11 @@ public class BatchServiceImpl implements BatchService {
     @Transactional
     public boolean batchLoss(BatchBo batchBo) {
         BatchPo batchPo = batchBiz.selectByPrimaryKey(batchBo.getBatchId());
+        if (batchPo.getStatus() == BatchPo.status.ABORTED) {
+            throw new BizException("批次已经废弃 batchId:" + batchBo.getBatchId());
+        } else if (batchPo.getStatus() == BatchPo.status.SELL_OUT) {
+            throw new BizException("批次已售空 batchId:" + batchBo.getBatchId());
+        }
         batchPo.setBreakCount(batchPo.getBreakCount() + addBatchStateLog(batchPo, batchBo, BatchPo.status.LOSS));
         batchBiz.updateBatchByPrimaryKeyLock(batchPo);
         return true;
@@ -163,8 +168,10 @@ public class BatchServiceImpl implements BatchService {
     @Transactional
     public boolean batchAbort(BatchBo batchBo) {
         BatchPo batchPo = batchBiz.selectByPrimaryKey(batchBo.getBatchId());
-        if (batchPo.getStatus() != BatchPo.status.TO_ABORT) {
-            throw new BizException("批次状态不为待废弃");
+        if (batchPo.getStatus() == BatchPo.status.ABORTED) {
+            throw new BizException("批次已经废弃 batchId:" + batchBo.getBatchId());
+        } else if (batchPo.getStatus() == BatchPo.status.SELL_OUT) {
+            throw new BizException("批次已售空 batchId:" + batchBo.getBatchId());
         }
         batchPo.setStatus(BatchPo.status.ABORTED);
         batchPo.setBreakCount(batchPo.getBreakCount() + addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
@@ -176,7 +183,9 @@ public class BatchServiceImpl implements BatchService {
     public boolean batchSellOut(BatchBo batchBo) {
         BatchPo batchPo = batchBiz.selectByPrimaryKey(batchBo.getBatchId());
         if (batchPo.getStatus() == BatchPo.status.ABORTED) {
-            throw new BizException("批次已经废弃 batchId:"+batchBo.getBatchId());
+            throw new BizException("批次已经废弃 batchId:" + batchBo.getBatchId());
+        } else if (batchPo.getStatus() == BatchPo.status.SELL_OUT) {
+            throw new BizException("批次已售空 batchId:" + batchBo.getBatchId());
         }
         batchPo.setStatus(BatchPo.status.SELL_OUT);
         batchPo.setSellOutTime(batchBo.getCreateTime());
