@@ -145,7 +145,7 @@ public class FileController {
                 row.createCell(j++, CellType.STRING).setCellValue(detailBo.getMaker());
                 row.createCell(j++, CellType.STRING).setCellValue(DateUtils.format(detailBo.getCreateTime(), DATE_FORMAT2));
                 //设置温度
-                if (j++ > 0 && StringUtils.isNotBlank(detailBo.getExtras())) {
+                if (j++ > 0 & StringUtils.isNotBlank(detailBo.getExtras())) {
                     BatchPoExtras extras = JsonUtil.of(detailBo.getExtras(), BatchPoExtras.class);
                     if (extras.getDegree() != null)
                         row.createCell(j, CellType.NUMERIC).setCellValue(extras.getDegree());
@@ -153,13 +153,15 @@ public class FileController {
                 //设置理论废弃时间
                 row.createCell(j++, CellType.STRING).setCellValue(DateUtils.format(detailBo.getExpiredTime(), DATE_FORMAT2));
                 //设置实际废弃时间
-                if (j++ > 0 && detailBo.getExpiredRealTime() != null) {
+                if (detailBo.getExpiredRealTime() != null) {
                     row.createCell(j, CellType.STRING).setCellValue(DateUtils.format(detailBo.getExpiredRealTime(), DATE_FORMAT2));
                 }
+                j++;
                 //设置废弃个数
-                if (j++ > 0 && detailBo.getExpiredCount() != null) {
-                    row.createCell(j++, CellType.NUMERIC).setCellValue(detailBo.getExpiredCount());
+                if (detailBo.getExpiredCount() != null) {
+                    row.createCell(j, CellType.NUMERIC).setCellValue(detailBo.getExpiredCount());
                 }
+                j++;
                 //设置废弃人
                 if (StringUtils.isNotBlank(detailBo.getAborter())) {
                     row.createCell(j, CellType.STRING).setCellValue(detailBo.getAborter());
