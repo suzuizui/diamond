@@ -174,7 +174,8 @@ public class BatchServiceImpl implements BatchService {
             throw new BizException("批次已售空 batchId:" + batchBo.getBatchId());
         }
         batchPo.setStatus(BatchPo.status.ABORTED);
-        batchPo.setBreakCount(batchPo.getBreakCount() + addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
+        batchPo.setExpiredRealTime(batchBo.getCreateTime());
+        batchPo.setBreakCount(batchPo.getExpiredCount() + addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
         batchBiz.updateBatchByPrimaryKeyLock(batchPo);
         return true;
     }

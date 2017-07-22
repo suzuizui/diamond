@@ -84,7 +84,7 @@ public class ShopController {
                                                         kindPo.getId(),
                                                         kindPo.getName(),
                                                         kindPo.getConfig(),
-                                                        JsonUtil.ofMap(kindPo.getConfig(), String.class, String.class)))
+                                                        JsonUtil.ofMap(kindPo.getConfig(), String.class, Object.class)))
                                         .collect(Collectors.toList()))
                         .contactIds(ContactDeviceConfig.getConfig(deviceId))
                         .build());
