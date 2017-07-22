@@ -141,13 +141,13 @@ public class ShopControllerTest {
 
         BatchDto dto = new BatchDto();
         dto.setShopId(1);
-        dto.setBatchId(1);
+        dto.setBatchId(3);
         dto.setOption(ShopController.OperateType.ABORT.getValue());
         dto.setOperator("张三");
-        dto.setCreateTime("");
+        dto.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         SkuDto sku = new SkuDto();
-        sku.setSkuId(1);
+        sku.setSkuId(2);
         sku.setQuantity(5);
 
         dto.setSkuList(Lists.newArrayList(sku));

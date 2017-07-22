@@ -209,7 +209,7 @@ public class ShopController {
     public Result<Boolean> option(@RequestBody BatchDto batchDto) {
 
         Asserts.notNull(batchDto.getShopId(), "店铺Id");
-        Asserts.notNull(batchDto.getCategoryId(), "操作类型");
+        Asserts.notNull(batchDto.getOption(), "操作类型");
         Asserts.notNull(batchDto.getCreateTime(), "操作时间");
 
         Asserts.notEmpty(batchDto.getOperator(), "操作员");
