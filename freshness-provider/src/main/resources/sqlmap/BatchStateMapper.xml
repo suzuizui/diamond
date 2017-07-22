@@ -23,6 +23,7 @@
         <result column="quantity" property="count" jdbcType="INTEGER"/>
         <result column="operator" property="operatorName" jdbcType="VARCHAR"/>
         <result column="create_time" property="operateTime" jdbcType="TIMESTAMP"/>
+        <result column="kinds_id" property="categoryId" jdbcType="INTEGER"/>
     </resultMap>
     <resultMap id="SkuCountResultMap" type="com.opc.freshness.domain.bo.SkuCountBo">
         <id column="id" property="id" jdbcType="INTEGER"/>
@@ -47,36 +48,43 @@
     <sql id="Base_Column_List">
         id, batch_id, shop_id, status, sku_id, sku_name, sku_stock, img_url, quantity, operator, create_time
     </sql>
+    <sql id="Alias_Column_List">
+        f.id, f.batch_id, f.shop_id, f.status, f.sku_id, f.sku_name, f.sku_stock, f.img_url, f.quantity, f.operator, f.create_time
+    </sql>
     <sql id="Vo_Column_List">
-        <include refid="Base_Column_List"/>
+        <include refid="Alias_Column_List"/>
         ,
-        case status
+        case f.status
         when 1 then 1
         when 6 then 2
         when 5 then 3
-        end as operate_type
+        end as operate_type,
+        a.kinds_id as kinds_id
     </sql>
     <sql id="selectVoWhere">
-        shop_id = #{shopId,jdbcType=INTEGER}
-        AND status IN
+        f.shop_id = #{shopId,jdbcType=INTEGER}
+        AND f.status IN
         <foreach collection="statusList" index="index" item="item" open="(" close=")" separator=",">
             #{item,jdbcType=INTEGER}
         </foreach>
+        AND date(a.create_time) = date(now())
     </sql>
     <select id="selectVoCount" resultType="int">
         select
         count(1)
-        from freshness_batch_state
+        from freshness_batch_state f
+        LEFT JOIN freshness_batch a ON a.id = f.batch_id
         WHERE
         <include refid="selectVoWhere"/>
     </select>
     <select id="selectVoList" resultMap="VoResultMap">
         select
         <include refid="Vo_Column_List"/>
-        from freshness_batch_state
+        from freshness_batch_state f
+        LEFT JOIN freshness_batch a ON a.id = f.batch_id
         WHERE
         <include refid="selectVoWhere"/>
-        ORDER BY create_time DESC
+        ORDER BY f.create_time DESC
         LIMIT #{page.offset,jdbcType=INTEGER} ,#{page.limit,jdbcType=INTEGER}
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

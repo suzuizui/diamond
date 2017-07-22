@@ -42,7 +42,12 @@ public class ThirdartyTest {
         System.out.println(JsonUtil.toJson(list));
         System.out.println("end");
     }
-
+    @Test
+    public void getShop() {
+       BeeShop shop = shopRemote.queryByCode("100001001");
+        System.out.println(JsonUtil.toJson(shop));
+        System.out.println("end");
+    }
     @Test
     public void getDeviceList() {
         List<BeeShopDevice> list = shopRemote.queryLoggedDevice(1);
@@ -73,7 +78,7 @@ public class ThirdartyTest {
 
     @Test
     public void getSkuList() {
-        List<BeeShortProduct> skulist = productRemote.queryAllShortProductList(0, 100);
+        List<BeeShortProduct> skulist = productRemote.queryAllShortProductList(0, 1000);
         System.out.println(JsonUtil.toJson(skulist));
         System.out.println("end");
     }

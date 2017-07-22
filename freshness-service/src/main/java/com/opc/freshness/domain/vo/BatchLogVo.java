@@ -39,7 +39,12 @@ public class BatchLogVo {
      * 操作时间
      */
     private Date operateTime;
+    /**
+     * 品类Id
+     */
+    private Integer categoryId;
 
+    private String categoryName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getOperateTime() {
         return operateTime;
