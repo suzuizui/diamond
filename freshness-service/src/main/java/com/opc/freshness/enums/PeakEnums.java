@@ -12,8 +12,8 @@ import java.util.Date;
  */
 public enum PeakEnums {
     MORNING(1, "早高峰", "06:30:00", "10:30:00"),
-    NOON(1, "午高峰", "10:30:00", "14:30:00"),
-    EVENING(1, "晚高峰", "16:30:00", "20:30:00");
+    NOON(2, "午高峰", "10:30:00", "14:30:00"),
+    EVENING(3, "晚高峰", "16:30:00", "20:30:00");
     //年月日
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String DATE_FORMAT2 = "yyyy-MM-dd HH:mm:ss";
