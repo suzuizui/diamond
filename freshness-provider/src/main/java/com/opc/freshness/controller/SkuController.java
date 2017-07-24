@@ -37,8 +37,8 @@ public class SkuController {
      *
      * @param shopCode 门店Code
      * @param shopName
-     * @param productCode
-     * @param productName
+     * @param skuCode
+     * @param skuName
      * @param peakTime    1.早高峰 2.午高峰 3.晚高峰
      * @param adviseCount 预测个数
      * @param saleDay
@@ -48,12 +48,12 @@ public class SkuController {
     public Result<Boolean> salePredictAdd(
             @RequestParam String shopCode,
             @RequestParam(required = false) String shopName,
-            @RequestParam String productCode,
-            @RequestParam(required = false) String productName,
+            @RequestParam String skuCode,
+            @RequestParam(required = false) String skuName,
             @RequestParam Integer peakTime,
             @RequestParam Integer adviseCount,
             @RequestParam Date saleDay) {
-        return new Success<Boolean>(skuService.salePredictAdd(shopCode, shopName, productCode, productName, peakTime, adviseCount, saleDay));
+        return new Success<Boolean>(skuService.salePredictAdd(shopCode, shopName, skuCode, skuName, peakTime, adviseCount, saleDay));
     }
 
     /**
