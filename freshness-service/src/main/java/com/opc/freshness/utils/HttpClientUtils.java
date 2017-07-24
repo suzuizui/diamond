@@ -10,6 +10,10 @@ import org.springframework.util.MultiValueMap;
 
 import java.util.Map;
 
+/**
+ * AUTHOR: qishang
+ * DATE: 2017/7/24
+ */
 public class HttpClientUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientUtils.class);
