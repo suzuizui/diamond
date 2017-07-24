@@ -63,7 +63,7 @@ public class AbortBatchJob {
                 logger.warn("batchToSaling锁获取失败，已有实例开始同步任务，本实例不执行");
                 return;
             }
-            jedisClient.expire(RedisKeyUtils.getLockKey(TOSALING), 120);
+            jedisClient.expire(RedisKeyUtils.getLockKey(TOSALING), 60);
 
             //逻辑处理
             process(TOSALING, BatchPo.status.MAKING, BatchPo.status.SALING);
