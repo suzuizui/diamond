@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import com.opc.freshness.api.model.dto.BatchDto;
 import com.opc.freshness.api.model.dto.SkuDto;
 import com.opc.freshness.api.model.dto.SkuKindDto;
-import com.wormpex.api.json.JsonUtil;
 import com.wormpex.inf.wmq.utils.JsonUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -83,10 +82,10 @@ public class ShopControllerTest {
         SkuKindDto dto = new SkuKindDto();
         dto.setShopId(1);
         dto.setSkuId(30);
-        dto.setCategoryIds(Stream.of(1,2,3,4, 5, 6).collect(Collectors.toList()));
+        dto.setCategoryIds(Stream.of(1, 2, 3, 4, 5, 6).collect(Collectors.toList()));
 
         String result = template.postForObject(url, dto, String.class);
-        Assert.assertEquals( xml2JSON(result),"{\"Success\":{\"data\":[\"true\"],\"ret\":[\"true\"]}}");
+        Assert.assertEquals(xml2JSON(result), "{\"Success\":{\"data\":[\"true\"],\"ret\":[\"true\"]}}");
     }
 
     @Test
@@ -156,6 +155,7 @@ public class ShopControllerTest {
 
         System.out.println(xml2JSON(result));
     }
+
     @Test
     public void sellOut() {
         String url = "http://localhost:" + port + "/api/shop/sku/option/v1";
@@ -171,6 +171,15 @@ public class ShopControllerTest {
 
         System.out.println(xml2JSON(result));
     }
+
+    @Test
+    public void getDevice() {
+        String url ="https://xman.blibee.com/bach/baseinfo/shop/admin/pad/ordermachine/relevantInfo/v1?deviceId=a6d482e2-5cee-3cf7-a68a-58608da2105f";
+        String result = template.getForObject(url, String.class);
+        System.out.println(result);
+//        System.out.println(xml2JSON(result));
+    }
+
     /**
      * 转换一个xml格式的字符串到json格式
      *

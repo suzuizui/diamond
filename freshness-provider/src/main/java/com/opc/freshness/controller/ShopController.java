@@ -136,6 +136,7 @@ public class ShopController {
                                                 .status(batchPo.getStatus())
                                                 .categoryId(batchPo.getKindsId())
                                                 .quanity(batchPo.getTotalCount() - batchPo.getBreakCount() - batchPo.getExpiredCount())
+                                                .createTime(batchPo.getCreateTime())
                                                 .expiredTime(batchPo.getExpiredTime())
                                                 .build())
                                 .collect(Collectors.toList()))
