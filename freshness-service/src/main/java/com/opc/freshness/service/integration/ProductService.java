@@ -44,4 +44,11 @@ public interface ProductService {
      * @return
      */
     BeeProductDetail queryProductDetailByBarcode(String barcode);
+
+    /**
+     * 通过code查询商品
+     * @param productCode
+     * @return
+     */
+    BeeProduct queryByCode(String productCode);
 }

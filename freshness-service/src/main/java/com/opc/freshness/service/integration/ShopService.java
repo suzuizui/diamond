@@ -22,4 +22,10 @@ public interface ShopService {
      * @return
      */
     BeeShop queryByDevice(String deviceId);
+
+    /**
+     * 通过Code查询shop
+     * @param shopCode
+     */
+    BeeShop queryByCode(String shopCode);
 }

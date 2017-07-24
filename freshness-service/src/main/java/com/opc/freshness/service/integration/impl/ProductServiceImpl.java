@@ -1,5 +1,7 @@
 package com.opc.freshness.service.integration.impl;
 
+import com.google.common.collect.Lists;
+import com.opc.freshness.common.util.CollectionUtils;
 import com.opc.freshness.service.integration.ProductService;
 import com.wormpex.biz.BizException;
 import com.wormpex.cvs.product.api.bean.BeeProduct;
@@ -9,10 +11,7 @@ import com.wormpex.cvs.product.api.remote.ProductRemote;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +47,16 @@ public class ProductServiceImpl implements ProductService {
             return productRemote.queryProductDetailByBarcode(barcode);
         } catch (RuntimeException e) {
             throw new BizException("未查找到产品");
+        }
+    }
+
+    @Override
+    public BeeProduct queryByCode(String productCode) {
+        List<BeeProduct> products = productRemote.queryByProductCodeList(Lists.newArrayList(productCode));
+        if (CollectionUtils.isEmpty(products)){
+            throw new BizException("未查找到对应商品");
+        }else {
+            return products.get(0);
         }
     }
 

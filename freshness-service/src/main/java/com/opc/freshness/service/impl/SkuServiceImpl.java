@@ -8,8 +8,13 @@ import com.opc.freshness.service.SkuService;
 import com.opc.freshness.service.biz.KindBiz;
 import com.opc.freshness.service.biz.SkuBiz;
 import com.opc.freshness.service.integration.ProductService;
+import com.opc.freshness.service.integration.ShopService;
+import com.wormpex.biz.BizException;
+import com.wormpex.cvs.product.api.bean.BeeProduct;
 import com.wormpex.cvs.product.api.bean.BeeProductDetail;
+import com.wormpex.cvs.product.api.bean.BeeShop;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -27,10 +32,18 @@ public class SkuServiceImpl implements SkuService {
     private KindBiz kindBiz;
     @Resource
     private ProductService productService;
+    @Resource
+    private ShopService shopService;
+
 
     @Override
-    public Boolean salePredictAdd(Integer shopId, String shopName, Integer skuId, String skuName, Integer peakTime, Integer adviseCount, Date saleDay) {
-        return SkuBiz.addSalePredict(shopId, shopName, skuId, skuName, peakTime, adviseCount, saleDay);
+    public Boolean salePredictAdd(String shopCode, String shopName, String productCode, String skuName, Integer peakTime, Integer adviseCount, Date saleDay) {
+        BeeShop shop =  shopService.queryByCode(shopCode);
+        if (shop==null){
+            throw new BizException("未查找到shop");
+        }
+        BeeProduct product =  productService.queryByCode(productCode);
+        return SkuBiz.addSalePredict(shop.getShopId(), shop.getPropInfo().getName(), product.getId(), product.getPropInfo().getName(), peakTime, adviseCount, saleDay);
     }
 
     @Override

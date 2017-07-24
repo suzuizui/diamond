@@ -13,16 +13,16 @@ public interface SkuService {
     /**
      * 添加销量预测信息
      *
-     * @param shopId
+     * @param shopCode
      * @param shopName
-     * @param skuId
+     * @param productCode
      * @param skuName
      * @param peakTime
      * @param adviseCount
      * @param saleDay
      * @return
      */
-    Boolean salePredictAdd(Integer shopId, String shopName, Integer skuId, String skuName, Integer peakTime, Integer adviseCount, Date saleDay);
+    Boolean salePredictAdd(String shopCode, String shopName, String productCode, String skuName, Integer peakTime, Integer adviseCount, Date saleDay);
 
     /**
      * 添加sku特殊规则

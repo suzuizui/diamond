@@ -35,4 +35,14 @@ public class ShopServiceImpl implements ShopService {
     public BeeShop queryByDevice(String deviceId){
         return shopRemote.queryByDevice(deviceId);
     }
+
+    /**
+     * 通过code查询
+     * @param shopCode
+     * @return
+     */
+    @Override
+    public BeeShop queryByCode(String shopCode) {
+        return shopRemote.queryByCode(shopCode);
+    }
 }
