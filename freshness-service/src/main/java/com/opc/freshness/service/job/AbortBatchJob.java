@@ -39,7 +39,7 @@ public class AbortBatchJob {
                 logger.warn("AbortBatchJob-abortBatch 任务锁获取失败，已有实例开始同步任务，本实例不执行");
                 return;
             }
-            jedisClient.expire(RedisKeyUtils.getLockKey(ABORT), 120);
+            jedisClient.expire(RedisKeyUtils.getLockKey(ABORT), 60);
 
             //逻辑处理
             process(ABORT, BatchPo.status.SALING, BatchPo.status.TO_ABORT);
