@@ -11,20 +11,16 @@ import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
 import com.opc.freshness.common.util.DateUtils;
 import com.opc.freshness.common.util.Pager;
-import com.opc.freshness.config.ContactDeviceConfig;
-import com.opc.freshness.domain.bo.BatchBo;
-import com.opc.freshness.domain.bo.SkuBo;
-import com.opc.freshness.domain.bo.SkuKindBo;
+import com.opc.freshness.domain.bo.*;
 import com.opc.freshness.domain.po.BatchPo;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.vo.*;
 import com.opc.freshness.service.BatchService;
 import com.opc.freshness.service.KindService;
 import com.opc.freshness.service.StaffService;
-import com.opc.freshness.service.integration.ShopService;
+import com.opc.freshness.service.integration.XmanService;
 import com.wormpex.api.json.JsonUtil;
 import com.wormpex.biz.BizException;
-import com.wormpex.cvs.product.api.bean.BeeShop;
 import org.apache.http.util.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +49,7 @@ public class ShopController {
     @Autowired
     private StaffService staffService;
     @Autowired
-    private ShopService shopService;
+    private XmanService xmanService;
 
     /**
      * 设备与门店定位
@@ -65,17 +61,17 @@ public class ShopController {
     public @ResponseBody
     Result<DeviceVo> postitionByDeviceId(@RequestParam String deviceId) {
         logger.info("postitionByDeviceId deviceId:{}", deviceId);
-        BeeShop shop = shopService.queryByDevice(deviceId);
-        if (shop == null) {
-            throw new BizException("未查找到设备对应门店");
+        OrderMachineBo machine = xmanService.relevantInfo(deviceId);
+        if (machine == null) {
+            throw new BizException("未查找到设备相关");
         }
         List<KindPo> kinds = kindService.selectListByDeviceId(deviceId);
         return new Success<DeviceVo>(
                 DeviceVo.builder()
                         .shopInfo(
                                 ShopVo.builder()
-                                        .shopId(shop.getShopId())
-                                        .shopName(shop.getPropInfo().getDisplayName())
+                                        .shopId(machine.getShopInfo().getShopId())
+                                        .shopName(machine.getShopInfo().getPropInfo().getName())
                                         .build())
                         .categories(
                                 kinds.stream()
@@ -86,7 +82,7 @@ public class ShopController {
                                                         kindPo.getConfig(),
                                                         JsonUtil.ofMap(kindPo.getConfig(), String.class, Object.class)))
                                         .collect(Collectors.toList()))
-                        .contactIds(ContactDeviceConfig.getConfig(deviceId))
+                        .contactIds(machine.getRelevantDeviceInfo() == null ? null : machine.getRelevantDeviceInfo().stream().map(DeviceBo::getDeviceId).collect(Collectors.toList()))
                         .build());
     }
 
@@ -208,7 +204,7 @@ public class ShopController {
      */
     @RequestMapping(value = "/api/shop/sku/option/v1", method = {RequestMethod.POST})
     public Result<Boolean> option(@RequestBody BatchDto batchDto) {
-        logger.info("/api/shop/sku/option/v1 dto:{}",batchDto.toString());
+        logger.info("/api/shop/sku/option/v1 dto:{}", batchDto.toString());
         Asserts.notNull(batchDto.getShopId(), "店铺Id");
         Asserts.notNull(batchDto.getOption(), "操作类型");
         Asserts.notNull(batchDto.getCreateTime(), "操作时间");

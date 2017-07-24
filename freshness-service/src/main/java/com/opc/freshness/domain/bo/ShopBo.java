@@ -14,12 +14,12 @@ public class ShopBo {
     private PropInfo propInfo;
     private BizInfo bizInfo;
     @Data
-    class PropInfo {
+    public class PropInfo {
         private String name;
         private String displayName;
     }
     @Data
-    class BizInfo{
+   public class BizInfo{
         private Integer shopType;
     }
 }

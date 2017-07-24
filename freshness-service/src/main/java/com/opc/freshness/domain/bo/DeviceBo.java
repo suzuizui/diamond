@@ -9,5 +9,6 @@ import lombok.Data;
 @Data
 public class DeviceBo {
     private Integer id;
-    private String deviceid;
+    private String deviceId;
+    private String deviceName;
 }
