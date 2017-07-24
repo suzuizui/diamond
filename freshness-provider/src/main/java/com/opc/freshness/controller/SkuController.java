@@ -47,9 +47,9 @@ public class SkuController {
     @RequestMapping(value = "/api/sku/predict/add/v1", method = RequestMethod.POST)
     public Result<Boolean> salePredictAdd(
             @RequestParam Integer shopId,
-            @RequestParam String shopName,
+            @RequestParam(required = false) String shopName,
             @RequestParam Integer skuId,
-            @RequestParam String skuName,
+            @RequestParam(required = false) String skuName,
             @RequestParam Integer peakTime,
             @RequestParam Integer adviseCount,
             @RequestParam Date saleDay) {

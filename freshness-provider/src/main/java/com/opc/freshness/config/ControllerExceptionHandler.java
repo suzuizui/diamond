@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +34,8 @@ public final class ControllerExceptionHandler {
         if (e instanceof BizException) {
             return new Error<>(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
         } else if (e instanceof IllegalStateException) {
+            return new Error<>(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
+        } else if (e instanceof MissingServletRequestParameterException){
             return new Error<>(StringUtils.isEmpty(e.getMessage()) ? "系统异常" : e.getMessage());
         }
         return new Error<>("系统异常");

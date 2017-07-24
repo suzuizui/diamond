@@ -90,6 +90,7 @@
         FROM freshness_batch
         WHERE id IN (SELECT DISTINCT batch_id FROM freshness_batch_state a WHERE a.sku_id = #{skuId,jdbcType=INTEGER})
         AND shop_id = #{shopId,jdbcType=INTEGER}
+        AND status IN (1,2,3)
         AND kinds_id = #{kindId,jdbcType=INTEGER}
         order by create_time desc
         <if test="limit!=null">
