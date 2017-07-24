@@ -21,7 +21,8 @@ public class XmanServiceImpl implements XmanService {
 
     @Override
     public OrderMachineBo relevantInfo(String deviceId) {
-        String str = HttpClientUtils.doGet(XmanPath + RELEVANT_PATH+"?"+"deviceId="+deviceId);
+        String url = XmanPath + RELEVANT_PATH+"?"+"deviceId="+deviceId;
+        String str = HttpClientUtils.doGet(url);
         Result result = JsonUtil.of(str, Result.class);
 
         if (result.isRet()) {
