@@ -47,6 +47,10 @@ public class BatchVo {
      * 预计废弃时间
      */
     private Date expiredTime;
+    /**
+     * 废弃倒计时
+     */
+    private Long expireCountDown;
 
     /**
      * 鲜度标识 0:旧 1:新
