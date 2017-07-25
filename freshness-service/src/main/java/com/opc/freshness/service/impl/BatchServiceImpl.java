@@ -67,6 +67,7 @@ public class BatchServiceImpl implements BatchService {
     public BatchVo skuDetailInfoListByBatchId(Integer batchId) {
         BatchPo po = batchBiz.selectByPrimaryKey(batchId);
         if (po == null) {
+            logger.info("skuDetailInfoListByBatchId 不存在的批次 batchId:{}",batchId);
             throw new BizException("不存在的批次");
         }
         List<SkuDetailBo> detailBos = batchBiz.skuDetailInfoListByBatchId(batchId);
@@ -145,20 +146,18 @@ public class BatchServiceImpl implements BatchService {
         if (batchBo.getSkuList().size() == 1) {
             batchPo.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
         }
-        //将以前同组批次置为旧批次
-        BatchPo oldPo = new BatchPo();
-        oldPo.setGroupFlag(batchPo.getGroupFlag());
-        oldPo.setShopId(batchPo.getShopId());
-        oldPo.setFreshFlag((byte) 0);
-        batchBiz.updateByGroupFlagSelective(oldPo);
-
         //插入批次，返回主键
         batchBiz.insertSelective(batchPo);
         // 设置总个数，并插入流水表
         batchPo.setTotalCount(addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
         // 更新批次总个数
         batchBiz.updateByPrimaryKeySelective(batchPo);
-
+        //将以前同组批次置为旧批次
+        BatchPo oldPo = new BatchPo();
+        oldPo.setGroupFlag(batchPo.getGroupFlag());
+        oldPo.setShopId(batchPo.getShopId());
+        oldPo.setFreshFlag((byte) 0);
+        batchBiz.updateByGroupFlagSelective(oldPo);
         return true;
 
     }
@@ -239,10 +238,9 @@ public class BatchServiceImpl implements BatchService {
             BeeShopProduct shopSku = shopSkuMap.get(skuBo.getSkuId());
 
             state.setSkuId(sku.getId());
-            state.setSkuCode(sku.getProductCode());
             state.setSkuStock(shopSku.getSaleCount());
             state.setSkuName(sku.getPropInfo().getDisplayName());
-            state.setImgUrl(sku.getImages().isEmpty() ? "" : sku.getImages().get(0).getImageUrl());
+            state.setImgUrl(sku.getImages().isEmpty() ? null : sku.getImages().get(0).getImageUrl());
 
             state.setOperator(batchBo.getOperator());
 
