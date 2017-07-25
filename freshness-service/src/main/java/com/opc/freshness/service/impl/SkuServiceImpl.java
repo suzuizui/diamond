@@ -2,13 +2,11 @@ package com.opc.freshness.service.impl;
 
 import com.opc.freshness.common.util.BeanCopyUtils;
 import com.opc.freshness.common.util.CollectionUtils;
-import com.opc.freshness.domain.po.SalePredictPo;
 import com.opc.freshness.domain.vo.KindVo;
 import com.opc.freshness.domain.vo.SkuVo;
 import com.opc.freshness.service.SkuService;
 import com.opc.freshness.service.biz.KindBiz;
 import com.opc.freshness.service.biz.SkuBiz;
-import com.opc.freshness.service.dao.SalePredictMapper;
 import com.opc.freshness.service.integration.ProductService;
 import com.opc.freshness.service.integration.ShopService;
 import com.wormpex.biz.BizException;
@@ -40,12 +38,12 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     public Boolean salePredictAdd(String shopCode, String shopName, String productCode, String skuName, Integer peakTime, Integer adviseCount, Date saleDay) {
-        BeeShop shop = shopService.queryByCode(shopCode);
-        if (shop == null) {
+        BeeShop shop =  shopService.queryByCode(shopCode);
+        if (shop==null){
             throw new BizException("未查找到shop");
         }
-        BeeProduct product = productService.queryByCode(productCode);
-        return SkuBiz.addSalePredict(shop.getShopId(), shop.getPropInfo().getName(), product.getId(), product.getProductCode(), product.getPropInfo().getName(), peakTime, adviseCount, saleDay);
+        BeeProduct product =  productService.queryByCode(productCode);
+        return SkuBiz.addSalePredict(shop.getShopId(), shop.getPropInfo().getName(), product.getId(), product.getPropInfo().getName(), peakTime, adviseCount, saleDay);
     }
 
     @Override
@@ -69,13 +67,5 @@ public class SkuServiceImpl implements SkuService {
                 .categories(kindVoList)
                 .hasCategory(hasCategory)
                 .build();
-    }
-
-    @Override
-    public List<SalePredictPo> selectPredic(Integer shopId, Date date) {
-        SalePredictPo po = new SalePredictPo();
-        po.setShopId(shopId);
-        po.setSalesDay(date);
-        return SkuBiz.selectByRecord(po);
     }
 }

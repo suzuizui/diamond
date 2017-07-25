@@ -48,7 +48,7 @@ public class BatchVo {
      */
     private Date expiredTime;
     /**
-     * 废弃倒计时(分钟)
+     * 废弃倒计时
      */
     private Long expireCountDown;
 

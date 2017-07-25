@@ -6,7 +6,6 @@
         <result column="shop_id" property="shopId" jdbcType="INTEGER"/>
         <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
         <result column="sku_id" property="skuId" jdbcType="INTEGER"/>
-        <result column="sku_code" property="skuCode" jdbcType="VARCHAR"/>
         <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
         <result column="peak" property="peak" jdbcType="INTEGER"/>
         <result column="advise_count" property="adviseCount" jdbcType="INTEGER"/>
@@ -15,7 +14,7 @@
         <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, shop_id, shop_name, sku_id, sku_code, sku_name, peak, advise_count, sales_day, create_time, last_modify_time
+        id, shop_id, shop_name, sku_id, sku_name, peak, advise_count, sales_day, create_time, last_modify_time
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -23,47 +22,17 @@
         from fressness_sales_predict
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByRecord" resultMap="BaseResultMap" parameterType="com.opc.freshness.domain.po.SalePredictPo">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM fressness_sales_predict
-        WHERE 1=1
-        <set>
-            <if test="shopId != null">
-                AND shop_id = #{shopId,jdbcType=INTEGER}
-            </if>
-            <if test="shopName != null">
-                AND shop_name = #{shopName,jdbcType=VARCHAR}
-            </if>
-            <if test="skuId != null">
-                AND sku_id = #{skuId,jdbcType=INTEGER}
-            </if>
-            <if test="skuName != null">
-                AND sku_name = #{skuName,jdbcType=VARCHAR}
-            </if>
-            <if test="peak != null">
-                AND peak = #{peak,jdbcType=INTEGER}
-            </if>
-            <if test="adviseCount != null">
-                AND advise_count = #{adviseCount,jdbcType=INTEGER}
-            </if>
-            <if test="salesDay != null">
-                AND date(sales_day) = date(#{salesDay,jdbcType=DATE})
-            </if>
-        </set>
-    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM fressness_sales_predict
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="save" parameterType="com.opc.freshness.domain.po.SalePredictPo">
         INSERT INTO fressness_sales_predict (id, shop_id, shop_name,
-                                             sku_id, sku_code, sku_name, peak,
+                                             sku_id, sku_name, peak,
                                              advise_count, sales_day
         )
         VALUES (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR},
-                #{skuId,jdbcType=INTEGER}, #{skuCode,jdbcType=VARCHAR}, #{skuName,jdbcType=VARCHAR},
-                #{peak,jdbcType=INTEGER},
+                #{skuId,jdbcType=INTEGER}, #{skuName,jdbcType=VARCHAR}, #{peak,jdbcType=INTEGER},
                 #{adviseCount,jdbcType=INTEGER}, #{salesDay,jdbcType=DATE}
         )
         ON DUPLICATE KEY UPDATE

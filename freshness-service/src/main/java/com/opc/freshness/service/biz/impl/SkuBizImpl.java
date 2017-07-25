@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 
 /**
  * AUTHOR: qishang
@@ -23,7 +22,7 @@ public class SkuBizImpl implements SkuBiz {
     private SkuTimeMapper skuTimeMapper;
 
     @Override
-    public Boolean addSalePredict(Integer shopId, String shopName, Integer skuId, String skuCode,String skuName, Integer peakTime, Integer adviseCount, Date saleDay) {
+    public Boolean addSalePredict(Integer shopId, String shopName, Integer skuId, String skuName, Integer peakTime, Integer adviseCount, Date saleDay) {
         SalePredictPo po = new SalePredictPo();
         po.setShopId(shopId);
         po.setShopName(shopName);
@@ -50,9 +49,5 @@ public class SkuBizImpl implements SkuBiz {
     @Override
     public SkuTimePo selectRuleBySkuIdAndKindId(Integer SkuId, Integer kindId) {
         return skuTimeMapper.selectBySkuIdAndKindId(SkuId,kindId);
-    }
-    @Override
-    public List<SalePredictPo> selectByRecord(SalePredictPo po){
-        return salePredictMapper.selectByRecord(po);
     }
 }

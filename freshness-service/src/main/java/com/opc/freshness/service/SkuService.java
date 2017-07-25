@@ -1,10 +1,8 @@
 package com.opc.freshness.service;
 
-import com.opc.freshness.domain.po.SalePredictPo;
 import com.opc.freshness.domain.vo.SkuVo;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * AUTHOR: qishang
@@ -44,12 +42,4 @@ public interface SkuService {
      * @return
      */
     SkuVo selectSkuByBarCode(String barCode, Integer shopId);
-
-    /**
-     * 查询
-     * @param shopId
-     * @param date
-     * @return
-     */
-    List<SalePredictPo> selectPredic(Integer shopId, Date date);
 }

@@ -13,7 +13,7 @@ public class SalePredictPo {
     private String shopName;
 
     private Integer skuId;
-    private String skuCode;
+
     private String skuName;
 
     private Integer peak;
