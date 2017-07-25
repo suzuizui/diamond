@@ -114,6 +114,9 @@ public class BatchServiceImpl implements BatchService {
         KindPo kind = kindBiz.selectByPrimaryKey(batchBo.getCategoryId());
         // 查询门店
         BeeShop shop = shopService.queryById(batchBo.getShopId());
+        if(shop==null){
+            throw new BizException("未查找到门店");
+        }
         // 封装批次
         BatchPo batchPo = BeanCopyUtils.convertClass(batchBo, BatchPo.class);
         //设置品类
