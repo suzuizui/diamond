@@ -1,8 +1,10 @@
 package com.opc.freshness.service.biz;
 
+import com.opc.freshness.domain.po.SalePredictPo;
 import com.opc.freshness.domain.po.SkuTimePo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * AUTHOR: qishang
@@ -20,7 +22,7 @@ public interface SkuBiz {
      * @param saleDay
      * @return
      */
-    Boolean addSalePredict(Integer shopId, String shopName, Integer skuId, String skuName, Integer peakTime, Integer adviseCount, Date saleDay);
+    Boolean addSalePredict(Integer shopId, String shopName, Integer skuId,String skuCode, String skuName, Integer peakTime, Integer adviseCount, Date saleDay);
 
     /**
      * 添加sku特殊规则
@@ -34,4 +36,11 @@ public interface SkuBiz {
     Boolean addSkuTime(Integer skuId, Integer kindId, Integer delay, Integer expired);
 
     SkuTimePo selectRuleBySkuIdAndKindId(Integer SkuId,Integer kindId);
+
+    /**
+     * 通过po查询
+     * @param po
+     * @return
+     */
+    List<SalePredictPo> selectByRecord(SalePredictPo po);
 }
