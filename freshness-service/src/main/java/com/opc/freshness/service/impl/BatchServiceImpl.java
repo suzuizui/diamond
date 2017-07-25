@@ -146,18 +146,19 @@ public class BatchServiceImpl implements BatchService {
         if (batchBo.getSkuList().size() == 1) {
             batchPo.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
         }
-        //插入批次，返回主键
-        batchBiz.insertSelective(batchPo);
-        // 设置总个数，并插入流水表
-        batchPo.setTotalCount(addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
-        // 更新批次总个数
-        batchBiz.updateByPrimaryKeySelective(batchPo);
         //将以前同组批次置为旧批次
         BatchPo oldPo = new BatchPo();
         oldPo.setGroupFlag(batchPo.getGroupFlag());
         oldPo.setShopId(batchPo.getShopId());
         oldPo.setFreshFlag((byte) 0);
         batchBiz.updateByGroupFlagSelective(oldPo);
+        //插入批次，返回主键
+        batchBiz.insertSelective(batchPo);
+        // 设置总个数，并插入流水表
+        batchPo.setTotalCount(addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
+        // 更新批次总个数
+        batchBiz.updateByPrimaryKeySelective(batchPo);
+
         return true;
 
     }
@@ -240,7 +241,7 @@ public class BatchServiceImpl implements BatchService {
             state.setSkuId(sku.getId());
             state.setSkuStock(shopSku.getSaleCount());
             state.setSkuName(sku.getPropInfo().getDisplayName());
-            state.setImgUrl(sku.getImages().isEmpty() ? null : sku.getImages().get(0).getImageUrl());
+            state.setImgUrl(sku.getImages().isEmpty() ? "" : sku.getImages().get(0).getImageUrl());
 
             state.setOperator(batchBo.getOperator());
 
