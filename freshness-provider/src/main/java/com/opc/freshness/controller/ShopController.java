@@ -119,8 +119,8 @@ public class ShopController {
      */
     @RequestMapping(value = "/api/shop/expire/list/v1", method = {RequestMethod.GET})
     public Result<MakeAndAbortBatchVo> getMakeAndAbortList(@RequestParam Integer shopId) {
-        Date now = new Date();
-        now = batchService.selectNextTime(now, shopId);
+        Date query = new Date();
+        Date now = batchService.selectNextTime(query, shopId);
         List<BatchPo> pos = batchService.selectMakeAndAbortList(shopId);
         return new Success<MakeAndAbortBatchVo>(
                 MakeAndAbortBatchVo.builder()
@@ -135,6 +135,7 @@ public class ShopController {
                                                 .quanity(batchPo.getTotalCount() - batchPo.getBreakCount() - batchPo.getExpiredCount())
                                                 .createTime(batchPo.getCreateTime())
                                                 .expiredTime(batchPo.getExpiredTime())
+                                                .expireCountDown((batchPo.getExpiredTime().getTime()-now.getTime())/60000)
                                                 .freshFlag(batchPo.getFreshFlag())
                                                 .build())
                                 .collect(Collectors.toList()))
