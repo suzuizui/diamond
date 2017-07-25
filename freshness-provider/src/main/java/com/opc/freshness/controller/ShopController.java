@@ -13,6 +13,7 @@ import com.opc.freshness.common.util.DateUtils;
 import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.*;
 import com.opc.freshness.domain.po.BatchPo;
+import com.opc.freshness.domain.po.BatchPoExtras;
 import com.opc.freshness.domain.po.KindPo;
 import com.opc.freshness.domain.vo.*;
 import com.opc.freshness.service.BatchService;
@@ -21,6 +22,7 @@ import com.opc.freshness.service.StaffService;
 import com.opc.freshness.service.integration.XmanService;
 import com.wormpex.api.json.JsonUtil;
 import com.wormpex.biz.BizException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.util.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,7 +121,7 @@ public class ShopController {
      */
     @RequestMapping(value = "/api/shop/expire/list/v1", method = {RequestMethod.GET})
     public Result<MakeAndAbortBatchVo> getMakeAndAbortList(@RequestParam Integer shopId) {
-       final Date now = new Date();
+        final Date now = new Date();
         Date nextTime = batchService.selectNextTime(now, shopId);
         List<BatchPo> pos = batchService.selectMakeAndAbortList(shopId);
         return new Success<MakeAndAbortBatchVo>(
@@ -135,7 +137,8 @@ public class ShopController {
                                                 .quanity(batchPo.getTotalCount() - batchPo.getBreakCount() - batchPo.getExpiredCount())
                                                 .createTime(batchPo.getCreateTime())
                                                 .expiredTime(batchPo.getExpiredTime())
-                                                .expireCountDown((batchPo.getExpiredTime().getTime()-now.getTime())/60000)
+                                                .tag(StringUtils.isEmpty(batchPo.getExtras()) ? null : JsonUtil.of(batchPo.getExtras(), BatchPoExtras.class).getTag())
+                                                .expireCountDown((now.getTime() - batchPo.getExpiredTime().getTime()) / 60000)
                                                 .freshFlag(batchPo.getFreshFlag())
                                                 .build())
                                 .collect(Collectors.toList()))
