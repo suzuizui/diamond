@@ -67,6 +67,7 @@ public class BatchServiceImpl implements BatchService {
     public BatchVo skuDetailInfoListByBatchId(Integer batchId) {
         BatchPo po = batchBiz.selectByPrimaryKey(batchId);
         if (po == null) {
+            logger.info("skuDetailInfoListByBatchId 不存在的批次 batchId:{}",batchId);
             throw new BizException("不存在的批次");
         }
         List<SkuDetailBo> detailBos = batchBiz.skuDetailInfoListByBatchId(batchId);
