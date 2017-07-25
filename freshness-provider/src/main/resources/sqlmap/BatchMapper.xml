@@ -19,12 +19,13 @@
         <result column="break_count" jdbcType="INTEGER" property="breakCount"/>
         <result column="extras" jdbcType="VARCHAR" property="extras"/>
         <result column="group_flag" jdbcType="VARCHAR" property="groupFlag"/>
+        <result column="fresh_flag" jdbcType="BIT" property="freshFlag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, name, kinds_id, shop_id, shop_name, status, delay_time, expired_time, expired_real_time, sell_out_time, create_time, last_modify_time, total_count, expired_count, break_count, extras, group_flag
+        id, name, kinds_id, shop_id, shop_name, status, delay_time, expired_time, expired_real_time, sell_out_time, create_time, last_modify_time, total_count, expired_count, break_count, extras, group_flag, fresh_flag
     </sql>
     <sql id="alias_Column_List">
-        f.id, f.name, f.kinds_id, f.shop_id, f.shop_name, f.status, f.delay_time, f.expired_time, f.expired_real_time, f.sell_out_time, f.create_time, f.last_modify_time, f.total_count, f.expired_count, f.break_count, f.extras, f.group_flag
+        f.id, f.name, f.kinds_id, f.shop_id, f.shop_name, f.status, f.delay_time, f.expired_time, f.expired_real_time, f.sell_out_time, f.create_time, f.last_modify_time, f.total_count, f.expired_count, f.break_count, f.extras, f.group_flag, f.fresh_flag
     </sql>
     <sql id="selectLastNGroupByKindAndFlagSubQuery">
         SELECT
@@ -40,6 +41,55 @@
         </foreach>
         GROUP BY a.kinds_id, a.group_flag, a.create_time
         <![CDATA[  HAVING count(b.create_time) <= ]]>   #{count,jdbcType=INTEGER}
+    </sql>
+    <sql id="UpdateSet">
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="kindsId != null">
+                kinds_id = #{kindsId,jdbcType=INTEGER},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId,jdbcType=INTEGER},
+            </if>
+            <if test="shopName != null">
+                shop_name = #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="delayTime != null">
+                delay_time = #{delayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expiredRealTime != null">
+                expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sellOutTime != null">
+                sell_out_time = #{sellOutTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="totalCount != null">
+                total_count = #{totalCount,jdbcType=INTEGER},
+            </if>
+            <if test="expiredCount != null">
+                expired_count = #{expiredCount,jdbcType=INTEGER},
+            </if>
+            <if test="breakCount != null">
+                break_count = #{breakCount,jdbcType=INTEGER},
+            </if>
+            <if test="extras != null">
+                extras = #{extras,jdbcType=VARCHAR},
+            </if>
+            <if test="groupFlag != null">
+                group_flag= #{groupFlag,jdbcType=INTEGER},
+            </if>
+            <if test="freshFlag != null">
+                fresh_flag = #{freshFlag,jdbcType=BIT},
+            </if>
+        </set>
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -173,6 +223,9 @@
             <if test="groupFlag != null">
                 group_flag,
             </if>
+            <if test="freshFlag != null">
+                fresh_flag,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -226,55 +279,24 @@
             <if test="groupFlag != null">
                 #{groupFlag,jdbcType=INTEGER},
             </if>
+            <if test="freshFlag != null">
+                #{freshFlag,jdbcType=BIT},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.opc.freshness.domain.po.BatchPo">
         update freshness_batch
-        <set>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="kindsId != null">
-                kinds_id = #{kindsId,jdbcType=INTEGER},
-            </if>
-            <if test="shopId != null">
-                shop_id = #{shopId,jdbcType=INTEGER},
-            </if>
-            <if test="shopName != null">
-                shop_name = #{shopName,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=INTEGER},
-            </if>
-            <if test="delayTime != null">
-                delay_time = #{delayTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="expiredRealTime != null">
-                expired_real_time = #{expiredRealTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="sellOutTime != null">
-                sell_out_time = #{sellOutTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="totalCount != null">
-                total_count = #{totalCount,jdbcType=INTEGER},
-            </if>
-            <if test="expiredCount != null">
-                expired_count = #{expiredCount,jdbcType=INTEGER},
-            </if>
-            <if test="breakCount != null">
-                break_count = #{breakCount,jdbcType=INTEGER},
-            </if>
-            <if test="extras != null">
-                extras = #{extras,jdbcType=VARCHAR},
-            </if>
-            <if test="groupFlag != null">
-                group_flag= #{groupFlag,jdbcType=INTEGER},
-            </if>
-        </set>
+        <include refid="UpdateSet"/>
         where id = #{id,jdbcType=INTEGER}
+        <if test="lastModifyTime != null">
+            AND last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+        </if>
+    </update>
+    <update id="updateByGroupFlagSelective" parameterType="com.opc.freshness.domain.po.BatchPo">
+        update freshness_batch
+        <include refid="UpdateSet"/>
+        where group_flag = #{groupFlag,jdbcType=INTEGER}
+        and shop_id =#{shopId,jdbcType=INTEGER}
         <if test="lastModifyTime != null">
             AND last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
         </if>

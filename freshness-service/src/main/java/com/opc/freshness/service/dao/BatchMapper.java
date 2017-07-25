@@ -19,6 +19,8 @@ public interface BatchMapper {
 
     int updateByPrimaryKeySelective(BatchPo record);
 
+    int updateByGroupFlagSelective(BatchPo record);
+
     /**
      * 选取
      *
@@ -38,8 +40,8 @@ public interface BatchMapper {
      */
     List<BatchPo> batchListBySkuIdAndKindId(@Param("skuId") Integer skuId, @Param("kindId") Integer kindId, @Param("shopId") Integer shopId, @Param("limit") Integer limit);
 
-    Date selectNextDelayTime(@Param("now") Date now,@Param("shopId") Integer shopId);
+    Date selectNextDelayTime(@Param("now") Date now, @Param("shopId") Integer shopId);
 
-    Date selectNextExpiredTime(@Param("now") Date now,@Param("shopId") Integer shopId);
+    Date selectNextExpiredTime(@Param("now") Date now, @Param("shopId") Integer shopId);
 
 }

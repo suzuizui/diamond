@@ -121,9 +121,10 @@ public class ShopController {
     public Result<MakeAndAbortBatchVo> getMakeAndAbortList(@RequestParam Integer shopId) {
         Date now = new Date();
         now = batchService.selectNextTime(now, shopId);
+        List<BatchPo> pos = batchService.selectMakeAndAbortList(shopId);
         return new Success<MakeAndAbortBatchVo>(
                 MakeAndAbortBatchVo.builder()
-                        .batchList(batchService.selectMakeAndAbortList(shopId).stream()
+                        .batchList(pos.stream()
                                 .map(batchPo ->
                                         BatchVo
                                                 .builder()
@@ -134,6 +135,7 @@ public class ShopController {
                                                 .quanity(batchPo.getTotalCount() - batchPo.getBreakCount() - batchPo.getExpiredCount())
                                                 .createTime(batchPo.getCreateTime())
                                                 .expiredTime(batchPo.getExpiredTime())
+                                                .freshFlag(batchPo.getFreshFlag())
                                                 .build())
                                 .collect(Collectors.toList()))
                         .nextTime(now)

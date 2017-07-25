@@ -60,6 +60,13 @@ public interface BatchBiz {
      * @param batchPo
      */
     int updateByPrimaryKeySelective(BatchPo batchPo);
+
+    /**
+     * 通过分组标识更新
+     * @param record
+     * @return
+     */
+    int updateByGroupFlagSelective(BatchPo record);
     /**
      * batch 具有乐观锁的更新
      *

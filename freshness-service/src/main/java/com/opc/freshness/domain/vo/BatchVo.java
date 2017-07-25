@@ -47,6 +47,11 @@ public class BatchVo {
      * 预计废弃时间
      */
     private Date expiredTime;
+
+    /**
+     * 鲜度标识 0:旧 1:新
+     */
+    private Byte freshFlag;
     /**
      * skuList
      */

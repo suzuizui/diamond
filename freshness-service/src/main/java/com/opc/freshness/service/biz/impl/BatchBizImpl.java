@@ -79,6 +79,11 @@ public class BatchBizImpl implements BatchBiz {
     }
 
     @Override
+    public int updateByGroupFlagSelective(BatchPo record) {
+        return batchMapper.updateByGroupFlagSelective(record);
+    }
+
+    @Override
     public Pager<BatchLogVo> selectLogByPage(Integer shopId, List<Integer> statusList, Integer pageNo, Integer pageSize) {
         PageRequest pageRequest = new PageRequest();
         pageRequest.setPage(new PageRequest.Page(pageSize, pageNo));

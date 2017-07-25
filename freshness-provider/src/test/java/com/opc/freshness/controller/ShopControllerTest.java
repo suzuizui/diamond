@@ -106,7 +106,7 @@ public class ShopControllerTest {
         sku.setSkuId(2);
         sku.setQuantity(10);
         dto.setSkuList(Lists.newArrayList(sku));
-        System.out.println(JsonUtils.toJsonString(dto));
+//        System.out.println(JsonUtils.toJsonString(dto));
         String result = template.postForObject(url, dto, String.class);
 
         System.out.println(xml2JSON(result));
@@ -174,7 +174,7 @@ public class ShopControllerTest {
 
     @Test
     public void getDevice() {
-        String url ="https://xman.blibee.com/bach/baseinfo/shop/admin/pad/ordermachine/relevantInfo/v1?deviceId=a6d482e2-5cee-3cf7-a68a-58608da2105f";
+        String url = "https://xman.blibee.com/bach/baseinfo/shop/admin/pad/ordermachine/relevantInfo/v1?deviceId=a6d482e2-5cee-3cf7-a68a-58608da2105f";
         String result = template.getForObject(url, String.class);
         System.out.println(result);
 //        System.out.println(xml2JSON(result));

@@ -134,6 +134,8 @@ public class BatchServiceImpl implements BatchService {
         }
         // 设置状态
         batchPo.setStatus(BatchPo.status.MAKING);
+        //设置鲜度标识
+        batchPo.setFreshFlag((byte) 1);
         // 设置拓展字段
         batchPo.setExtras(JsonUtil.toJson(new BatchPoExtras(batchBo.getDegree(), batchBo.getTag(), batchBo.getUnit())));
         //设置分组标志
@@ -146,6 +148,12 @@ public class BatchServiceImpl implements BatchService {
         batchPo.setTotalCount(addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
         // 更新批次总个数
         batchBiz.updateByPrimaryKeySelective(batchPo);
+        //将以前同组批次置为旧批次
+        BatchPo oldPo = new BatchPo();
+        oldPo.setGroupFlag(batchPo.getGroupFlag());
+        oldPo.setShopId(batchPo.getShopId());
+        oldPo.setFreshFlag((byte) 0);
+        batchBiz.updateByGroupFlagSelective(oldPo);
         return true;
 
     }

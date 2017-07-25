@@ -78,6 +78,10 @@ public class BatchPo {
      * 分组标志
      */
     private Integer groupFlag;
+    /**
+     * 鲜度标识 0:旧 1:新
+     */
+    private Byte freshFlag;
 
     public static class status {
         /**

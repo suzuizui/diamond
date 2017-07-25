@@ -81,20 +81,18 @@ public class KindServiceImpl implements KindService {
             final Map<Integer, SkuPeakBo> map = kindBiz.selectSkuMakeList(shopId, categoryId, enums.getBeginDate(now), enums.getEndDate(now));
             List<SkuPeakBo> peakBos = kindBiz.selectSkuListByPeak(shopId, categoryId, enums.getId(), now);
             return peakBos.stream()
-                    .map(bo -> {
-                        logger.info("bo:{}", bo.getSkuId());
-                        return SkuVo.builder()
-                                .skuId(bo.getSkuId())
-                                .skuName(bo.getSkuName())
-                                .imgUrl(bo.getImgUrl())
-                                .peakInfo(SkuPeakVo.builder()
-                                        .id(enums.getId())
-                                        .name(enums.getName())
-                                        .makeCount(map.get(bo.getSkuId()) != null && map.get(bo.getSkuId()).getCount() != null ? map.get(bo.getSkuId()).getCount() : 0)
-                                        .adviseCount(bo.getAdviceCount())
-                                        .build())
-                                .build();
-                    })
+                    .map(bo -> SkuVo.builder()
+                            .skuId(bo.getSkuId())
+                            .skuName(bo.getSkuName())
+                            .imgUrl(bo.getImgUrl())
+                            .peakInfo(
+                                    SkuPeakVo.builder()
+                                            .id(enums.getId())
+                                            .name(enums.getName())
+                                            .makeCount(map.get(bo.getSkuId()) != null && map.get(bo.getSkuId()).getCount() != null ? map.get(bo.getSkuId()).getCount() : 0)
+                                            .adviseCount(bo.getAdviceCount())
+                                            .build())
+                            .build())
                     .collect(Collectors.toList());
         }
     }
