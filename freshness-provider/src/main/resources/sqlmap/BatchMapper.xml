@@ -307,7 +307,7 @@
         SET status = 4
         WHERE shop_id = #{shopId,jdbcType=INTEGER}
         AND kinds_id =#{kindId,jdbcType=INTEGER}
-        and (status = 3 or status = 2)
+        AND (status = 3 or status = 2)
         <if test="groupFlag!=null">
             AND group_flag =#{groupFlag,jdbcType=INTEGER}
         </if>
