@@ -258,7 +258,7 @@ public class BatchServiceImpl implements BatchService {
                 if (StringUtils.isBlank(batch.getName())) {
                     batch.setName(state.getSkuName());
                 } else {
-                    batch.setName(batch.getName() + "、" + state.getSkuName() + "..");
+                    batch.setName(batch.getName() + "、" + state.getSkuName());
                 }
             }
         }
