@@ -251,7 +251,7 @@ public class BatchServiceImpl implements BatchService {
             state.setImgUrl(sku.getImages().isEmpty() ? "" : sku.getImages().get(0).getImageUrl());
 
             state.setOperator(batchBo.getOperator());
-            state.setCreateTime(batchBo.getCreateTime());
+            state.setCreateTime(new Date());
 
             state.setQuantity(skuBo.getQuantity());
             logs.add(state);
