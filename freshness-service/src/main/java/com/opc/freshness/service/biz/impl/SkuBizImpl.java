@@ -28,6 +28,7 @@ public class SkuBizImpl implements SkuBiz {
         po.setShopId(shopId);
         po.setShopName(shopName);
         po.setSkuId(skuId);
+        po.setSkuCode(skuCode);
         po.setSkuName(skuName);
         po.setAdviseCount(adviseCount);
         po.setSalesDay(saleDay);

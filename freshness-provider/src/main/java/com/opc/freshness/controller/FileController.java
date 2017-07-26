@@ -43,7 +43,7 @@ public class FileController {
     private static final String DATE_FORMAT2 = "yyyy-MM-dd hh:mm";
     private static final String FILE_NAME = "制作统计";
     private static final String DETAIL_FILE_NAME = "明细列表";
-    private static final String PLAN_FILE_NAME = "明细列表";
+    private static final String PLAN_FILE_NAME = "生产计划量";
     //表头
     private static final String[] HEADER = {"商品名", "商品编号", "制作数量", "报损数量", "废弃数量", "废弃率", "报损率"};
     private static final String[] DETAIL_HEADER = {"商品名", "商品编号", "制作人", "制作时间", "温度℃", "理论废弃时间", "实际废弃时间", "废弃个数", "废弃人"};
