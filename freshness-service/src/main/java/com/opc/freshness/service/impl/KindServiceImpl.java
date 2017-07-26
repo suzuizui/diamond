@@ -13,6 +13,7 @@ import com.opc.freshness.service.biz.BatchBiz;
 import com.opc.freshness.service.biz.KindBiz;
 import com.opc.freshness.service.integration.ProductService;
 import com.wormpex.cvs.product.api.bean.BeeProductDetail;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class KindServiceImpl implements KindService {
                     po.setSkuId(bo.getSkuId());
                     po.setShopId(bo.getShopId());
                     po.setSkuName(sku.getProductBase().getDisplayName());
-                    po.setImgUrl(sku.getProductBase().getImage());
+                    po.setImgUrl(StringUtils.isEmpty(sku.getProductBase().getImage())?"":sku.getProductBase().getImage());
                     po.setKindId(kindId);
                     return po;
                 }).collect(Collectors.toList());
