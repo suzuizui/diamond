@@ -29,14 +29,14 @@
     </sql>
     <sql id="selectLastNGroupByKindAndFlagSubQuery">
         SELECT
-        DISTINCT a.id AS id
+            DISTINCT a.id AS id
         FROM freshness_batch a LEFT JOIN freshness_batch b
-        ON a.kinds_id = b.kinds_id
-        AND a.group_flag = b.group_flag
-        AND b.status  =#{status,jdbcType=INTEGER}
+                ON a.kinds_id = b.kinds_id
+                   AND a.group_flag = b.group_flag
+                   AND b.status = #{status,jdbcType=INTEGER}
         <![CDATA[   AND a.create_time <= b.create_time ]]>
         WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
-        AND a.status  =#{status,jdbcType=INTEGER}
+              AND a.status = #{status,jdbcType=INTEGER}
         GROUP BY a.id
         <![CDATA[  HAVING count(b.create_time) <= ]]>   #{count,jdbcType=INTEGER}
     </sql>
@@ -300,6 +300,16 @@
         </if>
         <if test="lastModifyTime != null">
             AND last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+        </if>
+    </update>
+    <update id="saleOutOldBatch">
+        UPDATE freshness_batch
+        SET status = 4
+        WHERE shop_id = #{shopId,jdbcType=INTEGER}
+        AND kinds_id =#{kindId,jdbcType=INTEGER}
+        and (status = 3 or status = 2)
+        <if test="groupFlag!=null">
+            AND group_flag =#{groupFlag,jdbcType=INTEGER}
         </if>
     </update>
 </mapper>

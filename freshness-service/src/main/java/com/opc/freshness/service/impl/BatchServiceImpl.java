@@ -143,6 +143,8 @@ public class BatchServiceImpl implements BatchService {
         if (batchBo.getSkuList().size() == 1 && batchBo.getCategoryId() != 4) {
             batchPo.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
         }
+        //将当前的待废弃的旧批次，都置为已售完
+        batchBiz.saleOutOldBatch(batchPo.getShopId(), batchBo.getCategoryId(), batchPo.getGroupFlag());
         //将以前同组批次置为旧批次
         BatchPo oldPo = new BatchPo();
         oldPo.setShopId(batchPo.getShopId());

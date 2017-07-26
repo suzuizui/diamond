@@ -138,6 +138,11 @@ public class BatchBizImpl implements BatchBiz {
         }
     }
 
+    @Override
+    public int saleOutOldBatch(Integer shopId, Integer kindId,Integer groupFlag) {
+        return batchMapper.saleOutOldBatch(shopId,kindId,groupFlag);
+    }
+
     /**
      * 批次更新  - 具有乐观锁的更新
      *

@@ -44,4 +44,5 @@ public interface BatchMapper {
 
     Date selectNextExpiredTime(@Param("now") Date now, @Param("shopId") Integer shopId);
 
+    int saleOutOldBatch(@Param("shopId") Integer shopId, @Param("kindId") Integer kindId, @Param("groupFlag") Integer groupFlag);
 }

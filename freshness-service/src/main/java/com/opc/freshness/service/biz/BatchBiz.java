@@ -121,4 +121,6 @@ public interface BatchBiz {
     List<BatchPo> batchListBySkuIdAndKindId(Integer skuId, Integer categoryId,Integer shopId, Integer limit);
 
     Date selectNextTime(Date now,Integer shopId);
+
+    int saleOutOldBatch(Integer shopId, Integer kindId,Integer groupFlag);
 }
