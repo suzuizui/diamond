@@ -92,6 +92,7 @@
         FROM freshness_sku_kind a
             LEFT JOIN freshness_batch_state b
                 ON a.sku_id = b.sku_id
+                AND a.shop_id = b.shop_id
                    AND b.status = 1
         <![CDATA[
                    AND b.create_time >= #{begin,jdbcType=TIMESTAMP}
