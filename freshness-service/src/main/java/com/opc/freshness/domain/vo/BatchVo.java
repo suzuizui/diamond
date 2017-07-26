@@ -48,9 +48,13 @@ public class BatchVo {
      */
     private Date expiredTime;
     /**
-     * 废弃倒计时(分钟)
+     * 售卖倒计时(分钟)
      */
-    private Long expireCountDown;
+    private Long saleCountDown;
+    /**
+     * 已过期时间(分钟)
+     */
+    private Long expiredMin;
 
     /**
      * 鲜度标识 0:旧 1:新
