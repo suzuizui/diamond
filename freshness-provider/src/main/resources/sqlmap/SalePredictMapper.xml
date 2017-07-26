@@ -28,29 +28,27 @@
         <include refid="Base_Column_List"/>
         FROM fressness_sales_predict
         WHERE 1=1
-        <set>
-            <if test="shopId != null">
-                AND shop_id = #{shopId,jdbcType=INTEGER}
-            </if>
-            <if test="shopName != null">
-                AND shop_name = #{shopName,jdbcType=VARCHAR}
-            </if>
-            <if test="skuId != null">
-                AND sku_id = #{skuId,jdbcType=INTEGER}
-            </if>
-            <if test="skuName != null">
-                AND sku_name = #{skuName,jdbcType=VARCHAR}
-            </if>
-            <if test="peak != null">
-                AND peak = #{peak,jdbcType=INTEGER}
-            </if>
-            <if test="adviseCount != null">
-                AND advise_count = #{adviseCount,jdbcType=INTEGER}
-            </if>
-            <if test="salesDay != null">
-                AND date(sales_day) = date(#{salesDay,jdbcType=DATE})
-            </if>
-        </set>
+        <if test="shopId != null">
+            AND shop_id = #{shopId,jdbcType=INTEGER}
+        </if>
+        <if test="shopName != null">
+            AND shop_name = #{shopName,jdbcType=VARCHAR}
+        </if>
+        <if test="skuId != null">
+            AND sku_id = #{skuId,jdbcType=INTEGER}
+        </if>
+        <if test="skuName != null">
+            AND sku_name = #{skuName,jdbcType=VARCHAR}
+        </if>
+        <if test="peak != null">
+            AND peak = #{peak,jdbcType=INTEGER}
+        </if>
+        <if test="adviseCount != null">
+            AND advise_count = #{adviseCount,jdbcType=INTEGER}
+        </if>
+        <if test="salesDay != null">
+            AND date(sales_day) = date(#{salesDay,jdbcType=DATE})
+        </if>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM fressness_sales_predict

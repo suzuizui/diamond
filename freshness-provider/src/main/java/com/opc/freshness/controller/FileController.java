@@ -89,7 +89,7 @@ public class FileController {
             }
             //填充数据
             for (int i = 0; i < boList.size(); i++) {
-                SkuMakeBo makeBo = boList.get(0);
+                SkuMakeBo makeBo = boList.get(i);
                 HSSFRow row = sheet.createRow(i + 1);
                 int j = 0;
                 row.createCell(j++, CellType.STRING).setCellValue(makeBo.getSkuName());
@@ -144,7 +144,7 @@ public class FileController {
             }
             //填充数据
             for (int i = 0; i < boList.size(); i++) {
-                SkuDetailBo detailBo = boList.get(0);
+                SkuDetailBo detailBo = boList.get(i);
                 HSSFRow row = sheet.createRow(i + 1);
                 int j = 0;
                 row.createCell(j++, CellType.STRING).setCellValue(detailBo.getSkuName());
@@ -181,22 +181,23 @@ public class FileController {
             logger.error("exportMakeExcel error..", e);
         }
     }
+
     /**
      * 生产计划量
      *
-     * @param shopId     门店号
-     * @param date       查询日期
+     * @param shopId 门店号
+     * @param date   查询日期
      * @return
      */
     @RequestMapping(value = "/api/export/plan/v1", method = RequestMethod.GET)
     public void exportPlanExcel(HttpServletRequest request, HttpServletResponse response,
-                                  @RequestParam Integer shopId,
-                                  @RequestParam Date date) throws IOException {
+                                @RequestParam Integer shopId,
+                                @RequestParam Date date) throws IOException {
         logger.info("exportDetailExcel shopId:{}  date:{}", shopId, date);
         //准备数据
-            List<SalePredictPo> pos = skuService.selectPredic(shopId,date);
+        List<SalePredictPo> pos = skuService.selectPredic(shopId, date);
         //组装
-        String codedFileName = URLEncoder.encode( PLAN_FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);
+        String codedFileName = URLEncoder.encode(PLAN_FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);
 
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("content-disposition", "attachment;filename=" + codedFileName + ".xls");
@@ -210,11 +211,11 @@ public class FileController {
             //创建表头
             HSSFRow headRow = sheet.createRow(0);
             for (int i = 0; i < PLAN_HEADER.length; i++) {
-                headRow.createCell(i, CellType.STRING).setCellValue(DETAIL_HEADER[i]);
+                headRow.createCell(i, CellType.STRING).setCellValue(PLAN_HEADER[i]);
             }
             //填充数据
             for (int i = 0; i < pos.size(); i++) {
-                SalePredictPo po = pos.get(0);
+                SalePredictPo po = pos.get(i);
                 HSSFRow row = sheet.createRow(i + 1);
                 int j = 0;
                 row.createCell(j++, CellType.STRING).setCellValue(DateUtils.format(po.getSalesDay(), DATE_FORMAT));

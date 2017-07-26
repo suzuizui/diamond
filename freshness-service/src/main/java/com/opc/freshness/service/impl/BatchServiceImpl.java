@@ -233,7 +233,7 @@ public class BatchServiceImpl implements BatchService {
             state.setBatchId(batch.getId());
             state.setShopId(batch.getShopId());
             state.setStatus(stauts);
-            state.setCreateTime(batch.getCreateTime());
+
 
             BeeProduct sku = skuMap.get(skuBo.getSkuId());
             BeeShopProduct shopSku = shopSkuMap.get(skuBo.getSkuId());
@@ -243,6 +243,7 @@ public class BatchServiceImpl implements BatchService {
             state.setSkuName(sku.getPropInfo().getDisplayName());
             state.setImgUrl(sku.getImages().isEmpty() ? "" : sku.getImages().get(0).getImageUrl());
 
+            state.setCreateTime(batchBo.getCreateTime());
             state.setOperator(batchBo.getOperator());
 
             state.setQuantity(skuBo.getQuantity());
