@@ -233,7 +233,7 @@ public class BatchServiceImpl implements BatchService {
         Map<Integer, BeeProduct> skuMap = productService.queryProductMap(batch.getShopId(), skuSet);
         Map<Integer, BeeShopProduct> shopSkuMap = productService.queryShopProductMap(batch.getShopId(), skuSet);
         int totalQuantity = 0;
-
+        final Date makeTime = new Date();
         for (SkuBo skuBo : batchBo.getSkuList()) {
             BatchStatePo state = new BatchStatePo();
             state.setBatchId(batch.getId());
@@ -251,7 +251,7 @@ public class BatchServiceImpl implements BatchService {
             state.setImgUrl(sku.getImages().isEmpty() ? "" : sku.getImages().get(0).getImageUrl());
 
             state.setOperator(batchBo.getOperator());
-            state.setCreateTime(new Date());
+            state.setCreateTime(makeTime);
 
             state.setQuantity(skuBo.getQuantity());
             logs.add(state);
