@@ -67,7 +67,7 @@ public class BatchServiceImpl implements BatchService {
     public BatchVo skuDetailInfoListByBatchId(Integer batchId) {
         BatchPo po = batchBiz.selectByPrimaryKey(batchId);
         if (po == null) {
-            logger.info("skuDetailInfoListByBatchId 不存在的批次 batchId:{}",batchId);
+            logger.info("skuDetailInfoListByBatchId 不存在的批次 batchId:{}", batchId);
             throw new BizException("不存在的批次");
         }
         List<SkuDetailBo> detailBos = batchBiz.skuDetailInfoListByBatchId(batchId);
@@ -115,7 +115,7 @@ public class BatchServiceImpl implements BatchService {
         KindPo kind = kindBiz.selectByPrimaryKey(batchBo.getCategoryId());
         // 查询门店
         BeeShop shop = shopService.queryById(batchBo.getShopId());
-        if(shop==null){
+        if (shop == null) {
             throw new BizException("未查找到门店");
         }
         // 封装批次
@@ -156,9 +156,11 @@ public class BatchServiceImpl implements BatchService {
         batchBiz.insertSelective(batchPo);
         // 设置总个数，并插入流水表
         batchPo.setTotalCount(addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
-        // 更新批次总个数
+        if (batchPo.getDelayTime().compareTo(new Date()) <= 0) {
+            batchPo.setStatus(BatchPo.status.SALING);
+        }
+        // 更新批次
         batchBiz.updateByPrimaryKeySelective(batchPo);
-
         return true;
 
     }
@@ -253,7 +255,9 @@ public class BatchServiceImpl implements BatchService {
                 if (StringUtils.isBlank(batch.getName())) {
                     batch.setName(state.getSkuName());
                 } else {
-                    batch.setName(batch.getName() + "、" + state.getSkuName() + "..");
+                    if (batch.getName().length() <= 15) {
+                        batch.setName(batch.getName() + "、" + state.getSkuName() + "..");
+                    }
                 }
             }
         }
