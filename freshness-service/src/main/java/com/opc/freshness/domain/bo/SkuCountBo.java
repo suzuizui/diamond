@@ -10,6 +10,7 @@ import lombok.Data;
 public class SkuCountBo {
     private Integer id;
     private Integer skuId;
+    private String skuCode;
     private String skuName;
     private Integer count;
 }

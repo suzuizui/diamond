@@ -19,6 +19,10 @@ public class SkuMakeBo {
      */
     private Integer skuId;
     /**
+     * skuCode
+     */
+    private String skuCode;
+    /**
      * sku名称
      */
     private String skuName;

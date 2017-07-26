@@ -16,6 +16,10 @@ public class SkuDetailBo {
      */
     private Integer skuId;
     /**
+     * skuCode
+     */
+    private String skuCode;
+    /**
      * sku名称
      */
     private String skuName;

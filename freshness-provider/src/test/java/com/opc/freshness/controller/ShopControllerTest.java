@@ -93,7 +93,7 @@ public class ShopControllerTest {
         String url = "http://localhost:" + port + "/api/shop/sku/option/v1";
 
         BatchDto dto = new BatchDto();
-        dto.setShopId(67);
+        dto.setShopId(1);
         dto.setOption(ShopController.OperateType.MAKE.getValue());
         dto.setCategoryId(2);
         dto.setOperator("张三");

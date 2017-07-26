@@ -29,6 +29,15 @@ public enum PeakEnums {
         this.end = end;
     }
 
+    public static PeakEnums getByValue(int value) {
+        for (PeakEnums enums :PeakEnums.values()){
+            if (enums.id==value){
+                return enums;
+            }
+        }
+        return null;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -25,6 +25,7 @@ public class BatchStatePo {
      * 商品Id
      */
     private Integer skuId;
+    private String skuCode;
     /**
      * sku名称
      */
