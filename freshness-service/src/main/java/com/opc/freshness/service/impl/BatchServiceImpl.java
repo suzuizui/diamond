@@ -157,6 +157,10 @@ public class BatchServiceImpl implements BatchService {
         batchBiz.insertSelective(batchPo);
         // 设置总个数，并插入流水表
         batchPo.setTotalCount(addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
+
+        if (batchPo.getDelayTime().compareTo(new Date())<=0){
+            batchPo.setStatus(BatchPo.status.SALING);
+        }
         // 更新批次总个数
         batchBiz.updateByPrimaryKeySelective(batchPo);
 
