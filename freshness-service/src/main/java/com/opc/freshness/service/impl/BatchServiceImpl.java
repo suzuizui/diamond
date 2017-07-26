@@ -67,7 +67,7 @@ public class BatchServiceImpl implements BatchService {
     public BatchVo skuDetailInfoListByBatchId(Integer batchId) {
         BatchPo po = batchBiz.selectByPrimaryKey(batchId);
         if (po == null) {
-            logger.info("skuDetailInfoListByBatchId 不存在的批次 batchId:{}",batchId);
+            logger.info("skuDetailInfoListByBatchId 不存在的批次 batchId:{}", batchId);
             throw new BizException("不存在的批次");
         }
         List<SkuDetailBo> detailBos = batchBiz.skuDetailInfoListByBatchId(batchId);
@@ -115,7 +115,7 @@ public class BatchServiceImpl implements BatchService {
         KindPo kind = kindBiz.selectByPrimaryKey(batchBo.getCategoryId());
         // 查询门店
         BeeShop shop = shopService.queryById(batchBo.getShopId());
-        if(shop==null){
+        if (shop == null) {
             throw new BizException("未查找到门店");
         }
         // 封装批次
@@ -143,13 +143,14 @@ public class BatchServiceImpl implements BatchService {
         // 设置拓展字段
         batchPo.setExtras(JsonUtil.toJson(new BatchPoExtras(batchBo.getDegree(), batchBo.getTag(), batchBo.getUnit())));
         //设置分组标志
-        if (batchBo.getSkuList().size() == 1) {
+        if (batchBo.getSkuList().size() == 1 || batchBo.getCategoryId() == 4) {
             batchPo.setGroupFlag(batchBo.getSkuList().get(0).getSkuId());
         }
         //将以前同组批次置为旧批次
         BatchPo oldPo = new BatchPo();
-        oldPo.setGroupFlag(batchPo.getGroupFlag());
         oldPo.setShopId(batchPo.getShopId());
+        oldPo.setKindsId(batchBo.getCategoryId());
+        oldPo.setGroupFlag(batchPo.getGroupFlag());
         oldPo.setFreshFlag((byte) 0);
         batchBiz.updateByGroupFlagSelective(oldPo);
 
@@ -158,7 +159,7 @@ public class BatchServiceImpl implements BatchService {
         // 设置总个数，并插入流水表
         batchPo.setTotalCount(addBatchStateLog(batchPo, batchBo, batchPo.getStatus()));
 
-        if (batchPo.getDelayTime().compareTo(new Date())<=0){
+        if (batchPo.getDelayTime().compareTo(new Date()) <= 0) {
             batchPo.setStatus(BatchPo.status.SALING);
         }
         // 更新批次总个数

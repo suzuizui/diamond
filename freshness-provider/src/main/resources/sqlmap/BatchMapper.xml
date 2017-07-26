@@ -295,8 +295,11 @@
     <update id="updateByGroupFlagSelective" parameterType="com.opc.freshness.domain.po.BatchPo">
         update freshness_batch
         <include refid="UpdateSet"/>
-        where group_flag = #{groupFlag,jdbcType=INTEGER}
-        and shop_id =#{shopId,jdbcType=INTEGER}
+        where shop_id =#{shopId,jdbcType=INTEGER}
+        AND kinds_id = #{kindsId,jdbcType=INTEGER}
+        <if test="groupFlag!=null">
+            AND group_flag = #{groupFlag,jdbcType=INTEGER}
+        </if>
         <if test="lastModifyTime != null">
             AND last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
         </if>
