@@ -33,13 +33,11 @@
         FROM freshness_batch a LEFT JOIN freshness_batch b
         ON a.kinds_id = b.kinds_id
         AND a.group_flag = b.group_flag
+        AND b.status  =#{status,jdbcType=INTEGER}
         <![CDATA[   AND a.create_time <= b.create_time ]]>
         WHERE a.shop_id = #{shopId,jdbcType=INTEGER}
-        AND a.status IN
-        <foreach collection="status" separator="," item="item" open="(" close=")">
-            #{item,jdbcType=INTEGER}
-        </foreach>
-        GROUP BY a.kinds_id, a.group_flag, a.create_time
+        AND a.status  =#{status,jdbcType=INTEGER}
+        GROUP BY a.id
         <![CDATA[  HAVING count(b.create_time) <= ]]>   #{count,jdbcType=INTEGER}
     </sql>
     <sql id="UpdateSet">

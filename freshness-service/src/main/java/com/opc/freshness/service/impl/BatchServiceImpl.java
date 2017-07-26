@@ -51,9 +51,6 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public List<BatchPo> selectMakeAndAbortList(Integer shopId) {
-        BatchPo search = new BatchPo();
-        search.setStatus(BatchPo.status.TO_ABORT);
-        search.setShopId(shopId);
         return batchBiz.selectMakeAndAbortList(shopId);
     }
 

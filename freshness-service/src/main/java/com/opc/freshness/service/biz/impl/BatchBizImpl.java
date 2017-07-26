@@ -1,6 +1,5 @@
 package com.opc.freshness.service.biz.impl;
 
-import com.google.common.collect.Lists;
 import com.opc.freshness.common.util.PageRequest;
 import com.opc.freshness.common.util.Pager;
 import com.opc.freshness.domain.bo.SkuCountBo;
@@ -23,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * AUTHOR: qishang
@@ -65,7 +66,14 @@ public class BatchBizImpl implements BatchBiz {
     @Override
     public List<BatchPo> selectMakeAndAbortList(Integer shopId) {
         logger.info("selectMakeAndAbortList shopId:{}", shopId);
-        return batchMapper.selectLastNGroupByKindAndFlag(shopId, Lists.newArrayList(BatchPo.status.MAKING, BatchPo.status.TO_ABORT), 2);
+
+        BatchPo po = new BatchPo();
+        po.setShopId(shopId);
+        po.setStatus(BatchPo.status.MAKING);
+        List<BatchPo> makeList = batchMapper.selectByRecord(po);
+
+        List<BatchPo> toAbortList = batchMapper.selectLastNGroupByKindAndFlag(shopId, BatchPo.status.TO_ABORT, 2);
+        return Stream.concat(makeList.stream(), toAbortList.stream()).collect(Collectors.toList());
     }
 
     @Override
@@ -112,9 +120,9 @@ public class BatchBizImpl implements BatchBiz {
     }
 
     @Override
-    public Date selectNextTime(Date now,Integer shopId) {
-        Date delayDate = batchMapper.selectNextDelayTime(now,shopId);
-        Date expiredDate = batchMapper.selectNextExpiredTime(now,shopId);
+    public Date selectNextTime(Date now, Integer shopId) {
+        Date delayDate = batchMapper.selectNextDelayTime(now, shopId);
+        Date expiredDate = batchMapper.selectNextExpiredTime(now, shopId);
         if (delayDate == null || expiredDate == null) {
             if (delayDate == null) {
                 return expiredDate;
