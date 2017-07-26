@@ -50,7 +50,7 @@ public class ThirdartyTest {
     }
     @Test
     public void getDeviceList() {
-        List<BeeShopDevice> list = shopRemote.queryLoggedDevice(1);
+        List<BeeShopDevice> list = shopRemote.queryLoggedDevice(0);
         System.out.println(JsonUtil.toJson(list));
         System.out.println("end");
     }

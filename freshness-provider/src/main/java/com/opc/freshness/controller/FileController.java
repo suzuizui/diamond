@@ -9,7 +9,9 @@ import com.opc.freshness.domain.po.SalePredictPo;
 import com.opc.freshness.enums.PeakEnums;
 import com.opc.freshness.service.KindService;
 import com.opc.freshness.service.SkuService;
+import com.opc.freshness.service.integration.ShopService;
 import com.wormpex.api.json.JsonUtil;
+import com.wormpex.cvs.product.api.bean.BeeShop;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -52,23 +54,26 @@ public class FileController {
     private KindService kindService;
     @Resource
     private SkuService skuService;
+    @Resource
+    private ShopService shopService;
 
     /**
      * 导出制作统计列表
      *
-     * @param shopId     卡号
+     * @param shopCode     卡号
      * @param date       查询日期
      * @param categoryId 品类Id
      * @return
      */
     @RequestMapping(value = "/api/export/make/v1", method = RequestMethod.GET)
     public void exportMakeExcel(HttpServletRequest request, HttpServletResponse response,
-                                @RequestParam Integer shopId,
+                                @RequestParam String shopCode,
                                 @RequestParam Integer categoryId,
                                 @RequestParam Date date) throws IOException {
-        logger.info("exportMakeExcel shopId:{} date:{}", shopId, date);
+        logger.info("exportMakeExcel shopCode:{} date:{}", shopCode, date);
+        BeeShop shop =  shopService.queryByCode(shopCode);
         //准备数据
-        List<SkuMakeBo> boList = kindService.skuMakeInfoList(shopId, categoryId, date);
+        List<SkuMakeBo> boList = kindService.skuMakeInfoList(shop.getShopId(), categoryId, date);
         KindPo po = kindService.selectByPrimaryKey(categoryId);
         //组装
         String codedFileName = URLEncoder.encode(po.getName() + FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);
@@ -111,19 +116,20 @@ public class FileController {
     /**
      * 导出明细列表
      *
-     * @param shopId     卡号
+     * @param shopCode     卡号
      * @param date       查询日期
      * @param categoryId 品类Id
      * @return
      */
     @RequestMapping(value = "/api/export/detail/v1", method = RequestMethod.GET)
     public void exportDetailExcel(HttpServletRequest request, HttpServletResponse response,
-                                  @RequestParam Integer shopId,
+                                  @RequestParam String shopCode,
                                   @RequestParam Integer categoryId,
                                   @RequestParam Date date) throws IOException {
-        logger.info("exportDetailExcel shopId:{} categoryId:{} date:{}", shopId, categoryId, date);
+        logger.info("exportDetailExcel shopCode:{} categoryId:{} date:{}", shopCode, categoryId, date);
+        BeeShop shop =  shopService.queryByCode(shopCode);
         //准备数据
-        List<SkuDetailBo> boList = kindService.skuDetailInfoList(shopId, categoryId, date);
+        List<SkuDetailBo> boList = kindService.skuDetailInfoList(shop.getShopId(), categoryId, date);
         KindPo po = kindService.selectByPrimaryKey(categoryId);
         //组装
         String codedFileName = URLEncoder.encode(po.getName() + DETAIL_FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);
@@ -185,17 +191,19 @@ public class FileController {
     /**
      * 生产计划量
      *
-     * @param shopId 门店号
+     * @param shopCode 门店号
      * @param date   查询日期
      * @return
      */
     @RequestMapping(value = "/api/export/plan/v1", method = RequestMethod.GET)
     public void exportPlanExcel(HttpServletRequest request, HttpServletResponse response,
-                                @RequestParam Integer shopId,
+                                @RequestParam String shopCode,
                                 @RequestParam Date date) throws IOException {
-        logger.info("exportDetailExcel shopId:{}  date:{}", shopId, date);
+        logger.info("exportDetailExcel shopId:{}  date:{}", shopCode, date);
+        BeeShop shop =  shopService.queryByCode(shopCode);
+
         //准备数据
-        List<SalePredictPo> pos = skuService.selectPredic(shopId, date);
+        List<SalePredictPo> pos = skuService.selectPredic(shop.getShopId(), date);
         //组装
         String codedFileName = URLEncoder.encode(PLAN_FILE_NAME, "UTF-8") + DateUtils.format(date, DATE_FORMAT);
 
