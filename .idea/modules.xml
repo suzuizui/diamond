@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/diamond.iml" filepath="$PROJECT_DIR$/.idea/diamond.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diamond-client/diamond-client.iml" filepath="$PROJECT_DIR$/diamond-client/diamond-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diamond-demo/diamond-demo.iml" filepath="$PROJECT_DIR$/diamond-demo/diamond-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diamond-server/diamond-server.iml" filepath="$PROJECT_DIR$/diamond-server/diamond-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diamond-utils/diamond-utils.iml" filepath="$PROJECT_DIR$/diamond-utils/diamond-utils.iml" />
+    </modules>
+  </component>
+</project>

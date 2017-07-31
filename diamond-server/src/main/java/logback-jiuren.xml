@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration encoding="GBK" scan="true" scanPeriod="10 seconds" debug="true">
+
+	<appender name="addFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${user.home}/diamond/logs/add.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${user.home}/diamond/logs/add.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<MaxHistory>15</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%date %level %msg%n%n</Pattern>
+			<charset>GBK</charset>
+		</encoder>
+	</appender>
+	<appender name="updateFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${user.home}/diamond/logs/update.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${user.home}/diamond/logs/update.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<MaxHistory>15</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%date %level %msg%n%n</Pattern>
+			<charset>GBK</charset>
+		</encoder>
+	</appender>
+	<appender name="deleteFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${user.home}/diamond/logs/delete.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${user.home}/diamond/logs/delete.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<MaxHistory>15</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%date %level %msg%n%n</Pattern>
+			<charset>GBK</charset>
+		</encoder>
+	</appender>
+	<appender name="fatalFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${user.home}/diamond/logs/fatalError.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${user.home}/diamond/logs/fatalError.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<MaxHistory>15</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%date %level %msg%n%n</Pattern>
+			<charset>GBK</charset>
+		</encoder>
+	</appender>
+	<appender name="failFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${user.home}/diamond/logs/failTask.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${user.home}/diamond/logs/failTask.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<MaxHistory>15</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%date %level %msg%n%n</Pattern>
+			<charset>GBK</charset>
+		</encoder>
+	</appender>
+    <appender name="memoryFile"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.home}/diamond/logs/memory.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${user.home}/diamond/logs/memory.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <MaxHistory>15</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%date %level %msg%n%n</Pattern>
+            <charset>GBK</charset>
+        </encoder>
+    </appender>
+    <appender name="rootFile"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.home}/diamond/logs/diamondServer.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${user.home}/diamond/logs/diamondServer.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <MaxHistory>15</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%date %level %msg%n%n</Pattern>
+			<charset>GBK</charset>
+        </encoder>
+    </appender>
+
+	<logger name="addLog" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="addFile" />
+	</logger>
+	<logger name="updateLog" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="updateFile" />
+	</logger>
+    <logger name="deleteLog" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="deleteFile" />
+    </logger>
+    <logger name="fatalLog" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="fatalFile" />
+    </logger>
+	<logger name="failLog" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="failFile" />
+	</logger>
+    <logger name="com.le.diamond.server.monitor" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="memoryFile" />
+    </logger>
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="rootFile" />
+	</root>
+</configuration>
+

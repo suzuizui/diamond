@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="diamondDemoConfig" class="com.le.diamond.demo.DiamondDemoConfig" init-method="init">
+        <property name="dataId" value="test1"/>
+        <property name="groupId" value="le"/>
+    </bean>
+
+</beans>
