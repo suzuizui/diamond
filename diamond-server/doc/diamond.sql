@@ -1,11 +1,6 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : le_finance_test
-Source Server Version : 50505
-Source Host           : 10.60.58.37:3306
-Source Database       : diamond
-
 Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
