@@ -1,0 +1,3 @@
+1.启动edas-config-center (由于启动EDAS配置中心将会占用此台机器的 8080 和 9600 端口，因此推荐您找一台专门的机器启动 EDAS 配置中心)
+2.配置host jmenv.tbsite.net 指向 edas-config-center所在机器
+3.启动diamond-server
