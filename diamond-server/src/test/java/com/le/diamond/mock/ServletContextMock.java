@@ -255,6 +255,11 @@ public class ServletContextMock implements ServletContext {
     }
 
     @Override
+    public String getVirtualServerName() {
+        return null;
+    }
+
+    @Override
     public ClassLoader getClassLoader() {
         // TODO Auto-generated method stub
         return null;

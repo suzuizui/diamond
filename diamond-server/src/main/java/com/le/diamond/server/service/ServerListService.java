@@ -61,7 +61,7 @@ public class ServerListService {
     // 保证不返回NULL
     private List<String> getApacheServerList() {
         try {
-            String url = "http://jmenv.tbsite.net/diamond-server/diamond";
+            String url = "http://jmenv.tbsite.net:8080/diamond-server/diamond";
             NotifyService.HttpResult result = NotifyService.invokeURL(url, null, null);
 
             if (200 == result.code) {
